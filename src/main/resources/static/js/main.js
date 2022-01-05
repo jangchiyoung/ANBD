@@ -20,14 +20,14 @@ const error = document.querySelectorAll('.annotation'); //에러박스
 
 
 // 유효성 검사토큰
-const idToken = false
-const passwordToken = false
-const password2Token = false
-const nameToken = false
-const nicknameToken = false
-const telToken = false
-const emailToken = false
-const addressToken = false
+let idToken = false
+let passwordToken = false
+let password2Token = false
+let nameToken = false
+let nicknameToken = false
+let telToken = false
+let emailToken = false
+let addressToken = false
 
 
 
