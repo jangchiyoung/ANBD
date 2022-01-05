@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>회원가입</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+<body>
+	<div id="login">
+		<div id="body" style="padding-top: 19.5px;">
+			<div class="container" style="padding-top: 28px;">
+				<div class="ANBD_logo">
+					<img
+						th:src="@{/img/logo.png}"
+						th:onclick="location.href='/anbd'" style="cursor: pointer;">
+				</div>
+				<div class="header_title">회원가입</div>
+				<div class="login_line"></div>
+				<form action="register" method="post" name="signfrm" id="frm">
+					<div class="input_section">
+						<!-- 아이디 -->
+						<input class="input" type="text" id="id" name="client_id"
+							placeholder="아이디" maxlength="20" required="required"> <span
+							class="annotation"></span>
+						<!-- 비밀번호 -->
+						<input class="input" type="password" id="pswd1"
+							name="client_password" placeholder="비밀번호(8자 이상)"
+							required="required"> <span class="annotation"></span>
+						<!-- 비밀번호 재확인 -->
+						<input class="input" type="password" id="pswd2"
+							name="client_password2" placeholder="비밀번호 재확인"
+							required="required"> <span class="annotation"></span>
+						<!-- 이름 -->
+						<input class="input" type="text" id="name" name="client_name"
+							placeholder="이름" maxlength="20" required="required"> <span
+							class="annotation"></span>
+						<!-- 닉네임 -->
+						<input class="input" type="text" id="nickname"
+							name="client_nickname" placeholder="사용할 닉네임" maxlength="30"
+							required="required"> <span class="annotation"></span>
+						<!-- 전화번호-->
+						<input class="input" type="tel" id="tel" name="client_tel"
+							placeholder="전화번호" maxlength="30" required="required"> <span
+							class="annotation"></span>
+						<!-- 이메일 -->
+						<input class="input" type="email" id="email" name="client_email"
+							placeholder="이메일" required="required"> <span
+							class="annotation"></span>
+						<!-- 주소 -->
+						<input class="input" type="button" value="주소검색"
+							onclick="findAddr()"><br> <input class="input"
+							type="text" id="address" name="client_address" placeholder="주소입력"
+							required="required"> <span class="annotation"></span>
+						<!-- 회원등록 -->
+						<input class="submit_button" type="button" id="submit-btn"
+							value="회원가입하기">
+					</div>
+				</form>
+				<div class="button_section">
+					<a class="" href="find_id">아이디 찾기</a> <span class="hor_line">|</span>
+					<a class="" href="find_password">비밀번호 찾기</a>
+				</div>
+				<div>
+					<p>
+						이미 회원이신가요? <a href="login">로그인하기</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" th:src="@{/js/main.js}"></script>
+</body>
+</html>
