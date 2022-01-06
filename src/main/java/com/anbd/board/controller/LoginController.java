@@ -1,8 +1,11 @@
 package com.anbd.board.controller;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 import javax.print.attribute.HashAttributeSet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,7 @@ public class LoginController {
 	@Autowired
 	ClientService service;
 	
+	// 회원가입 등록
 	@RequestMapping(value = "/anbd/register", method =  RequestMethod.POST)
 	public String join(Client client, Model model) throws NoSuchAlgorithmException {
 		String password = null;
@@ -42,11 +46,65 @@ public class LoginController {
 		}
 		return "redirect:login";
 	}
+	// 회원가입 페이지
 	@RequestMapping(value = "/anbd/join")
 	public String join() {
 		return "join";
 	}
 	
+	
+	// 로그인 페이지
+	@RequestMapping(value = "/anbd/login")
+	public String login(String alert, Model model) {
+		if (alert != null && alert.equals("y")) {
+			model.addAttribute("message", "로그인이 필요합니다.");
+			model.addAttribute("url", "login");
+			return "alertLogin";
+		} else {
+
+			return "login"; // 로그인 버튼 => login.jsp(뷰) -> 로그인정보입력후 버튼(사용자) ->
+		}
+	}
+	
+	// 로그아웃
+	@RequestMapping(value = "/anbd/logout", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if (session.getAttribute("client") != null) {
+			session.invalidate();
+			return "login";
+		}
+		return "login";
+	}
+	// 로그인 체크
+	@RequestMapping(value = "/anbd/logincheck", method = RequestMethod.POST)
+	public String logincheck(String client_id, String client_password, Model model, HttpServletRequest request)
+			throws NoSuchAlgorithmException {
+		String password = null;
+		Hash hash = new Hash();
+		password = hash.hashtest(client_password);
+		Optional<ClientEntity> client = repository.findById(client_id);
+		if (client.isPresent()) {
+			Client user = null;
+			user = service.toDto(client.get());
+			HttpSession session = request.getSession();
+		if (password.equals(user.getClient_password())) {
+			session.setAttribute("client", service.toDto(client.get()));
+			return "redirect:/anbd/main";
+		}
+			String message = "로그인 정보가 다릅니다.";
+			model.addAttribute("message", message);
+			model.addAttribute("url", "login");
+			return "alertLogin";
+		} else {
+			String message = "로그인 정보가 다릅니다.";
+			model.addAttribute("message", message);
+			model.addAttribute("url", "login");
+			return "alertLogin";
+		}
+	}	
+		
+	// 아이디 중복체크
 	@SuppressWarnings("unchecked")
 	@ResponseBody
 	@RequestMapping(value = "/anbd/checkId", method = RequestMethod.POST)
@@ -62,6 +120,7 @@ public class LoginController {
 
 	}
 	
+	// 닉네임 중복체크
 	@SuppressWarnings("unchecked")
 	@ResponseBody
 	@RequestMapping(value = "/anbd/checkNickname", method = RequestMethod.POST)
@@ -77,6 +136,7 @@ public class LoginController {
 
 	}
 	
+	// 이메일 중복체크
 	@SuppressWarnings("unchecked")
 	@ResponseBody
 	@RequestMapping(value = "/anbd/checkEmail", method = RequestMethod.POST)

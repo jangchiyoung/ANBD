@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>로그인 에러</title>
+</head>
+<body>
+<script type="text/javascript" th:inline = "javascript">
+alert([[${message}]]);
+if ([[${url}]]=='')
+	history.back();
+else 
+	location.href=[[${url}]]
+</script>
+</body>
+</html>
