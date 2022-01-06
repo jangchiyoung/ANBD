@@ -39,7 +39,7 @@ userName.addEventListener("keyup", checkName);
 userNickName.addEventListener("keyup", checkNickName);
 tel.addEventListener("keyup", checkTel);
 email.addEventListener("keyup", checkEmail);
-address.addEventListener("keyup", checkAddress);
+address.addEventListener("load", checkAddress);
 
 
 //함수
@@ -319,7 +319,7 @@ window.onload = function() {
 				form.client_tel.focus();
 			} else if (!emailToken) {
 				form.client_email.focus();
-			} else if (!addressToken) {
+			} else if (document.getElementById('address').value == "") {
 				form.client_address.focus();
 			} else {
 				document.getElementById('frm').submit();

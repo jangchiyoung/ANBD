@@ -61,7 +61,16 @@ body  {
     margin-top:10px;
     margin-bottom:5px;
 }
-
+.addr {
+	display: flex;
+}
+.address_input {
+	width: 74%;
+}
+.address_select {
+	width: 24%;
+    margin-left: 10px;
+}
 .input1 {
     width:49.5%;
     box-sizing: border-box;
@@ -78,58 +87,6 @@ body  {
 .input2 {
 	margin-left: 1px;
 }
-.instruction {
-	width:100%;
-	height:150px;
-	box-sizing: border-box;
-    border-radius: 3px;
-    border:1px solid #e1e1e1;
-    color:#333333;
-    font-size:14px;
-    padding-left:20px;
-    padding-right:20px;
-    margin-top:10px;
-    margin-bottom:5px;
-    text-overflow: clip;
-}
-/* info 성격유형 */
-.info_select_box {
-    position: relative;
-    width: 49.5%;
-    
-}
-.info_select_box select {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    font-size: 14px;
-    width: 100%;
-    height: 50px;
-    border-radius: 3px;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #e8ebed;
-    line-height: 17px;
-    text-align: center;
-}
-.info_select_box:after {
-    border: 1px solid #9ea4aa;
-    border-width: 0 1px 1px 0;
-    content: "";
-    display: inline-block;
-    height: 8px;
-    padding: 0;
-    pointer-events: none;
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: rotate(45deg);
-    width: 8px;
-    color: #454c53;
-}
-.radio {
-	margin-left: 30px;
-}
 /*로그인 버튼, 회원가입 */
 .submit_button {
 	border:1px solid #e1e1e1;
@@ -141,7 +98,7 @@ body  {
     cursor:pointer;
     border-radius: 3px;
     margin-top:30px;
-    background: #ff80ab;
+    background: #4caf50;
     cursor: pointer;
 	border-radius: 4px;
 	width: 100%;

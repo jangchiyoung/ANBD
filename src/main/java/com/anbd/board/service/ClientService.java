@@ -8,7 +8,7 @@ public interface ClientService {
 		return ClientEntity.builder()
 				.client_id(dto.getClient_id())
 				.client_password(dto.getClient_password())
-				.client_name(dto.getClient_nickname())
+				.client_name(dto.getClient_name())
 				.client_nickname(dto.getClient_nickname())
 				.client_tel(dto.getClient_tel())
 				.client_email(dto.getClient_email())

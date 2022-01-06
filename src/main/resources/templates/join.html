@@ -51,10 +51,11 @@
 							placeholder="이메일" required="required"> <span
 							class="annotation"></span>
 						<!-- 주소 -->
-						<input class="input" type="button" value="주소검색"
-							onclick="findAddr()"><br> <input class="input"
-							type="text" id="address" name="client_address" placeholder="주소입력"
-							required="required"> <span class="annotation"></span>
+						<div class="addr">
+							<input class="input" type="text" id="address" name="client_address" placeholder="주소입력"  readonly="readonly" required="required"> 
+							<input class="input address_select" type="button" value="주소검색" onclick="findAddr()"> 
+							<span class="annotation"></span>
+						</div>	
 						<!-- 회원등록 -->
 						<input class="submit_button" type="button" id="submit-btn"
 							value="회원가입하기">
