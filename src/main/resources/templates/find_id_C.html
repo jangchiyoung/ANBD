@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>아이디 찾기</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/find.css}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+<body>
+<div id="login">
+		<div id="body" style="padding-top: 19.5px;">
+			<div class="container" style="padding-top: 28px;">
+				<div class="ANBD_logo">
+					<img th:src="@{/img/logo.png}" th:onclick="location.href='/anbd'" style="cursor: pointer;">
+				</div>
+				<div class="header_title">아이디 찾기 완료</div>
+				<div class="navigation_list">
+						<div class="navigation_item ">01</div>
+						<div class="navigation_item on">02 결과</div>
+					</div>
+				<div class="login_line"></div>
+				<div class="">
+					<table>
+					<tr> 
+					<td>아이디 : </td>
+					<td th:text="${client.client_id}"></td>
+					</tr>
+					</table>
+					
+				</div>
+				<div>
+					<input class="submit_button" type="button" value="확인" th:onclick="location.href='login'">
+				</div>
+				<div class="button_section">
+					<a class="" th:href="@{find_id}">아이디 찾기</a>
+					<span class="hor_line">|</span>
+					<a class="" th:href="@{find_password}">비밀번호 찾기</a>
+					<span class="hor_line ">|</span>
+					<a class="" th:href="@{join}">회원가입</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

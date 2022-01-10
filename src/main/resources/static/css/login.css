@@ -71,22 +71,6 @@ body  {
 	width: 24%;
     margin-left: 10px;
 }
-.input1 {
-    width:49.5%;
-    box-sizing: border-box;
-    height:50px;
-    border-radius: 3px;
-    border:1px solid #e1e1e1;
-    color:#333333;
-    font-size:14px;
-    padding-left:20px;
-    padding-right:20px;
-    margin-top:10px;
-    margin-bottom:5px;
-}
-.input2 {
-	margin-left: 1px;
-}
 /*로그인 버튼, 회원가입 */
 .submit_button {
 	border:1px solid #e1e1e1;
@@ -115,7 +99,7 @@ body  {
     cursor:pointer;
     border-radius: 3px;
     margin-top:30px;
-    background: #ff80ab;
+    background: #4caf50;
     cursor: pointer;
 	border-radius: 4px;
 	width: 49.4%;
@@ -132,7 +116,7 @@ body  {
     cursor:pointer;
     border-radius: 3px;
     margin-top:30px;
-    background: #ff80ab;
+    background: #4caf50;
     cursor: pointer;
 	border-radius: 4px;
 	width: 49.4%;

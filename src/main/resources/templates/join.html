@@ -4,19 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>회원가입</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script
-	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 	<div id="login">
 		<div id="body" style="padding-top: 19.5px;">
 			<div class="container" style="padding-top: 28px;">
 				<div class="ANBD_logo">
-					<img
-						th:src="@{/img/logo.png}"
-						th:onclick="location.href='/anbd'" style="cursor: pointer;">
+					<img th:src="@{/img/logo.png}" th:onclick="location.href='/anbd'" style="cursor: pointer;">
 				</div>
 				<div class="header_title">회원가입</div>
 				<div class="login_line"></div>
@@ -44,11 +40,11 @@
 							required="required"> <span class="annotation"></span>
 						<!-- 전화번호-->
 						<input class="input" type="tel" id="tel" name="client_tel"
-							placeholder="전화번호" maxlength="30" required="required"> <span
+							placeholder="본인 전화번호" maxlength="30" required="required"> <span
 							class="annotation"></span>
 						<!-- 이메일 -->
 						<input class="input" type="email" id="email" name="client_email"
-							placeholder="이메일" required="required"> <span
+							placeholder="본인 이메일" required="required"> <span
 							class="annotation"></span>
 						<!-- 주소 -->
 						<div class="addr">
