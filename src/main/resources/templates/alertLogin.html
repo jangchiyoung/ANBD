@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>로그인 에러</title>
 </head>
-<body>
 <script type="text/javascript" th:inline = "javascript">
 alert([[${message}]]);
 if ([[${url}]]=='')
@@ -12,5 +11,6 @@ if ([[${url}]]=='')
 else 
 	location.href=[[${url}]]
 </script>
+<body>
 </body>
 </html>

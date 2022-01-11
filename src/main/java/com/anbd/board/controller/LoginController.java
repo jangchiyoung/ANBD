@@ -99,7 +99,7 @@ public class LoginController {
 			HttpSession session = request.getSession();
 		if (password.equals(user.getClient_password())) {
 			session.setAttribute("client", service.toDto(client.get()));
-			return "redirect:/anbd";
+			return "redirect:/anbd/main";
 		}
 			String message = "비밀번호가 일치하지 않습니다";
 			model.addAttribute("message", message);
