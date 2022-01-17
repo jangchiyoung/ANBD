@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/head.html :: fragment-head">
-<meta  http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head th:replace="/fragments/head.html :: fragment-head"></head>
+<head>
+<meta charset = "utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <title>아나바다</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
 </head>
 <body>
 	 <div th:replace="/fragments/header.html :: fragment-header"></div>
+	 
 	 <section class="home-main-section" style="display: flex;">
 		
 	<div class="row" style="width: 90%;">
 	<h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">오늘의 상품 추천</h2>
-		<c:forEach items="${list }" var="item" varStatus="index">
+		<th:block th:each = "item : ${items}">
 			<div class="card col-md-3 col-sm-6"
-				onclick="location.href='detail.do?pno=${item.product_no}'">
-				<img src="/img/${item.product_img1 }" class="card-img-top" alt="...">
+				th:onclick="location.href='main?pno=${item.product_no}'">
+				<img th:src="@{/img/} + ${item.product_img1}" class="card-img-top" th:alt="${item.product_img1}">
 				<div class="card-body">
-					<h5 class="card-title size_limite">${item.product_name }</h5>
+					<h5 class="card-title size_limite" th:text="${item.product_name}"></h5>
 					<div class="card-text">
-						<span style="font-weight: bold;"> <fmt:formatNumber
-								value="${item.product_price }" pattern="#,###" />원
-						</span><span class="card-span"><i class="bi bi-heart-fill"></i>
-							${item.product_like }</span>
+						<span style="font-weight: bold; "th:text="${#numbers.formatInteger(item.product_price, 3, 'COMMA')}">원</span>
+						<span class="card-span" th:text="${item.product_like}"><i class="bi bi-heart-fill"></i></span>
 					</div>
 				</div>
 			</div>
-		</c:forEach>
+		</th:block>
 		 <div id="add"></div>
 		 <button id="get" class="getList"  onclick="getList('${StartNo }','${EndNo }')">더보기</button>
 		<div class="scroll_top_btn_warpper">
@@ -41,20 +43,10 @@
 	<h5>최근 본 상품</h5>
 	</div>
 	<div class="cookie">
-		<%
-			if(ck!=null){
-				for(Cookie c: ck){
-					if(c.getName().indexOf("product_cookie") != -1){
-						Product vo = ProductDao.getInstance().getOne(Integer.parseInt(c.getValue()));
-					%>
 					<div class="cookie_img">
 						<img src="/img/<%=vo.getProduct_img1()%>" onclick="location.href='detail.do?pno=<%=vo.getProduct_no()%>'">
 						<a onclick="removeCK('product_cookie<%=vo.getProduct_no()%>')"><i class="bi bi-x-circle"></i></a>
 					</div>
-					<%}
-				}
-			}
-		%>
 	</div>
 </div>
 </section>

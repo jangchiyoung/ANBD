@@ -31,7 +31,7 @@
         <th:block th:if="${session.client != null and session.client.client_id == 'admin'}">
         <li class="nav-item">
          	<img class="img_profile" th:src="@{/img/} + ${session.client.client_img}" th:onclick="location.href='Admin'">
-       		<a class="btn btn-outline-success" th:href="@{Admin}">관리자 님</a>
+       		<a class="btn btn-outline-success" th:href="@{admin}">관리자 님</a>
           <a class="btn btn-outline-success" th:href="@{logout}">로그아웃</a>
         </li>
         </th:block> 

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head.html :: fragment-head"></head>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>상품등록</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/productRegister.css}">
+</head>
+<body>
+ <div th:replace="/fragments/header.html :: fragment-header"></div>
+<section class="home-main-section">
+	<div class="main_area">
+		<div class="main_area_center">
+			<div class="main">
+				<div class="breadcrumbs">
+					<ul>
+						<li><a th:href="@{main}">HOME</a></li>
+						<li>&gt; 상품 등록</li>
+					</ul>
+				</div>
+				<div class="regist_top">
+					<div class="regist_box_top">
+						<div>상품 등록</div>
+					</div>
+				</div>
+				<form th:action="product_register" method="post" enctype="multipart/form-data" accept-charset="UTF-8">
+					<div class="regist_box">
+						<div class="description">
+							<dl class="regist_image_dl" id="images_box">
+								<dt>
+									<label style="color: rgb(0, 0, 0);">상품사진</label>
+								</dt>
+								<dd>
+									<div class="container-fluid">
+										<div class="col-md-6">
+											<div class="form-group" th:if = "${session.client != null}">
+												<a>최대 3개까지만 업로드 가능합니다.</a>
+												<input type="file" name="product_img1" class="form-control user_picked_files" accept="image/*" required/>
+												<input type="file" name="product_img2" class="form-control user_picked_files" accept="image/*" />
+												<input type="file" name="product_img3" class="form-control user_picked_files" accept="image/*" />
+												<input type="file" name="product_img4" class="form-control user_picked_files" accept="image/*" />
+												<input type="file" name="product_img5" class="form-control user_picked_files" accept="image/*" />
+												<input type="text" name="product_seller_id" th:value="${session.client.client_id}" >
+											</div>
+											<ul class="cvf_uploaded_files"></ul>
+										</div>
+									</div>
+									<ul class="image_list">
+									</ul>
+								</dd>
+							</dl>
+							<dl id="title">
+								<dt>
+									<label style="color: rgb(0, 0, 0);">상품제목</label>
+								</dt>
+								<dd>
+									<input type="text" class="title_input" name="product_name"
+										placeholder="상품 제목을 입력해주세요." value="">
+									<ul class="item_recommend_box"></ul>
+								</dd>
+							</dl>
+							<dl id="product_category">
+								<dt>
+									<label style="color: rgb(0, 0, 0);">카테고리</label>
+								</dt>
+								<dd>
+									<div class="item_select_box">
+										<select name="product_category_no">
+											<option selected="selected" th:each ="item : ${items}" th:value="${item.category_no}" th:text="${item.category_name}"></option>
+										</select>
+									</div>
+								</dd>
+							</dl>
+							<dl id="content">
+								<dt>
+									<label style="color: rgb(0, 0, 0);">상품설명</label>
+								</dt>
+								<dd>
+									<textarea rows="5" class="introduce" name="product_content"
+										placeholder="상품 설명을 입력해주세요."
+										style="margin: 0px; width: 658px; height: 173px;"></textarea>
+								</dd>
+							</dl>
+							<dl class="sell_method_box">
+								<dt>
+									<label id="price" style="color: rgb(0, 0, 0);">상품가격</label>
+								</dt>
+								<dd>
+									<div class="box_sell_method box_area">
+										<div class="box_price">
+											<input type="text" name="product_price"
+												placeholder="가격을 입력해주세요." value=""
+												style="width: 90%; max-width: 280px; height: 38px;"><span
+												class="input_span_text">원</span>
+										</div>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="item_submit_box">
+						<div class="item_area_submit_box">
+							<a th:href="my_product">
+								<button class="btn_item_cancel" type="button">취소</button>
+							</a> <input class="btn_item_submit" type="submit" value="상품 등록하기">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+	<script type="text/javascript" th:src="@{/js/imgUpload.js}"></script>
+	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+</body>
+</html>

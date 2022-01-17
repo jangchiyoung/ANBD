@@ -21,6 +21,7 @@ import lombok.ToString;
 public class ClientEntity {
 	
 	@Id
+	@Column(name = "client_id")
 	private String client_id;
 	
 	@Column(nullable =false)

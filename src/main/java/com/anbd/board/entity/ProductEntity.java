@@ -1,12 +1,17 @@
 package com.anbd.board.entity;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -17,6 +22,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @NoArgsConstructor
@@ -24,6 +30,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 @Data
+@ToString
 @Table(name = "product")
 public class ProductEntity {
 	
@@ -32,7 +39,7 @@ public class ProductEntity {
 	private Integer product_no;
 	
 	@ManyToOne(targetEntity = CategoryEntity.class)
-	private CategoryEntity product_category;
+	private CategoryEntity product;
 	
 	@Column(nullable = false)
 	private String product_name;
@@ -61,24 +68,24 @@ public class ProductEntity {
 	@ManyToOne(targetEntity = ClientEntity.class)
 	private ClientEntity product_seller;
 	
-	@ManyToOne(targetEntity = ClientEntity.class)
-	private ClientEntity product_buyer;
+	@Column(nullable = true)
+	private String product_buyer_client_id;
 	
-	@Column(nullable = false)
+	@Column
 	private Integer product_like;
 	
-	@Column(nullable = false)
+	@Column
 	private Integer product_readcount;
 	
-	@Column(nullable = false)
+	@Column
 	private String product_status;
 	
 	@CreatedDate
-	@Column(nullable = false)
+	@Column(updatable = false)
 	private LocalDateTime product_date;
 	
 	@CreatedDate
-	@Column(nullable = false)
-	private LocalDateTime product_done_date;
+	@Column
+	private Timestamp product_done_date;
 	
 }
