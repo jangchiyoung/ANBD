@@ -29,5 +29,8 @@ public interface ClientRepository extends JpaRepository<ClientEntity, String>{
 	@Query("select c from ClientEntity c where c.client_id = :client_id and c.client_email = :client_email")
 	Optional<ClientEntity> userEmailCheck(@Param("client_id") String client_id, @Param("client_email") String client_email);
 	
+	@Query("select c from ClientEntity c where c.client_id = :client_id")
+	ClientEntity findId(@Param("client_id")String client_id);
+	
 	
 }

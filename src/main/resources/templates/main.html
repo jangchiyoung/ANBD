@@ -16,12 +16,12 @@
 	<h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">오늘의 상품 추천</h2>
 		<th:block th:each = "item : ${items}">
 			<div class="card col-md-3 col-sm-6"
-				th:onclick="location.href='main?pno=${item.product_no}'">
+				th:onclick="|location.href='@{product_detail(product_no=${item.product_no})}'|">
 				<img th:src="@{/img/} + ${item.product_img1}" class="card-img-top" th:alt="${item.product_img1}">
 				<div class="card-body">
 					<h5 class="card-title size_limite" th:text="${item.product_name}"></h5>
 					<div class="card-text">
-						<span style="font-weight: bold; "th:text="${#numbers.formatInteger(item.product_price, 3, 'COMMA')}">원</span>
+						<span style="font-weight: bold; "th:text="|${#numbers.formatInteger(item.product_price, 3, 'COMMA') + '원'}|"></span>
 						<span class="card-span" th:text="${item.product_like}"><i class="bi bi-heart-fill"></i></span>
 					</div>
 				</div>
