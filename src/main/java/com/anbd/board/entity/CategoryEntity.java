@@ -1,6 +1,5 @@
 package com.anbd.board.entity;
 
-import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

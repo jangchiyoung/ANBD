@@ -1,5 +1,6 @@
 package com.anbd.board.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,9 +27,9 @@ public class FavoritesEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer favorites_no;
 	
-	@ManyToOne(targetEntity = ProductEntity.class)
-	private ProductEntity favorites_product_no;
+	@Column
+	private Integer favorites_product_no;
 	
-	@ManyToOne(targetEntity = ClientEntity.class)
-	private ClientEntity favorites_client_id;
+	@Column
+	private String favorites_client_id;
 }

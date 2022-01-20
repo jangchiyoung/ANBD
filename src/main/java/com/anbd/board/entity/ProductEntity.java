@@ -81,7 +81,7 @@ public class ProductEntity {
 	private String product_status;
 	
 	@CreatedDate
-	@Column(updatable = false)
+	@Column
 	private LocalDateTime product_date;
 	
 	@CreatedDate
