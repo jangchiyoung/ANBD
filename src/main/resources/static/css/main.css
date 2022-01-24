@@ -24,7 +24,12 @@
 .card-img-top {
 	height: 18em;
 	border: 1px solid transparent;
-	object-fit: contain;
+}
+.bi-heart-fill::before {
+    content: "\f415";
+    float: right;
+    margin-top: 4px;
+    margin-right: 3px;
 }
 .size_limite {
    overflow: hidden;

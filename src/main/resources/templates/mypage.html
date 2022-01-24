@@ -1,10 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head.html :: fragment-head"></head>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>아나바다</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/Profile.css}">
 </head>
 <body>
+	<div th:replace="/fragments/header.html :: fragment-header"></div>
+	<section class="content">
+		<div class="item_list_area">
+			<div class="breadcrumbs">
+				<ul>
+					<li><a th:href="@{main}">HOME</a></li>
+					<li th:text="|&gt; ${client.client_nickname} 님 프로필|"></li>
+				</ul>
+			</div>
+			<div class="main_area">
+				<div class="main_area_center">
+					<div class="main">
+						<div class="my_profile_left">
+							<div class="my_profile_info">
+								<div class="my_profile_image">
+									<img th:src="@{/img/} +${client.client_img}">
+								</div>
+								<div class="my_profile_nick" th:text="${client.client_nickname}"></div>
+								<div class="my_profile_pro_review">
+									<div class="my_profile_pro_review_box">
+										<a class="list-group-item" href="modifyProfile_Check"> <i class="bi bi-info-circle" style="margin-right: 10px;"></i>개인 정보 변경</a>
+                    					<a class="list-group-item" href="my_product"> <i class="bi bi-bag-plus" style="margin-right: 10px;"></i>판매 물품 관리<span class="badge badge-success" th:text="${cnt}"></span></a>
+                    					<a class="list-group-item" href="purchaselist"><i class="bi bi-bag-fill" style="margin-right: 10px;"></i>구매 내역<span class="badge badge-success">${cnt.buy }</span></a>
+                    					<a class="list-group-item" href="saleslist"> <i class="bi bi-journal-text" style="margin-right: 10px;"></i>판매 내역<span class="badge badge-success">${cnt.sell }</span></a>
+	                   					<a class="list-group-item" href="favoriteslist"><i class="bi bi-heart-fill" style="margin-right: 10px;"></i>관심 목록<span class="badge badge-success">${cnt.like }</span></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<section class="profile_right_main">
+							<div class="tab_content">
+								<div class="cat_box no_cat_box">
+									<div class="my_specialist_name">
+										<span th:text="|전체 ${cnt}|"></span>
+									</div>
+								</div>
+								<div class="tab_content">
+									<div>
+										<div class="infinite-scroll-component "
+											style="height: auto; overflow: auto;">
+											<ul class="mian_row profile_main_row">
+												<th:block th:each="product : ${seller_list}">
+													<li class="main_col_3"><a class="card card_list" style="border: none;">
+															<div class="card_box">
+																<div class="image_wrapper">
+																	<div class="image_outside">
+																		<div class="image_centerbox">
+																				<button class="modifybutton" > 
+																				<img class="modifyimg" th:src="@{/img/modify.png}" th:onclick="|location.href='@{productModify(product_no=${product.product_no})}'|">
+																				</button>
+																				<button class="deletebutton" > 
+																				<img class="deleteimg" th:src="@{/img/delete.png}" th:onclick="|location.href='@{productDelete(product_no=${product.product_no})}'|">
+																				</button>
+																			<img th:src="@{/img/} + ${product.product_img1 }" th:onclick="|location.href='@{product_detail(product_no=${product.product_no})}'|"
+																				class="thumbnail_img" alt="${product.product_name }">
+																		</div>
+																	</div>
+																</div>
+																<div class="cont">
+																	<div class="item_title"
+																		th:text="${product.product_name}"></div>
+																	<div class="item_price profile_price">
+																		<span
+																			th:text="|${#numbers.formatInteger(product.product_price, 3, 'COMMA') + '원'}|"></span>
+																	</div>
+																</div>
+															</div>
+													</a></li>
+												</th:block>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
+	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
 </body>
 </html>

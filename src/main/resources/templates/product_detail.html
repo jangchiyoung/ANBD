@@ -53,19 +53,24 @@
 					</div>
 					<div class="detail-message">
 						<div class="icons-left">
-									<div th:if="${product.product_no} == ${favorites?.favorites_product_no } or ${favorites?.favorites_product_no } != null">
-										<i id="heart" class="fa fa-heart heart"
-											style="cursor: pointer; color: red;"
-											th:onclick="|like('${product.product_no}',this)|"></i>
-									</div>
-									<div th:if ="${favorites?.favorites_product_no} == null">
-										<i id="heart" class="fa fa-heart-o heart"
-											style="cursor: pointer; color: red;"
-											th:onclick="|like('${product.product_no}',this)|"></i>
-									</div>
+							<div
+								th:if="${product.product_no} == ${favorites?.favorites_product_no } or ${favorites?.favorites_product_no } != null">
+								<button class="btn btn-outline-success"> <i id="heart"
+									class="fa fa-heart heart"
+									th:onclick="|like('${product.product_no}',this)|"></i>
+								<span style="font-size: 25px;">찜</span>	
+								</button>
+							</div>
+							<div th:if="${favorites?.favorites_product_no} == null">
+								<button class="btn btn-outline-success"> <i id="heart"
+									class="fa fa-heart-o heart"
+									th:onclick="|like('${product.product_no}',this)|"></i>
+									<span style="font-size: 25px;">찜</span>
+								</button>
+							</div>
 						</div>
-						<a href='MakeMail?pno=${client.client_id}'> <span
-							class="btn btn-outline-success">채팅하기</span></a>
+						<a class="btn btn-outline-success" href='MakeMail?pno=${client.client_id}'> 
+						<span style="font-size: 25px;">아나바다 채팅</span></a>
 					</div>
 					<div class="detail-other">
 						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAjhJREFUWAnFl1uPKUEUhbdCxF2Iu7h78f9/ixdexANeSNxCkJnz1ZwSRncrM0OvhK6ufVmrdiu1O/DxD/INq9VKFouFbDYbOR6PEggEJBKJSDqdlkKhIKFQ6FvE1+3pdJL5fC7EHw4HIXU4HJZEIiHZbFZSqdRdXOBaAEHj8VjW6/Wdo5kIBoNSLBalVCppYcxDNJvNNPn5fDaud9dkMimNRkMvxhgvAna7nQyHQ2EVNmBV3W5Xu45GI10tmziq1+v1JBaLaXctANLBYKDLbZPE+MTjcT3cbrdmyurKY+n3+/pRKiImk8nT5MRB/Cw5cfyu4ARqv9/LcrnUN+/8ghNuxcBhI7xcC5xwK7aMX4BbsfX8AtzKa9++Whjcij8WvwC3Yk/6BbiV+TPxQwTcKpPJ+MGtOeFWHBB+PAY44VYctZxu7waccOuzIJ/Pv7UKrB5OoAUopfQ5/a4q0BPAeRHAgG4nl8vpyVd+wQGXwZeM/3f1el2i0aix/fmV3HBc40YAZel0Oq4933Xgs2M6IXKb0pv4GwFM0ny22+1Lv2ccf3Pl195qtW56QZPvTgAG9mez2fwTEZCTy6kjhstRAAba6FqtxvBXIAe53OAqgADeASqVilvsw3liyeEFTwEElstl/fFK4mSzjXsogOSshBcRW+BrWzkrARBXq1UrEZDjawtrAUYEpXXDs+TkeUoAAZTWScRPyMnn/JqLxQPm+U6nU+2FIDPnEeZourycOlofTF4LeODqav4EUxqvNxGf2nsAAAAASUVORK5CYII=" width="16" height="16" alt="상품 상태 아이콘">
@@ -89,8 +94,27 @@
 						<span class="client_address" th:text="${client.client_address}"></span>
 					</div>
 				</div>
+				
 						<button th:onclick="|location.href='@{productModify(product_no=${product.product_no})}'|">수정하기</button>
 			</div>
+			<div>
+			 <span th:text="|${client.client_nickname} 님의 다른 상품|"></span>
+			</div>
+			 <div class="section-story">
+			<ul class="story-list slider">
+			 <th:block th:each="seller_product : ${seller_list }">
+               <li class="story-list_li" >
+                  <div class="gradient-wrap">
+                     <img class="img-profile story" th:src="@{/img/} +${seller_product.product_img1}"
+                        onclick="location.href='userProfile?client_id=${client.client_id}'" style="cursor: pointer;">
+                  </div>
+                  <div class="profile-text">
+                     <span class="point-span" th:text="${seller_product.product_name}"></span>
+                  </div>
+               </li>
+               <th:block>
+            </ul>
+            </div>
 		</div>
 	</section>
 	
@@ -112,12 +136,11 @@
 			});
 
 			$('.slider').slick({
-				infinite : true, //무한 반복 옵션    
-				slidesToShow : 8, // 한 화면에 보여질 컨텐츠 개수
-				slidesToScroll : 2, //스크롤 한번에 움직일 컨텐츠 개수
+				slidesToShow : 5, // 한 화면에 보여질 컨텐츠 개수
+				slidesToScroll : 5, //스크롤 한번에 움직일 컨텐츠 개수
 				speed : 100, // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
 				arrows : true, // 옆으로 이동하는 화살표 표시 여부
-				dots : true, // 스크롤바 아래 점으로 페이지네이션 여부
+				dots : false, // 스크롤바 아래 점으로 페이지네이션 여부
 				autoplay : true, // 자동 스크롤 사용 여부
 				autoplaySpeed : 10000, // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
 				pauseOnHover : true, // 슬라이드 이동   시 마우스 호버하면 슬라이더 멈추게 설정

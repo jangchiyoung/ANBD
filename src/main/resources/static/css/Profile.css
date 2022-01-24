@@ -1,0 +1,191 @@
+@charset "UTF-8";
+.content, .content_modal {
+    width: 100%;
+    margin-top: 100px;
+}
+.item_list_area {
+    width: 990px;
+    min-height: 480px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.breadcrumbs {
+    margin: 33px 0 24px 10px;
+}
+ul {
+    list-style: none;
+}
+.breadcrumbs li {
+    float: left;
+    padding-right: 5px;
+    font-size: 12px;
+    color: #666;
+    line-height: 17px;
+}
+.breadcrumbs a {
+    float: left;
+    padding-right: 5px;
+    font-size: 12px;
+    color: #666;
+    line-height: 17px;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+.breadcrumbs:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+.main_area {
+    height: 100%;
+}
+.main_area_center {
+    width: 990px;
+    margin: 0 auto;
+}
+.main_area_center .main {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.my_profile_left {
+    float: left;
+    width: 230px;
+    margin-top: 15px;
+}
+.my_profile_left .my_profile_info {
+    padding: 0 10px;
+}
+.my_profile_left .my_profile_image {
+    text-align: center;
+    position: relative;
+    margin: 0 45px;
+}
+.my_profile_left .my_profile_image img:first-child {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+.my_profile_left .my_profile_nick {
+    margin-top: 15px;
+    text-align: center;
+    color: #000;
+    font-weight: 700;
+    font-size: 18px;
+}
+.my_profile_left .my_profile_pro_review {
+    margin-top: 25px;
+}
+.item_list_area {
+    width: 990px;
+    min-height: 480px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.my_profile_nav {
+    margin: 38px 0 100px;
+}
+.profile_right_main {
+    float: right;
+    margin-left: 0;
+}
+.cat_box {
+    margin: 40px 0 20px;
+}
+.profile_right_main {
+    float: right;
+    margin-left: 0;
+}
+.my_profile_left {
+    float: left;
+    width: 230px;
+    margin-top: 15px;
+    position: absolute;
+}
+.profile_right_main {
+    float: right;
+    margin-left: 0;
+    width: 770px;
+}
+a, address, article, aside, b, big, body, center, code, dd, details, div, dl, dt, footer, form, header, html, i, iframe, img, input, ins, label, li, mark, menu, nav, object, output, p, q, s, section, select, small, span, strong, sub, summary, table, tbody, td, textarea, th, thead, time, tr, u, ul, var, video {
+    font-weight: 400;
+    color: rgb(51, 51, 51);
+    margin: 0px;
+    padding: 0px;
+    border-width: 0px;
+    border-style: initial;
+    border-color: initial;
+    border-image: initial;
+}
+.mian_row.profile_main_row {
+    margin: 0;
+    float: left;
+    width: 100%;
+}
+.mian_row {
+    overflow: hidden;
+    margin: 30px 0 0;
+    min-height: 400px;
+}
+.profile_right_main .main_col_3 {
+    width: 30.33%;
+    margin-right: 7px;
+    margin-left: 7px;
+    min-height: auto;
+}
+.mian_row .main_col_3, .mian_row .main_col_4 {
+    float: left;
+    min-height: 327px;
+    position: relative;
+}
+.mian_row .main_col_3 {
+    width: 220px;
+    margin-bottom: 20px;
+}
+.image_wrapper .image_outside .thumbnail_img, .image_wrapper .image_outside .thumbnail_state_img {
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 220px;
+}
+.cont .item_price {
+    color: #000;
+    font-size: 22px;
+    padding-bottom: 18px;
+}
+.cont .item_title {
+    color: #454c53;
+    font-size: 17px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 22px;
+    margin-top: 8px;
+}
+.profile_right_main .my_profile_item_menu {
+    width: 100%;
+}
+
+.modifybutton {
+    position: absolute;
+    border: none;
+    background: none;
+    padding: 0;
+}
+.deletebutton {
+    position: absolute;
+    border: none;
+    right: -1px;
+    background: none;
+    padding: 0;
+}
+.modifyimg {
+	width: 38px;
+}
+.deleteimg {
+	width: 38px;
+}

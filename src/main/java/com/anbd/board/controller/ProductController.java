@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -257,12 +258,14 @@ public class ProductController {
 		ProductEntity entity = repository.ProductDetail(product_no);
 		Product product = service.toDto(entity);
 		String seller_client_id =product.getProduct_seller_client_id();
+		List<ProductEntity> seller = repository.findSellerID(seller_client_id);
 		HttpSession session = request.getSession();
 		Client user = (Client) session.getAttribute("client");
 		String client_id = user.getClient_id();
 		ClientEntity c_entity = client_repository.findId(seller_client_id);
 		FavoritesEntity f_entity = f_repository.findById(product_no,client_id);
 		
+		model.addAttribute("seller_list",seller);
 		model.addAttribute("client",c_entity);
 		model.addAttribute("favorites",f_entity);
 		model.addAttribute("product",entity);
