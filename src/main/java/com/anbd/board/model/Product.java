@@ -1,6 +1,6 @@
 package com.anbd.board.model;
 
-import java.sql.Timestamp;
+
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -30,5 +30,5 @@ public class Product {
 	private Integer product_readcount;
 	private String product_status;
 	private LocalDateTime product_date;
-	private Timestamp product_done_date;
+	private LocalDateTime product_done_date;
 }

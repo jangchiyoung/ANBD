@@ -22,7 +22,7 @@
 					<h5 class="card-title size_limite" th:text="${item.product_name}"></h5>
 					<div class="card-text">
 						<span style="font-weight: bold; "th:text="|${#numbers.formatInteger(item.product_price, 3, 'COMMA') + '원'}|"></span>
-						<span class="card-span" th:text="${item.product_like}"></span><i class="bi bi-heart-fill"></i>
+						<span class="card-span" th:text="|${#temporals.format(item.product_date, 'MMM dd일 HH:mm')}|"></span><i class="bi bi-heart-fill"></i>
 					</div>
 				</div>
 			</div>
@@ -52,5 +52,7 @@
 </section>
 	 
 	 <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+	 
+	 <script type="text/javascript" th:src="@{/js/time.js}"></script>
 </body>
 </html>

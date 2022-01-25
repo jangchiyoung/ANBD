@@ -41,7 +41,7 @@
 							<div class="tab_content">
 								<div class="cat_box no_cat_box">
 									<div class="my_specialist_name">
-										<span th:text="|전체 ${p_cnt}|"></span>
+										<span th:text="|전체 ${f_cnt}|"></span>
 									</div>
 								</div>
 								<div class="tab_content">
@@ -49,18 +49,15 @@
 										<div class="infinite-scroll-component "
 											style="height: auto; overflow: auto;">
 											<ul class="mian_row profile_main_row">
-												<th:block th:each="product : ${seller_list}">
+												<th:block th:each="product : ${product_list}">
 													<li class="main_col_3"><a class="card card_list" style="border: none;">
 															<div class="card_box">
 																<div class="image_wrapper">
 																	<div class="image_outside">
 																		<div class="image_centerbox">
-																			<th:block th:if="${session.client.client_id} == ${product.product_seller.client_id}">
-																				<button class="modifybutton"> 
-																				<img class="modifyimg" th:src="@{/img/modify.png}" th:onclick="|location.href='@{productModify(product_no=${product.product_no})}'|">
-																				</button>
-																				<button class="deletebutton" > 
-																				<img class="deleteimg" th:src="@{/img/delete.png}" th:onclick="|location.href='@{productDelete(product_no=${product.product_no})}'|">
+																			<th:block th:each="favorites : ${favorites_list}">
+																				<button class="deletebutton" th:if= "${favorites.favorites_product_no} == ${product.product_no}"> 
+																				<img class="deleteimg" th:src="@{/img/delete.png}" th:onclick="|location.href='@{favoritesDelete(favorites_no=${favorites.favorites_no})}'|">
 																				</button>
 																			</th:block>	
 																			<img th:src="@{/img/} + ${product.product_img1 }" th:onclick="|location.href='@{product_detail(product_no=${product.product_no})}'|"

@@ -87,7 +87,7 @@
 			</div>
 			<div class="client_info">
 				<div class="client-link"
-					th:onclick="location.href='@{orderProfile(client_id=${client.client_id})}'">
+					th:onclick="|location.href='@{userpage(client_id=${client.client_id})}'|">
 					<img class="client_img" th:src="@{/img/} + ${client.client_img}" />
 					<div class="row">
 						<span class="client_id" th:text="${client.client_nickname}"></span>
@@ -106,7 +106,7 @@
                <li class="story-list_li" >
                   <div class="gradient-wrap">
                      <img class="img-profile story" th:src="@{/img/} +${seller_product.product_img1}"
-                        onclick="location.href='userProfile?client_id=${client.client_id}'" style="cursor: pointer;">
+                        th:onclick="|location.href='product_detail?product_no=${product.product_no}'|" style="cursor: pointer;">
                   </div>
                   <div class="profile-text">
                      <span class="point-span" th:text="${seller_product.product_name}"></span>

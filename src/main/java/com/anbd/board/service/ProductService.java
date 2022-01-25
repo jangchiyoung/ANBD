@@ -1,5 +1,6 @@
 package com.anbd.board.service;
 
+
 import com.anbd.board.entity.CategoryEntity;
 import com.anbd.board.entity.ClientEntity;
 import com.anbd.board.entity.ProductEntity;
@@ -32,6 +33,7 @@ public interface ProductService {
 	}
 	
 	default Product toDto(ProductEntity entity) {
+
 		return Product.builder()
 				.product_no(entity.getProduct_no())
 				.product_category_no(entity.getProduct().getCategory_no())

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,7 +74,6 @@ public class ProductController {
 				for (ProductEntity temp : product_All_list_et) {
 					product_all_list.add(service.toDto(temp));
 				}
-				System.out.println(product_all_list);
 		model.addAttribute("items", product_all_list); // 전체 회원 리스트
 		return "main";
 	}
@@ -240,17 +238,32 @@ public class ProductController {
 			product_img5.transferTo(upfile);
 		}
 		LocalDateTime date = LocalDateTime.now();
-		Product product = new Product(product_no, product_category_no, product_name, product_content,
-				product_price, randomimg1, randomimg2, randomimg3, randomimg4, randomimg5, product_seller_id, null, 0, 0, "ing", date, null);
+		ProductEntity update = repository.ProductDetail(product_no);
+		Product product = service.toDto(update);
+		
+		product.setProduct_category_no(product_category_no);
+		product.setProduct_content(product_content);
+		product.setProduct_name(product_name);
+		product.setProduct_price(product_price);
+		product.setProduct_date(date);
+		
+		if(randomimg1 != null) product.setProduct_img1(randomimg1);
+		if(randomimg2 != null) product.setProduct_img2(randomimg2);
+		if(randomimg3 != null) product.setProduct_img3(randomimg3);
+		if(randomimg4 != null) product.setProduct_img4(randomimg4);
+		if(randomimg5 != null) product.setProduct_img5(randomimg5);
+		
 		entity = service.toEntity(product);
 		repository.save(entity);
 		return "redirect:main";
 	}
 	//게시물 삭제
-	@RequestMapping(value = "/anbd/delete", method = RequestMethod.POST)
-	public String delete(int product_no) {
+	@RequestMapping("/anbd/productDelete")
+	public String delete(int product_no, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Client user = (Client) session.getAttribute("client");
 		repository.deleteById(product_no);
-		return "redirect:main";
+		return "redirect:mypage" + "?client_id=" + user.getClient_id();
 	}
 	//게시물 디테일 페이지
 	@RequestMapping(value = "/anbd/product_detail", method = RequestMethod.GET)

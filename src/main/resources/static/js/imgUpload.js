@@ -72,7 +72,7 @@
                                 $('.image_list').append(
                                 "<li file = '" + file.name + "'>" +                                
                                     "<img  class = 'item_img' src = '" + e.target.result + "' />" +
-                                    "<a href = '#' class = 'cvf_delete_image' title = 'Cancel'><img class = 'delete-btn' src = '/resources/img/delete.png' /></a>" +
+                                    "<a href = '#' class = 'cvf_delete_image' title = 'Cancel'><img class = 'delete-btn' src = '/img/delete.png' /></a>" +
                                 "</li>"
                                 );     
                             };

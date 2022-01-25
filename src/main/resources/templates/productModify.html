@@ -35,7 +35,7 @@
 										<div class="col-md-6">
 											<div class="form-group" th:if = "${session.client != null}">
 												<a>최대 5개까지만 업로드 가능합니다.</a>
-												<input type="file" name="product_img1" class="form-control user_picked_files" accept="image/*" required/>
+												<input type="file" name="product_img1" class="form-control user_picked_files" accept="image/*" />
 												<input type="file" name="product_img2" class="form-control user_picked_files" accept="image/*" />
 												<input type="file" name="product_img3" class="form-control user_picked_files" accept="image/*" />
 												<input type="file" name="product_img4" class="form-control user_picked_files" accept="image/*" />
@@ -52,6 +52,30 @@
 											th:src="@{/img/} + ${product.product_img1}"> <a href="#"
 											class="cvf_delete_image" title="Cancel"> <img
 												class="delete-btn" th:src="@{/img/delete.png}"></a></li>
+										<th:block th:if="${product.product_img2 != null}">
+										<li th:file="${product.product_img2 }"><img class="item_img"
+											th:src="@{/img/} + ${product.product_img2}"> <a href="#"
+											class="cvf_delete_image" title="Cancel"> <img
+												class="delete-btn" th:src="@{/img/delete.png}"></a></li>
+										</th:block>
+										<th:block th:if="${product.product_img3 != null}">
+										<li th:file="${product.product_img3 }"><img class="item_img"
+											th:src="@{/img/} + ${product.product_img3}"> <a href="#"
+											class="cvf_delete_image" title="Cancel"> <img
+												class="delete-btn" th:src="@{/img/delete.png}"></a></li>
+										</th:block>		
+										<th:block th:if="${product.product_img4 != null}">		
+										<li th:file="${product.product_img4 }"><img class="item_img"
+											th:src="@{/img/} + ${product.product_img4}"> <a href="#"
+											class="cvf_delete_image" title="Cancel"> <img
+												class="delete-btn" th:src="@{/img/delete.png}"></a></li>
+										</th:block>		
+										<th:block th:if="${product.product_img5 != null}">		
+										<li th:file="${product.product_img5 }"><img class="item_img"
+											th:src="@{/img/} + ${product.product_img5}"> <a href="#"
+											class="cvf_delete_image" title="Cancel"> <img
+												class="delete-btn" th:src="@{/img/delete.png}"></a></li>
+										</th:block>		
 									</ul>
 								</dd>
 							</dl>

@@ -1,5 +1,6 @@
 package com.anbd.board.entity;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -86,6 +87,6 @@ public class ProductEntity {
 	
 	@CreatedDate
 	@Column
-	private Timestamp product_done_date;
+	private LocalDateTime product_done_date;
 	
 }

@@ -28,11 +28,7 @@
 								<div class="my_profile_nick" th:text="${client.client_nickname}"></div>
 								<div class="my_profile_pro_review">
 									<div class="my_profile_pro_review_box">
-										<a class="list-group-item" th:href="@{modifyProfile_Check}"> <i class="bi bi-info-circle" style="margin-right: 10px;"></i>개인 정보 변경</a>
-                    					<a class="list-group-item" th:href="@{mypage(client_id=${client.client_id})}"> <i class="bi bi-bag-plus" style="margin-right: 10px;"></i>판매 물품 관리<span class="badge badge-success" th:text="${p_cnt}"></span></a>
-                    					<a class="list-group-item" th:href="@{purchaselist}"><i class="bi bi-bag-fill" style="margin-right: 10px;"></i>구매 내역<span class="badge badge-success">${cnt.buy }</span></a>
-                    					<a class="list-group-item" th:href="@{saleslist}"> <i class="bi bi-journal-text" style="margin-right: 10px;"></i>판매 내역<span class="badge badge-success">${cnt.sell }</span></a>
-	                   					<a class="list-group-item" th:href="@{favoritesList(client_id=${client.client_id})}"><i class="bi bi-heart-fill" style="margin-right: 10px;"></i>관심 목록<span class="badge badge-success"th:text="${f_cnt}"></span></a>
+                    					<a class="list-group-item" th:href="@{userpage(client_id=${client.client_id})}"> <i class="bi bi-bag-plus" style="margin-right: 10px;"></i>판매 물품 관리<span class="badge badge-success" th:text="${p_cnt}"></span></a>
 									</div>
 								</div>
 							</div>
@@ -55,14 +51,6 @@
 																<div class="image_wrapper">
 																	<div class="image_outside">
 																		<div class="image_centerbox">
-																			<th:block th:if="${session.client.client_id} == ${product.product_seller.client_id}">
-																				<button class="modifybutton"> 
-																				<img class="modifyimg" th:src="@{/img/modify.png}" th:onclick="|location.href='@{productModify(product_no=${product.product_no})}'|">
-																				</button>
-																				<button class="deletebutton" > 
-																				<img class="deleteimg" th:src="@{/img/delete.png}" th:onclick="|location.href='@{productDelete(product_no=${product.product_no})}'|">
-																				</button>
-																			</th:block>	
 																			<img th:src="@{/img/} + ${product.product_img1 }" th:onclick="|location.href='@{product_detail(product_no=${product.product_no})}'|"
 																				class="thumbnail_img" alt="${product.product_name }">
 																		</div>
