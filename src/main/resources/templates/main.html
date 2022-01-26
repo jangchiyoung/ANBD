@@ -2,57 +2,71 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/fragments/head.html :: fragment-head"></head>
 <head>
-<meta charset = "utf-8"/>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>아나바다</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/cookie.css}">
 </head>
 <body>
-	 <div th:replace="/fragments/header.html :: fragment-header"></div>
-	 
-	 <section class="home-main-section" style="display: flex;">
-		
-	<div class="row" style="width: 90%;">
-	<h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">오늘의 상품 추천</h2>
-		<th:block th:each = "item : ${items}">
-			<div class="card col-md-3 col-sm-6"
-				th:onclick="|location.href='@{product_detail(product_no=${item.product_no})}'|">
-				<img th:src="@{/img/} + ${item.product_img1}" class="card-img-top" th:alt="${item.product_img1}">
-				<div class="card-body">
-					<h5 class="card-title size_limite" th:text="${item.product_name}"></h5>
-					<div class="card-text">
-						<span style="font-weight: bold; "th:text="|${#numbers.formatInteger(item.product_price, 3, 'COMMA') + '원'}|"></span>
-						<span class="card-span" th:text="|${#temporals.format(item.product_date, 'MMM dd일 HH:mm')}|"></span><i class="bi bi-heart-fill"></i>
+	<div th:replace="/fragments/header.html :: fragment-header"></div>
+
+	<section class="home-main-section" style="display: flex;">
+
+		<div class="row" style="width: 90%;">
+			<h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">오늘의 상품 추천</h2>
+			<th:block th:each="item : ${items}" name="value">
+				<div class="card col-md-3 col-sm-6"
+					th:onclick="|location.href='@{product_detail(product_no=${item.product_no})}'|">
+					<img th:src="@{/img/} + ${item.product_img1}" class="card-img-top"
+						th:alt="${item.product_img1}">
+					<div class="card-body">
+						<h5 class="card-title size_limite" th:text="${item.product_name}"></h5>
+						<div class="card-text">
+							<span style="font-weight: bold;"
+								th:text="|${#numbers.formatInteger(item.product_price, 3, 'COMMA') + '원'}|"></span>
+							<span class="card-span"
+								th:text="|${#temporals.format(item.product_date, 'MMM dd일 HH:mm')}|"></span><i
+								class="bi bi-heart-fill"></i>
+						</div>
 					</div>
 				</div>
+			</th:block>
+			<div id="add"></div>
+			<button id="get" class="getList"
+				onclick="getList('${StartNo }','${EndNo }')">더보기</button>
+			<div class="scroll_top_btn_warpper">
+				<div class="scroll_top_btn">
+					<a href="#header"></a> <img id="back-to-top"
+						src="https://ccimage.hellomarket.com/web/2020/icon/btn_top_n_x2.png"
+						alt="페이지 업 버튼">
+				</div>
 			</div>
-		</th:block>
-		 <div id="add"></div>
-		 <button id="get" class="getList"  onclick="getList('${StartNo }','${EndNo }')">더보기</button>
-		<div class="scroll_top_btn_warpper">
-		<div class="scroll_top_btn">
-		<a href="#header"></a>
-		<img id="back-to-top" src="https://ccimage.hellomarket.com/web/2020/icon/btn_top_n_x2.png" alt="페이지 업 버튼">
 		</div>
+		<div class="cookie_status"></div>
+		<div class="cookie_div">
+			<div class="cookie_status">
+				<h5>최근 본 상품</h5>
+			</div>
+			<div class="cookie">
+				<div class="cookie_img" th:each=" c: ${cookie}">
+					<img th:src="@{/img/} + ${c.product_img1}"
+						th:onclick="|location.href='@{product_detail(product_no=${c.product_no})}'|">
+					<a th:onclick="|location.href='@{cookieDelete(product_no=${c.product_no})}'|"><i
+						class="bi bi-x-circle"></i></a>
+				</div>
+			</div>
 		</div>
-	</div>
-	<div class="cookie_status">
-	</div>
-<div class="cookie_div">
-	<div class="cookie_status">
-	<h5>최근 본 상품</h5>
-	</div>
-	<div class="cookie">
-					<div class="cookie_img">
-						<img src="/img/<%=vo.getProduct_img1()%>" onclick="location.href='detail.do?pno=<%=vo.getProduct_no()%>'">
-						<a onclick="removeCK('product_cookie<%=vo.getProduct_no()%>')"><i class="bi bi-x-circle"></i></a>
-					</div>
-	</div>
-</div>
-</section>
-	 
-	 <div th:replace="/fragments/footer.html :: fragment-footer"></div>
-	 
-	 <script type="text/javascript" th:src="@{/js/time.js}"></script>
+	</section>
+	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+	<script type="text/javascript">
+	function removeCK(cookie_name){
+		var date = new Date();
+		date.setTime(date.getTime() + (-1 * 60 * 60 * 1000));
+		var expires = "; expires=" + date.toGMTString();
+		document.cookie = cookie_name+ "=" + "" + expires + "; path=/ANBD"; 
+		location.reload();
+	}
+	</script>
 </body>
 </html>

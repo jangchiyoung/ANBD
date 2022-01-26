@@ -20,6 +20,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 	@Query("select p from ProductEntity p where p.product_no = :product_no")
 	ProductEntity ProductDetail(@Param("product_no") int product_no);
 	
+	@Query("select p from ProductEntity p where p.product_no = :product_no")
+	List<ProductEntity> cookieAdd(@Param("product_no") int product_no);
+	
 	@Query("select p from ProductEntity p where p.product_seller.client_id = :product_seller")
 	List<ProductEntity> findSellerID(@Param("product_seller") String product_seller);
 	

@@ -2,18 +2,22 @@ package com.anbd.board.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -64,6 +68,14 @@ public class ProductController {
 	FavoritesRepository f_repository;
 	@Autowired
 	FavoritesService f_service;
+	
+	@RequestMapping(value="/anbd/cookieDelete", method=RequestMethod.GET)
+	public String testCookie(HttpServletResponse response, String product_no){
+		Cookie kc = new Cookie("product" +product_no, null); // choiceCookieName(쿠키 이름)에 대한 값을 null로 지정
+		kc.setMaxAge(0); // 유효시간을 0으로 설정
+		response.addCookie(kc); // 응답 헤더에 추가해서 없어지도록 함
+		return "redirect:main";
+	}
 	// 전체게시물 리스트
 	@RequestMapping({ "/anbd/main", "/anbd/", "/","/anbd" })
 	public String getList(Model model, HttpServletRequest request,String search_name) {
@@ -74,7 +86,21 @@ public class ProductController {
 				for (ProductEntity temp : product_All_list_et) {
 					product_all_list.add(service.toDto(temp));
 				}
-		model.addAttribute("items", product_all_list); // 전체 회원 리스트
+		List<ProductEntity> products = new ArrayList<ProductEntity>();
+		List<Product> p = new ArrayList<Product>();
+		Cookie[] cookies = request.getCookies();
+				if (cookies != null) {
+					for (Cookie c : cookies) {
+						if (c.getName().indexOf("product") != -1) {
+							products = repository.cookieAdd(Integer.parseInt(c.getValue()));
+							for(ProductEntity temp : products) {
+								p.add(service.toDto(temp));
+							}
+						}
+					}
+				}
+		model.addAttribute("cookie", p); // 전체 회원 리스트
+ 		model.addAttribute("items", product_all_list); // 전체 회원 리스트
 		return "main";
 	}
 	// 게시물 등록 페이지
@@ -267,7 +293,8 @@ public class ProductController {
 	}
 	//게시물 디테일 페이지
 	@RequestMapping(value = "/anbd/product_detail", method = RequestMethod.GET)
-	public String prodouct_detail(int product_no, Model model, HttpServletRequest request) {
+	public String prodouct_detail(int product_no, Model model, HttpServletRequest request,
+			 HttpServletResponse response) {
 		ProductEntity entity = repository.ProductDetail(product_no);
 		Product product = service.toDto(entity);
 		String seller_client_id =product.getProduct_seller_client_id();
@@ -278,6 +305,12 @@ public class ProductController {
 		ClientEntity c_entity = client_repository.findId(seller_client_id);
 		FavoritesEntity f_entity = f_repository.findById(product_no,client_id);
 		
+		String no = String.valueOf(product_no);
+		Cookie cookie = new Cookie("product"+no, no);
+		if(cookie != null) {
+			cookie.setValue(no);
+		}
+		response.addCookie(cookie);
 		model.addAttribute("seller_list",seller);
 		model.addAttribute("client",c_entity);
 		model.addAttribute("favorites",f_entity);
