@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head.html :: fragment-head"></head>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>아나바다</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/Profile.css}">
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+<body>
+	<div th:replace="/fragments/header.html :: fragment-header"></div>
+	<section class="content">
+		<div class="item_list_area">
+			<div class="breadcrumbs">
+				<ul>
+					<li><a th:href="@{main}">HOME</a></li>
+					<li th:text="|&gt; ${client.client_nickname} 님 프로필|"></li>
+				</ul>
+			</div>
+			<div class="main_area">
+				<div class="main_area_center">
+					<div class="main">
+						<div class="my_profile_left">
+							<div class="my_profile_info">
+								<div class="my_profile_image">
+									<img th:src="@{/img/} +${client.client_img}">
+								</div>
+								<div class="my_profile_nick" th:text="${client.client_nickname}"></div>
+								<div class="my_profile_pro_review">
+									<div class="my_profile_pro_review_box">
+										<a class="list-group-item" th:href="@{pwCheck(client_id=${client.client_id})}"> <i class="bi bi-info-circle" style="margin-right: 10px;"></i>개인 정보 변경</a>
+                    					<a class="list-group-item" th:href="@{mypage(client_id=${client.client_id})}"> <i class="bi bi-bag-plus" style="margin-right: 10px;"></i>판매 물품 관리<span class="badge badge-success" th:text="${p_cnt}"></span></a>
+                    					<a class="list-group-item" th:href="@{purchaselist}"><i class="bi bi-bag-fill" style="margin-right: 10px;"></i>구매 내역<span class="badge badge-success">${cnt.buy }</span></a>
+                    					<a class="list-group-item" th:href="@{saleslist}"> <i class="bi bi-journal-text" style="margin-right: 10px;"></i>판매 내역<span class="badge badge-success">${cnt.sell }</span></a>
+	                   					<a class="list-group-item" th:href="@{favoritesList(client_id=${client.client_id})}"><i class="bi bi-heart-fill" style="margin-right: 10px;"></i>관심 목록<span class="badge badge-success"th:text="${f_cnt}"></span></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<section class="profile_right_main">
+							<div id="page-content-wrapper">
+								<div class="container-fluid">
+									<div class="container">
+										<div class="w3-content w3-container ">
+											<div class="w3-container w3-card-4">
+												<div class="w3-center w3-large ">
+													<h3>개인정보 변경</h3>
+												</div>
+												<div>
+													<div class="modify">
+														<label>아이디</label> 
+														<input class="input" type="text" id="id" name="client_id" th:value="${client.client_id}" readonly="readonly">
+													</div>
+													<div class="modify">
+														<label>이름</label>
+														<input class="input" type="text" id="name" name="client_name" th:value="${client.client_name}">
+														<button class="modifybtn" th:onclick="modifyName('${client.client_name}')">변경</button>
+													</div>
+													<div class="modify">
+														<label>닉네임</label>
+														<input class="input" type="text" id="nickname" name="client_nickname" th:value="${client.client_nickname}">
+														<button class="modifybtn" th:onclick="modifyNickname('${client.client_nickname}')">변경</button>	
+													</div>
+													<div class="modify">
+														<label>비밀번호</label>
+														<div class="input ps"><span>*************</span></div>
+														<button class="modifybtn" th:onclick="modalPassword()">변경</button>	
+													</div>
+													<div class="modify hi" id="div_pw">
+														<label>현재비밀번호</label>
+														<input class="input" type="password" id="password" name="client_password" >
+													</div>
+													<div class="modify hi" id="div_new_pw">
+														<label>새비밀번호</label>
+														<input class="input" type="password" id="new_password" name="client_new_passowrd">
+													</div>
+													<div class="modify hi" id="div_new_pw_ck">
+														<label>새비밀번호확인</label>
+														<input class="input" type="password" id="new_password_ck" name="client_new_passowrd2">
+														<button class="modifybtn" id="" th:onclick="modifyPassword()">변경</button>	
+													</div>
+													<div class="modify">
+														<label>전화번호</label>
+														<input class="input" type="tel" id="tel" name="client_tel" th:value="${client.client_tel}">
+														<button class="modifybtn" th:onclick="modifyTel('${client.client_tel}')">변경</button>	
+													</div>
+													<div class="modify">
+														<label>이메일</label>
+														<input class="input" type="email" id="email" name="client_email" th:value="${client.client_email}">
+														<button class="modifybtn" th:onclick="modifyEmail('${client.client_email}')">변경</button>	
+													</div>
+													<div class="modify">
+														<label>주소</label>
+														<input class="input" type="text" id="address" name="client_address" th:value="${client.client_address}">
+														<input class="modifybtn address_select" id="findAddr" type="button" value="주소검색" onclick="findAddr()">
+														<button class="modifybtn" id="m_address" th:onclick="modifyAddress('${client.client_address}')">변경</button>	
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+	
+	<script type="text/javascript" th:src="@{/js/modify.js}"></script>
+	<script type="text/javascript">
+	function modalPassword() {
+		const password = document.querySelector('#div_pw'); 
+		const new_password = document.querySelector('#div_new_pw'); 
+		const new_passowrd_ck = document.querySelector('#div_new_pw_ck'); 
+		password.style.display = 'inline';
+		new_password.style.display = 'inline';
+		new_passowrd_ck.style.display = 'inline';
+	}
+	</script>
+</body>
+</html>

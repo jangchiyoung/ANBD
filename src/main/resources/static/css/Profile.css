@@ -189,3 +189,47 @@ a, address, article, aside, b, big, body, center, code, dd, details, div, dl, dt
 .deleteimg {
 	width: 38px;
 }
+.input {
+    width: 45%;
+    box-sizing: border-box;
+    height: 40px;
+    border-radius: 3px;
+    border: 1px solid #e1e1e1;
+    color: #333333;
+    font-size: 14px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.modifybtn {
+    width: 18%;
+    box-sizing: border-box;
+    height: 40px;
+    border-radius: 3px;
+    border: 1px solid #e1e1e1;
+    color: #333333;
+    font-size: 14px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.modify {
+	float: left;
+	width: 100%
+}
+.modify label {
+	width: 15%;
+}
+#m_address {
+	display: none;
+}
+.ps {
+	display: inline-block;
+    height: 40px;
+    vertical-align: middle;
+}
+.hi {
+	display: none;
+}
