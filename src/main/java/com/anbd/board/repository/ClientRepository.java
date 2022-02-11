@@ -64,4 +64,5 @@ public interface ClientRepository extends JpaRepository<ClientEntity, String>{
 	@Modifying
 	@Query(value = "update ClientEntity c set c.client_password = :client_password where c.client_id = :client_id")
 	void updatePassword(@Param("client_password") String client_password, @Param("client_id") String client_id);
+	
 }

@@ -31,17 +31,17 @@ public class ChatEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer chat_no;
 	
-	@Column(nullable = false)
-	private String chat_roomid;
+	@ManyToOne(targetEntity = ProductEntity.class)
+	private ProductEntity chat;
 	
 	@Column(nullable = false)
 	private String chat_message;
 	
 	@ManyToOne(targetEntity = ClientEntity.class)
-	private ClientEntity chat_seller_id;
+	private ClientEntity chat_send;
 	
 	@ManyToOne(targetEntity = ClientEntity.class)
-	private ClientEntity chat_buyer_id;
+	private ClientEntity chat_receive;
 	
 	@CreatedDate
 	@Column(nullable = false)

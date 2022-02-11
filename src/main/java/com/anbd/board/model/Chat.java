@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor;
 public class Chat {
 
 	private Integer chat_no;
-	private String chat_roomid;
+	private Integer chat_product_no;
 	private String chat_message;
-	private String chat_seller_id;
-	private String chat_buyer_id;
+	private String chat_send_client_id;
+	private String chat_receive_client_id;
 	private LocalDateTime chat_date;
 	private Integer chat_status;
 }

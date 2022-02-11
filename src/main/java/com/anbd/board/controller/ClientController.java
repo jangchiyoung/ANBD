@@ -54,12 +54,17 @@ public class ClientController {
 	@RequestMapping(value = "/anbd/mypage", method = RequestMethod.GET )
 	public String mypage(String client_id, HttpServletRequest request, Model model) {
 		ClientEntity user = repository.findId(client_id);
+		String product_status = "end";
 		List<ProductEntity> seller = p_repository.findSellerID(client_id);
 		Integer p_cnt  = p_repository.ProductCnt(client_id);
 		Integer f_cnt  = f_repository.FavoritesCnt(client_id);
+		Integer s_cnt  = p_repository.SalesCnt(client_id,product_status);
+		Integer b_cnt  = p_repository.PurchaseCnt(client_id,product_status);
 		
 		model.addAttribute("seller_list",seller);
 		model.addAttribute("p_cnt",p_cnt);
+		model.addAttribute("s_cnt",s_cnt);
+		model.addAttribute("b_cnt",b_cnt);
 		model.addAttribute("f_cnt",f_cnt);
 		model.addAttribute("client",user);
 		return "mypage";
@@ -80,6 +85,7 @@ public class ClientController {
 	
 	@RequestMapping(value = "/anbd/favoritesList")
 	public String favoritesList(String client_id, HttpServletRequest request, Model model) {
+		String product_status = "end";
 		ClientEntity user = repository.findId(client_id);
 		List<FavoritesEntity> favoritesID = f_repository.findFavoritesID(client_id);
 		List<Favorites> result = new ArrayList<Favorites>();
@@ -94,14 +100,15 @@ public class ClientController {
 		
 	    Integer p_cnt  = p_repository.ProductCnt(client_id);
 		Integer f_cnt  = f_repository.FavoritesCnt(client_id);
+		Integer s_cnt  = p_repository.SalesCnt(client_id,product_status);
+		Integer b_cnt  = p_repository.PurchaseCnt(client_id,product_status);
 		
 		model.addAttribute("favorites_list",favoritesID);
 		model.addAttribute("product_list",ProductList);
-		System.out.println(favoritesID);
-		System.out.println(ProductList);
-		
 		model.addAttribute("p_cnt",p_cnt);
 		model.addAttribute("f_cnt",f_cnt);
+		model.addAttribute("s_cnt",s_cnt);
+		model.addAttribute("b_cnt",b_cnt);
 		model.addAttribute("client",user);
 		return "favoritesList";
 	}
@@ -113,19 +120,69 @@ public class ClientController {
 		f_repository.deleteById(favorites_no);
 		return "redirect:favoritesList" + "?client_id=" + user.getClient_id();
 	}
+	//판매내역 페이지
+	@RequestMapping(value = "/anbd/salesList")
+	public String salesList(String client_id, HttpServletRequest request, Model model) {
+		ClientEntity user = repository.findId(client_id);
+		String product_status = "end";
+		List<Product> prodcut_list = new ArrayList<Product>();
+		List<ProductEntity> productID = p_repository.findsalesList(client_id,product_status);
+			for (ProductEntity temp : productID) {
+				prodcut_list.add(p_service.toDto(temp));
+			}
+	    Integer p_cnt  = p_repository.ProductCnt(client_id);
+	    Integer s_cnt  = p_repository.SalesCnt(client_id, product_status);
+	    Integer b_cnt  = p_repository.PurchaseCnt(client_id, product_status);
+		Integer f_cnt  = f_repository.FavoritesCnt(client_id);
+		
+		model.addAttribute("product_list",prodcut_list);
+		model.addAttribute("p_cnt",p_cnt);
+		model.addAttribute("f_cnt",f_cnt);
+		model.addAttribute("s_cnt",s_cnt);
+		model.addAttribute("b_cnt",b_cnt);
+		model.addAttribute("client",user);
+		return "salesList";
+	}
+	
+	//구매내역 페이지
+		@RequestMapping(value = "/anbd/purchaseList")
+		public String purchaseList(String client_id, HttpServletRequest request, Model model) {
+			ClientEntity user = repository.findId(client_id);
+			String product_status = "end";
+			List<Product> prodcut_list = new ArrayList<Product>();
+			List<ProductEntity> productID = p_repository.findpurchaseList(client_id,product_status);
+				for (ProductEntity temp : productID) {
+					prodcut_list.add(p_service.toDto(temp));
+				}
+		    Integer p_cnt  = p_repository.ProductCnt(client_id);
+		    Integer s_cnt  = p_repository.SalesCnt(client_id, product_status);
+			Integer b_cnt  = p_repository.PurchaseCnt(client_id, product_status);
+			Integer f_cnt  = f_repository.FavoritesCnt(client_id);
+			
+			model.addAttribute("product_list",prodcut_list);
+			model.addAttribute("p_cnt",p_cnt);
+			model.addAttribute("f_cnt",f_cnt);
+			model.addAttribute("s_cnt",s_cnt);
+			model.addAttribute("b_cnt",b_cnt);
+			model.addAttribute("client",user);
+			return "purchaseList";
+		}
 	//개인정보 비밀번호 체크
-	@RequestMapping("/anbd/pwCheck")
+	@RequestMapping("/anbd/modify")
 	public String pwCheck(String client_id, HttpServletRequest request, Model model) {
 		ClientEntity user = repository.findId(client_id);
+		String product_status = "end";
 		List<ProductEntity> seller = p_repository.findSellerID(client_id);
 		Integer p_cnt  = p_repository.ProductCnt(client_id);
+		Integer s_cnt  = p_repository.SalesCnt(client_id, product_status);
 		Integer f_cnt  = f_repository.FavoritesCnt(client_id);
 		
 		model.addAttribute("seller_list",seller);
 		model.addAttribute("p_cnt",p_cnt);
 		model.addAttribute("f_cnt",f_cnt);
+		model.addAttribute("s_cnt",s_cnt);
 		model.addAttribute("client",user);
-		return "pwCheck";
+		return "modify";
 	}
 	
 	@SuppressWarnings("unchecked")

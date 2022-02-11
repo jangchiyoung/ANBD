@@ -21,7 +21,7 @@
         </th:block>
       <th:block th:if="${session.client != null and session.client.client_id != 'admin'}">
         <li class="nav-item">
-         	<img class="img_profile" th:src="@{/img/messge.png}" onclick="location.href='mail.do'">
+         	<img class="img_profile" th:src="@{/img/messge.png}" th:onclick="|location.href='@{messages}'|">
          	<div class="chat_cnt" id="mail_cnt">0</div>
          	<img class="img_profile" th:src="@{/img/} + ${session.client.client_img}"  th:onclick="|location.href='@{mypage(client_id=${session.client.client_id})}'|">
        		<a class="btn btn-outline-success" th:href="@{mypage(client_id=${session.client.client_id})}" th:text="${session.client.client_nickname}"></a>

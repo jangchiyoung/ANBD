@@ -2,7 +2,6 @@ package com.anbd.board.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,6 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -318,6 +316,7 @@ public class ProductController {
 		return "product_detail";
 	}
 	
+	@SuppressWarnings("unchecked")
 	@ResponseBody
 	@RequestMapping(value = "/anbd/favorites", method = RequestMethod.POST)
 	public JSONObject heart(@RequestBody JSONObject no, HttpServletRequest request) {
