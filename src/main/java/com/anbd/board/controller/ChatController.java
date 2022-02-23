@@ -1,6 +1,8 @@
 package com.anbd.board.controller;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.anbd.board.model.Client;
 import com.anbd.board.model.Product;
 
-import org.springframework.web.servlet.ModelAndView;
 
 import com.anbd.board.repository.ChatRepository;
 import com.anbd.board.repository.ClientRepository;
@@ -34,7 +34,6 @@ import com.anbd.board.entity.ClientEntity;
 import com.anbd.board.entity.ProductEntity;
 import com.anbd.board.model.Chat;
 import com.anbd.board.model.ChatRoom;
-import com.anbd.board.model.Client;
 
 
 
@@ -73,26 +72,26 @@ public class ChatController {
 			roomlist.add(service.toDto(entity));
 		}
 		List<Product> productlist = new ArrayList<Product>();
+		List<Client> clientlist = new ArrayList<Client>();
 		if (roomlist != null && roomlist.size() >= 1) {
 			for (Chat temp : roomlist) {
 				int product_no = temp.getChat_product_no();
 				String sendId = temp.getChat_send_client_id(); //보낸이
 				String receiveId = temp.getChat_receive_client_id(); //받는이
 				if (user.getClient_id().equals(sendId)) {
-					ClientEntity c_entities = c_repository.findId(receiveId);
-					ProductEntity p_entities = p_repository.findSeller(receiveId,product_no);
-					model.addAttribute("client",c_entities);
-					model.addAttribute("product",p_entities);
+					clientlist.add(c_service.toDto(c_repository.findId(receiveId)));
+					productlist.add(p_service.toDto(p_repository.findSeller(receiveId, product_no)));
+					model.addAttribute("client",clientlist);
+					model.addAttribute("product",productlist);
 				} else {
-					ClientEntity c_entities = c_repository.findId(sendId);
-					ProductEntity p_entities = p_repository.findSeller(sendId,product_no);
-					model.addAttribute("client",c_entities);
-					model.addAttribute("product",p_entities);
+					clientlist.add(c_service.toDto(c_repository.findId(sendId)));
+					productlist.add(p_service.toDto(p_repository.findSeller(receiveId, product_no)));
+					model.addAttribute("client",clientlist);
+					model.addAttribute("product",productlist);
 				}
 			}
 		}
 		model.addAttribute("roomlist",roomlist);
-		model.addAttribute("productlist",productlist);
 		return "message";
 	}
 	
@@ -105,7 +104,7 @@ public class ChatController {
 			int product_no = room.getProduct_no();
 			String send_client_id = room.getSend_id();
 			String receive_client_id = room.getReceive_id();
-			LocalDateTime date = room.getDate();
+			System.out.println(receive_client_id);
 			List<ChatEntity> list = repository.findSendAndReceive(product_no,send_client_id, receive_client_id);
 			List<Chat> chatlist = new ArrayList<Chat>();
 			for (ChatEntity temp : list) {
@@ -116,22 +115,28 @@ public class ChatController {
 				Chat chat = new Chat();
 				chat.setChat_no(0);
 				chat.setChat_product_no(room.getProduct_no());
-				chat.setChat_message("채팅방에 입장하셨습니다.");
+				chat.setChat_message("<img th:src='/img/d4c2a163-455b-4e59-bae1-5f14faf505f6.png'>");
 				chat.setChat_send_client_id(room.getSend_id());
 				chat.setChat_receive_client_id(room.getReceive_id());
 				chat.setChat_date(room.getDate());
 				chat.setChat_status(1);
 				repository.save(service.toEntity(chat));
 			}
+			ClientEntity c_entites = c_repository.findId(receive_client_id);
 			JSONArray jsonlist = new JSONArray();
 			JSONObject result = new JSONObject();
 			for (Chat index : chatlist) {
+				LocalDateTime test = index.getChat_date();
+				Date date = Date.from(test.atZone(ZoneId.of("Asia/Seoul")).toInstant());
 				JSONObject temp = new JSONObject();
 				temp.put("product_no", index.getChat_product_no());
 				temp.put("sender", index.getChat_send_client_id());
 				temp.put("receiver", index.getChat_receive_client_id());
 				temp.put("message", index.getChat_message());
-				temp.put("date", index.getChat_date());
+				temp.put("date", date);
+				temp.put("img", c_entites.getClient_img());
+				temp.put("nickname", c_entites.getClient_nickname());
+				System.out.println(c_entites.getClient_nickname());
 				jsonlist.add(temp);
 			}
 			result.put("list", jsonlist);
@@ -142,6 +147,7 @@ public class ChatController {
 			HttpSession session = request.getSession();
 			Client client = null;
 			String findSeller = p_repository.findSeller(product_no);
+			ProductEntity img = p_repository.ProductDetail(product_no);
 			client = (Client) session.getAttribute("client");
 			List<ChatEntity> list = repository.findchatlist(product_no, client.getClient_id());
 			List<Chat> chatlist = new ArrayList<Chat>();
@@ -153,7 +159,11 @@ public class ChatController {
 				Chat chat = new Chat();
 				chat.setChat_no(0);
 				chat.setChat_product_no(product_no);
-				chat.setChat_message("채팅방에 입장하셨습니다.");
+				chat.setChat_message("<img src='/img/"+
+				img.getProduct_img1()+ 
+				"'style=\"width:200px;\"onclick=\"location.href='product_detail?product_no="+
+				product_no+
+				"'\">");
 				chat.setChat_send_client_id(client.getClient_id());
 				chat.setChat_receive_client_id(findSeller);
 				chat.setChat_date(date);

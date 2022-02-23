@@ -46,8 +46,10 @@ public class StompChatController {
 	@MessageMapping(value = "/chat/message")
 	public void message(Chat message) {
 		template.convertAndSend("/sub/chat/room/" + message.getChat_product_no(), message);
+		LocalDateTime date = LocalDateTime.now();
 		if(message != null) {
 			message.setChat_no(0);
+			message.setChat_date(date);
 			message.setChat_status(1);
 			ChatEntity entity = service.toEntity(message);
 			repository.save(entity);

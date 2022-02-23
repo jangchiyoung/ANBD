@@ -69,7 +69,7 @@
 								</button>
 							</div>
 						</div>
-						<a class="btn btn-outline-success" th:href="@{message/room(product_no=${product.product_no})}"> 
+						<a th:if="${session.client.client_id} != ${client.client_id}" class="btn btn-outline-success" th:href="@{message(product_no=${product.product_no})}"> 
 						<span style="font-size: 25px;">아나바다 채팅</span></a>
 					</div>
 					<div class="detail-other">

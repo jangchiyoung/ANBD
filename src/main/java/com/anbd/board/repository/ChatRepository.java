@@ -15,6 +15,6 @@ public interface ChatRepository extends JpaRepository<ChatEntity, Integer>{
 	@Query("select c from ChatEntity c where c.chat.product_no = :product_no and c.chat_send.client_id = :findSeller")
 	List<ChatEntity>findchatlist(@Param("product_no")int product_no, @Param("findSeller")String findSeller) ;
 	
-	@Query("select c from ChatEntity c where c.chat.product_no = :product_no and (c.chat_send.client_id= :send_client_id or c.chat_receive.client_id = :receive_client_id)")
+	@Query("select c from ChatEntity c where c.chat.product_no = :product_no and (c.chat_send.client_id= :send_client_id or c.chat_receive.client_id = :send_client_id) and (c.chat_send.client_id = :receive_client_id or c.chat_receive.client_id = :receive_client_id)")
 	List<ChatEntity>findSendAndReceive(@Param("product_no")int product_no, @Param("send_client_id")String send_client_id, @Param("receive_client_id")String receive_client_id);
 }

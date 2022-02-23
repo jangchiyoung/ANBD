@@ -82,7 +82,9 @@ public class ProductController {
 		List<ProductEntity> product_All_list_et = repository.ProductAll(); // 전체 게시글 리스트
 		// 전체 게시글 리스트
 				for (ProductEntity temp : product_All_list_et) {
-					product_all_list.add(service.toDto(temp));
+					if(temp.getProduct_status().equals("ing")) {
+						product_all_list.add(service.toDto(temp));
+					}
 				}
 		List<ProductEntity> products = new ArrayList<ProductEntity>();
 		List<Product> p = new ArrayList<Product>();
@@ -98,7 +100,8 @@ public class ProductController {
 					}
 				}
 		model.addAttribute("cookie", p); // 전체 회원 리스트
- 		model.addAttribute("items", product_all_list); // 전체 회원 리스트
+		model.addAttribute("address", user.getClient_address()); // 로그인한 주소
+		model.addAttribute("items", product_all_list); // 현재 판매중인 리스트
 		return "main";
 	}
 	// 게시물 등록 페이지
@@ -114,7 +117,7 @@ public class ProductController {
 	}
 	// 게시물 등록
 	@RequestMapping(value = "/anbd/product_register", method =  RequestMethod.POST)
-	public String productRegister(String product_seller_id, Integer product_category_no, String product_name, String product_content, int product_price,
+	public String productRegister(String product_seller_id, Integer product_category_no, String product_name, String product_content, int product_price, String product_address,
 			@RequestParam MultipartFile product_img1, @RequestParam MultipartFile product_img2, @RequestParam MultipartFile product_img3,
 			@RequestParam MultipartFile product_img4, @RequestParam MultipartFile product_img5) 
 					throws IllegalStateException, IOException {
@@ -148,7 +151,7 @@ public class ProductController {
 		}
 		LocalDateTime date = LocalDateTime.now();
 		Product product = new Product(0, product_category_no, product_name, product_content,
-				product_price, randomimg1, randomimg2, randomimg3, randomimg4, randomimg5, product_seller_id, null, 0, 0, "ing", date, null);
+				product_price, randomimg1, randomimg2, randomimg3, randomimg4, randomimg5, product_seller_id, null, 0, 0, "ing", date, null, product_address);
 		String path = "C:\\img";
 		File upfile = null;
 		if (randomimg1 != null) {
@@ -191,8 +194,6 @@ public class ProductController {
 				category_name_list.add(c_service.toDto(temp));
 			}
 		ProductEntity entity = repository.ProductDetail(product_no);	
-		System.out.println(entity);
-		System.out.println(category_name_list);
 		model.addAttribute("category", category_name_list);
 		model.addAttribute("product", entity);
 		return "productModify";
@@ -294,6 +295,7 @@ public class ProductController {
 	public String prodouct_detail(int product_no, Model model, HttpServletRequest request,
 			 HttpServletResponse response) {
 		ProductEntity entity = repository.ProductDetail(product_no);
+		repository.updateReadCount(product_no);
 		Product product = service.toDto(entity);
 		String seller_client_id =product.getProduct_seller_client_id();
 		List<ProductEntity> seller = repository.findSellerID(seller_client_id);

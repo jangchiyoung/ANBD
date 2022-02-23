@@ -31,4 +31,5 @@ public class Product {
 	private String product_status;
 	private LocalDateTime product_date;
 	private LocalDateTime product_done_date;
+	private String product_address;
 }

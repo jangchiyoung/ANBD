@@ -83,4 +83,6 @@ public class ProductEntity {
 	@Column
 	private LocalDateTime product_done_date;
 	
+	@Column
+	private String product_address;
 }

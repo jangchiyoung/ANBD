@@ -21,51 +21,48 @@
 	<section class="content">
 		<div class="main_area">
 			<div class="left_main">
-				<div class="left_main_header">
-					<!-- room 반복 -->
-					<th:block th:each="list : ${roomlist}">
+					<th:block th:each="list, i : ${roomlist}">
+					<div class="left_main_header">
+						<!-- room 반복 -->
 						<div class="S-mcP">
 							<div class="AjEzM ">
-								<div class="">
-									<img th:src="@{/img/} + ${client.client_img }"
+								<div class="user_img">
+									<img th:src="@{/img/} + ${client.get(i.index).client_img }"
+										th:onclick="|location.href='@{userpage(client_id=${client.get(i.index).client_id})}'|"
 										style="cursor: pointer; border-radius: 30px; width: 35px; height: 35px;">
 								</div>
-								<div class="m7ETg">
-									<div class="" style="width: 100%;">
-										<button class="" type="button">
-											<div class="" style="width: 100%;">
-												<div class="lf6L3">
-													<input type="hidden" th:id="'product_no'+${list.chat_product_no}"
-														th:value="${list.chat_product_no }">
-													<input type="hidden" id="receive_id"
-														th:value="${list.chat_receive_client_id }">
-													<div th:onclick="|getChat('${list.chat_product_no}')|">
-													<div style="cursor: pointer;"
-														th:text="${client.client_nickname }"></div>
-													</div>
-												</div>
-											</div>
-										</button>
+								<div class="user_nickname">
+									<div class="">
+										<input type="hidden" th:id="'product_no'+${list.chat_product_no}" th:value="${list.chat_product_no }"> 
+										<th:block th:if="${session.client.client_id} == ${list.chat_send_client_id}">
+										<input  type="hidden" id="receive_id" th:value="${list.chat_receive_client_id }">
+										<div th:onclick="getChat([[${list.chat_product_no}]],[[${list.chat_receive_client_id}]])">
+											<div style="cursor: pointer;" th:text="${client.get(i.index).client_nickname }"></div>
+										</div>
+										</th:block>
+										<th:block  th:if="${session.client.client_id} != ${list.chat_send_client_id}">
+										<input type="hidden" id="receive_id" th:value="${list.chat_send_client_id }">
+										<div th:onclick="getChat([[${list.chat_product_no}]],[[${list.chat_send_client_id}]])">
+											<div style="cursor: pointer;" th:text="${client.get(i.index).client_nickname }"></div>
+										</div>
+										</th:block>
 									</div>
 								</div>
-								<div style="cursor: pointer;" th:text="${product.product_name}"></div>
+								<div class="product_name" th:text="${product.get(i.index).product_name}"></div>
 							</div>
 						</div>
-						<th:block>
-				</div>
+					</div>
+				</th:block>
 			</div>
 		<div class="right_main">
 			<div id="message">
-				<div class="chat_header">
+				<div class="chat_header" id="chat_header">
 					<div class="image_box">
-						<div class="image_table"></div>
+						<div class="image_table" ></div>
+						<img th:src="@{/img/} + ${client.get(0).client_img }" id="user_img"
+										style="cursor: pointer; border-radius: 30px; width: 50px; height: 50px;">
 					</div>
-					<div class="profile-of-article">
-						<img th:src="@{/img/} + ${client.client_img }"
-										style="cursor: pointer; border-radius: 30px; width: 35px; height: 35px;">
-						<h3 class="userID main-id point-span" style="margin-top: 8px;" th:text="${client.client_nickname}"></h3>
-						<h4 class="userID main-id point-span" style="margin-top: 8px;"></h4>
-					</div>
+					<div class="profile-of-article" id= "userNickName"></div>
 				</div>
 				<div id="msgArea" class="chat_description"></div>
 			</div>
@@ -76,144 +73,7 @@
 		<input type="hidden" id="send_id" th:value="${session.client.client_id }">
 		</div>	
 	</section>
-	<script th:inline="javascript">
-		/*<![CDATA[*/
-           const socket = new SockJS('/stomp/chat');
-           const stomp = Stomp.over(socket);
-            
-            let product_no = '';
-            let send_id = '';
-            let receive_id = '';
-            let str = '';
-            stomp.connect({}, function (){
-            	
-            });
-           function getChat(index){
-                var product_no = $('#product_no'+index).val();
-                var send_id = $('#send_id').val();
-                var receive_id = $('#receive_id').val();
-                var date = new Date();
-               	var data  = {
-            		   	product_no   : product_no, 
-            		   	send_id  :  send_id,
-            		   	receive_id : receive_id,
-            		   	date :date
-                       		};
-               
-                  $.ajax({
-                     	type      : "POST",
-                     	url       : "/anbd/message",
-                    	data      :  JSON.stringify(data), 
-                     	contentType : "application/json",
-                    	success    : function(data) {
-                    		
-                         	var msgtext = '';
-                            $("#msgArea").empty();
-                             
-                        	 for(key in data.list){
-                             	if(data.list[key].sender === send_id){
-                              		msgtext = "<div class='right_div'>";
-                              		msgtext += "<div class='mail_right_content'>"+ data.list[key].message+"</div>";
-                               		msgtext += "<div class='mail_right_content'>"+ data.list[key].date+"</div>";
-                              		msgtext += "</div>";
-                              		 $("#msgArea").scrollTop($("#msgArea")[0].scrollHeight);
-                             	}else {
-                               		msgtext = "<div class='left_div'>";
-                               		msgtext += "<div class='mail_id_content'>"+data.list[key].receiver+"</div>";
-                              		msgtext += "<div class='mail_left_content'>"+ data.list[key].message+"</div>";
-                              		msgtext += "<div class='mail_left_content'>"+ data.list[key].date+"</div>";
-                              		msgtext += "</div>";
-                              		 $("#msgArea").scrollTop($("#msgArea")[0].scrollHeight);
-                            	 }
-                           	 		 $("#msgArea").append(msgtext);
-                       		  }
-                                  
-                         		$("#aas").empty();
-                           		 var str2 = '';
-                            		 str2  = "<input type='text' id='msg' onkeyup='if(window.event.keyCode==13){sendMsg()}' class='form-control' style='width:500px'>";
-                                	 str2 += "<div class='input-group-append'>";
-                                	 str2 += "<input type='hidden' id='product_no' value='"+product_no+"'>";
-                               		 str2 += "<input type='hidden' id='send_id' value='"+send_id+"'>";
-                               		 str2 += "<input type='hidden' id='receive_id' value='"+receive_id+"'>";
-                               		 str2 += "<input type='hidden' id='date' value='"+date+"'>";
-                                	 str2 += "<button class='btn btn-outline-secondary' type='button' onclick='sendMsg()' id='button-send'>전송</button>";
-                                	 str2 += "</div>";
-                                
-                                $("#aas").append(str2);
-                                   
-                                 product_No = product_no;
-                                 send_Id = send_id;
-                                 receive_Id = receive_id; 
-                                 dateTime = date;
-                                 
-                        		 stomp.unsubscribe(product_No);
-                                 stomp.subscribe("/sub/chat/room/" + product_No, function (chat) {
-                                   var content = JSON.parse(chat.body);
-                                   var sid = content.chat_send_client_id;
-                                   
-                                   if(send_id == sid){
-                                       str = "<div class='right_div'>";
-                                       str += "<div class='mail_right_content'>"+ content.chat_message+"</div>";
-                                       str += "<div class='mail_right_content'>"+ dateTime+"</div>";
-                                       str += "</div>";
-                                   $("#msgArea").append(str);
-                                   str='';
-                                   $("#msgArea").scrollTop($("#msgArea")[0].scrollHeight);
-                                   }
-                                   else {
-                                       str = "<div class='left_div'>";
-                                       str += "<div class='mail_id_content'>"+ content.chat_receive_client_id+"</div>";
-                                       str += "<div class='mail_left_content'>"+ content.chat_message+"</div>";
-                                       str += "<div class='mail_left_content'>"+ dateTime+"</div>";
-                                       str += "</div>";
-                                   $("#msgArea").append(str);
-                                   str='';
-                                   $("#msgArea").scrollTop($("#msgArea")[0].scrollHeight);
-                                   }
-                     },{id:product_No});
-                      },
-                      error      : function(error) {
-                         console.log(error);
-                      }
-                  });
-             }
-             
-               function sendMsg(){
-                    var msg = document.getElementById("msg");
-                    stomp.send('/pub/chat/message', {},
-                    		
-                    JSON.stringify({
-                    	chat_product_no: product_No, 
-                    	chat_message: msg.value, 
-                    	chat_send_client_id: send_Id,
-                    	chat_receive_client_id : receive_Id, 
-                    	chat_date : dateTime
-                    }));
-                    msg.value = '';
-                };
-                
-                
-                function sendMsg(){
-                    var msg = document.getElementById("msg");
-                    stomp.send('/pub/chat/message', {},
-                    		
-                    JSON.stringify({
-                    	chat_product_no: product_No, 
-                    	chat_message: msg.value, 
-                    	chat_send_client_id: send_Id,
-                    	chat_receive_client_id : receive_Id, 
-                    	chat_date : dateTime
-                    }));
-                    msg.value = '';
-                };
-                const input = document.getElementById("msg");
-                input.addEventListener('keyup',function(e){
-                    if (e.keyCode === 13) {
-                       sendMsg();
-                  }  
-                });
-                /*]]>*/
-        </script>
 	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+	<script type="text/javascript" th:src="@{/js/chat.js}"></script>
 </body>
 </html>

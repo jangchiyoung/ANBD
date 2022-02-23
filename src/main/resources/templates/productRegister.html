@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>상품등록</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/productRegister.css}">
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
  <div th:replace="/fragments/header.html :: fragment-header"></div>
@@ -96,6 +97,16 @@
 									</div>
 								</dd>
 							</dl>
+							<dl id="product_address">
+								<dt>
+									<label style="color: rgb(0, 0, 0);">거래동네</label>
+								</dt>
+								<dd>
+									<input class="input" type="text" id="address" name="product_address" placeholder="주소입력"  readonly="readonly" required="required"> 
+									<input class="input address_select" type="button" value="주소검색" onclick="findAddr()"> 
+									<span class="annotation"></span>
+								</dd>
+							</dl>
 						</div>
 					</div>
 					<div class="item_submit_box">
@@ -111,6 +122,34 @@
 	</div>
 </section>
 	<script type="text/javascript" th:src="@{/js/imgUpload.js}"></script>
+	<script type="text/javascript">
+	// 다음 주소 API
+	function findAddr() {
+		daum.postcode.load(function() {
+			new daum.Postcode({
+				oncomplete : function(data) {
+					// 각 주소의 규칙에 따라 주소 조합
+					// 가져올 변수가 없을때는 공백을 가지기 때문에 이를 참고해 분기한다고 한다
+					var addr = ''; //주소 변수
+					// 사용자가 선택한 주소타입(도로명/지번)에 따라 해당 값 가져오기
+					// 만약 사용자가 도로명 주소를 선택했을 때
+					if (data.userSelectedType == 'R') {
+						addr += data.sido+" ";
+						addr += data.sigungu+" ";
+						addr += data.bname;
+						// 만약 사용자가 구주소를 선택했을 때
+					} else {
+						addr += data.sido+" ";
+						addr += data.sigungu+" ";
+						addr += data.bname;
+					}
+					// 주소정보
+					document.getElementById('address').value = addr;
+				}
+			}).open();
+		});
+	}
+	</script>
 	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
 </body>
 </html>

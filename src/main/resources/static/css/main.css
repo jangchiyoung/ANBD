@@ -55,17 +55,19 @@
 }
 #mainBanner {
     display: block;
-    height: 500
-px
-;
+    height: 500px;
     position: relative;
-    border-bottom: 1
-px
- solid #eee;
+    border-bottom: 1px solid #eee;
 }
 
 @media screen and (max-width: 768px) {
    .row h2 {
       display: none;
    }
+}
+
+.kakaoImg {
+	width: 100px;
+	height: 100px;
+	cursor: pointer;
 }

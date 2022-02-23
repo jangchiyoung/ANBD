@@ -23,15 +23,23 @@
 					<div class="main">
 						<div class="my_profile_left">
 							<div class="my_profile_info">
+							<div class="filebox">
+								<form action="imgModify" method="post" enctype="multipart/form-data">
 								<div class="my_profile_image">
-									<img th:src="@{/img/} +${client.client_img}">
+									<img th:src="@{/img/} +${client.client_img}" id="preview-image">
+										<label for="input-image"></label> 
+										<input type="file" id="input-image" name="client_img">
+										<input type="hidden" name="client_id" th:value="${client.client_id}">
 								</div>
+										<input type="submit" class="imgChange" value="변경">
+								</form>		
+							</div>
 								<div class="my_profile_nick" th:text="${client.client_nickname}"></div>
 								<div class="my_profile_pro_review">
 									<div class="my_profile_pro_review_box">
 										<a class="list-group-item" th:href="@{modify(client_id=${client.client_id})}"> <i class="bi bi-info-circle" style="margin-right: 10px;"></i>개인 정보 변경</a>
                     					<a class="list-group-item" th:href="@{mypage(client_id=${client.client_id})}"> <i class="bi bi-bag-plus" style="margin-right: 10px;"></i>판매 물품 관리<span class="badge badge-success" th:text="${p_cnt}"></span></a>
-                    					<a class="list-group-item" th:href="@{purchaseList(client_id=${client.client_id})}"><i class="bi bi-bag-fill" style="margin-right: 10px;"></i>구매 내역<span class="badge badge-success">${cnt.buy }</span></a>
+                    					<a class="list-group-item" th:href="@{purchaseList(client_id=${client.client_id})}"><i class="bi bi-bag-fill" style="margin-right: 10px;"></i>구매 내역<span class="badge badge-success" th:text="${b_cnt}"></span></a>
                     					<a class="list-group-item" th:href="@{salesList(client_id=${client.client_id})}"> <i class="bi bi-journal-text" style="margin-right: 10px;"></i>판매 내역<span class="badge badge-success" th:text="${s_cnt}"></span></a>
 	                   					<a class="list-group-item" th:href="@{favoritesList(client_id=${client.client_id})}"><i class="bi bi-heart-fill" style="margin-right: 10px;"></i>관심 목록<span class="badge badge-success"th:text="${f_cnt}"></span></a>
 									</div>
@@ -112,15 +120,5 @@
 	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
 	
 	<script type="text/javascript" th:src="@{/js/modify.js}"></script>
-	<script type="text/javascript">
-	function modalPassword() {
-		const password = document.querySelector('#div_pw'); 
-		const new_password = document.querySelector('#div_new_pw'); 
-		const new_passowrd_ck = document.querySelector('#div_new_pw_ck'); 
-		password.style.display = 'inline';
-		new_password.style.display = 'inline';
-		new_passowrd_ck.style.display = 'inline';
-	}
-	</script>
 </body>
 </html>

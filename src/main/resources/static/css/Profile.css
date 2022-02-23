@@ -151,6 +151,10 @@ a, address, article, aside, b, big, body, center, code, dd, details, div, dl, dt
     left: 0;
     width: 220px;
     height: 220px;
+    
+}
+.thumbnail_img {
+	z-index: 2;
 }
 .cont .item_price {
     color: #000;
@@ -185,9 +189,11 @@ a, address, article, aside, b, big, body, center, code, dd, details, div, dl, dt
 }
 .modifyimg {
 	width: 38px;
+	z-index: 1;
 }
 .deleteimg {
 	width: 38px;
+	z-index: 1;
 }
 .input {
     width: 45%;
@@ -232,4 +238,63 @@ a, address, article, aside, b, big, body, center, code, dd, details, div, dl, dt
 }
 .hi {
 	display: none;
+}
+.filebox label {
+    position: absolute;
+    color: rgb(153, 153, 153);
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: bottom;
+    cursor: pointer;
+    padding: 0.5em 0.75em;
+    border-width: 1px;
+    border-style: solid;
+    border-image: initial;
+    border-radius: 0.25em;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    left: 0;
+}
+.filebox input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(0px, 0px, 0px, 0px);
+    padding: 0px;
+    margin: -1px;
+    overflow: hidden;
+    border-width: 0px;
+    border-style: initial;
+    border-color: initial;
+    border-image: initial;
+}
+.rounded-circle {
+    border-radius: 50%!important;
+}
+.imgChange {
+	position: absolute;
+	color: rgb(153, 153, 153);
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: bottom;
+	background-color: rgb(253, 253, 253);
+	cursor: pointer;
+	padding: 0.5em 0.75em;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(235, 235, 235) rgb(235, 235, 235) rgb(226, 226, 226);
+	border-image: initial;
+	border-radius: 0.25em;
+	margin-left: 160px;
+    margin-top: -40px;
+}
+.thumbnail_state_img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    transform: translate(0%,0%);
+    z-index: 1;
 }

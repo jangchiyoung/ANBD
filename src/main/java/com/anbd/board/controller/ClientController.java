@@ -1,8 +1,11 @@
 package com.anbd.board.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,7 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.anbd.board.Hash;
 import com.anbd.board.entity.ClientEntity;
@@ -55,13 +60,20 @@ public class ClientController {
 	public String mypage(String client_id, HttpServletRequest request, Model model) {
 		ClientEntity user = repository.findId(client_id);
 		String product_status = "end";
+		String product_ing = "ing";
+		List<Product> product_ing_list = new ArrayList<Product>();
 		List<ProductEntity> seller = p_repository.findSellerID(client_id);
-		Integer p_cnt  = p_repository.ProductCnt(client_id);
+		for (ProductEntity temp : seller) {
+			if(temp.getProduct_status().equals("ing")) {
+				product_ing_list.add(p_service.toDto(temp));
+			}
+		}
+		Integer p_cnt  = p_repository.ProductCnt(client_id,product_ing);
 		Integer f_cnt  = f_repository.FavoritesCnt(client_id);
 		Integer s_cnt  = p_repository.SalesCnt(client_id,product_status);
 		Integer b_cnt  = p_repository.PurchaseCnt(client_id,product_status);
 		
-		model.addAttribute("seller_list",seller);
+		model.addAttribute("seller_list",product_ing_list);
 		model.addAttribute("p_cnt",p_cnt);
 		model.addAttribute("s_cnt",s_cnt);
 		model.addAttribute("b_cnt",b_cnt);
@@ -72,8 +84,9 @@ public class ClientController {
 	@RequestMapping(value = "/anbd/userpage")
 	public String userpage(String client_id, HttpServletRequest request, Model model) {
 		ClientEntity user = repository.findId(client_id);
+		String product_status = "ing";
 		List<ProductEntity> seller = p_repository.findSellerID(client_id);
-		Integer p_cnt  = p_repository.ProductCnt(client_id);
+		Integer p_cnt  = p_repository.ProductCnt(client_id,product_status);
 		Integer f_cnt  = f_repository.FavoritesCnt(client_id);
 		
 		model.addAttribute("seller_list",seller);
@@ -86,6 +99,7 @@ public class ClientController {
 	@RequestMapping(value = "/anbd/favoritesList")
 	public String favoritesList(String client_id, HttpServletRequest request, Model model) {
 		String product_status = "end";
+		String product_ing = "ing";
 		ClientEntity user = repository.findId(client_id);
 		List<FavoritesEntity> favoritesID = f_repository.findFavoritesID(client_id);
 		List<Favorites> result = new ArrayList<Favorites>();
@@ -98,7 +112,7 @@ public class ClientController {
 	    	  ProductList.add(p_service.toDto(p_repository.getById(temp.getFavorites_product_no())));
 	      };
 		
-	    Integer p_cnt  = p_repository.ProductCnt(client_id);
+	    Integer p_cnt  = p_repository.ProductCnt(client_id,product_ing);
 		Integer f_cnt  = f_repository.FavoritesCnt(client_id);
 		Integer s_cnt  = p_repository.SalesCnt(client_id,product_status);
 		Integer b_cnt  = p_repository.PurchaseCnt(client_id,product_status);
@@ -125,12 +139,15 @@ public class ClientController {
 	public String salesList(String client_id, HttpServletRequest request, Model model) {
 		ClientEntity user = repository.findId(client_id);
 		String product_status = "end";
+		String product_ing = "ing";
 		List<Product> prodcut_list = new ArrayList<Product>();
 		List<ProductEntity> productID = p_repository.findsalesList(client_id,product_status);
 			for (ProductEntity temp : productID) {
-				prodcut_list.add(p_service.toDto(temp));
+				if(temp.getProduct_status().equals("end")) {
+					prodcut_list.add(p_service.toDto(temp));
+				}
 			}
-	    Integer p_cnt  = p_repository.ProductCnt(client_id);
+	    Integer p_cnt  = p_repository.ProductCnt(client_id,product_ing);
 	    Integer s_cnt  = p_repository.SalesCnt(client_id, product_status);
 	    Integer b_cnt  = p_repository.PurchaseCnt(client_id, product_status);
 		Integer f_cnt  = f_repository.FavoritesCnt(client_id);
@@ -149,12 +166,13 @@ public class ClientController {
 		public String purchaseList(String client_id, HttpServletRequest request, Model model) {
 			ClientEntity user = repository.findId(client_id);
 			String product_status = "end";
+			String product_ing = "ing";
 			List<Product> prodcut_list = new ArrayList<Product>();
 			List<ProductEntity> productID = p_repository.findpurchaseList(client_id,product_status);
 				for (ProductEntity temp : productID) {
 					prodcut_list.add(p_service.toDto(temp));
 				}
-		    Integer p_cnt  = p_repository.ProductCnt(client_id);
+		    Integer p_cnt  = p_repository.ProductCnt(client_id,product_ing);
 		    Integer s_cnt  = p_repository.SalesCnt(client_id, product_status);
 			Integer b_cnt  = p_repository.PurchaseCnt(client_id, product_status);
 			Integer f_cnt  = f_repository.FavoritesCnt(client_id);
@@ -173,14 +191,16 @@ public class ClientController {
 		ClientEntity user = repository.findId(client_id);
 		String product_status = "end";
 		List<ProductEntity> seller = p_repository.findSellerID(client_id);
-		Integer p_cnt  = p_repository.ProductCnt(client_id);
+		Integer p_cnt  = p_repository.ProductCnt(client_id,product_status);
 		Integer s_cnt  = p_repository.SalesCnt(client_id, product_status);
+		Integer b_cnt  = p_repository.PurchaseCnt(client_id, product_status);
 		Integer f_cnt  = f_repository.FavoritesCnt(client_id);
 		
 		model.addAttribute("seller_list",seller);
 		model.addAttribute("p_cnt",p_cnt);
 		model.addAttribute("f_cnt",f_cnt);
 		model.addAttribute("s_cnt",s_cnt);
+		model.addAttribute("b_cnt",b_cnt);
 		model.addAttribute("client",user);
 		return "modify";
 	}
@@ -292,5 +312,36 @@ public class ClientController {
 		JSONObject data = new JSONObject();
 		data.put("client_password", temp);
 		return data;
+	}
+	
+	@RequestMapping(value = "/anbd/imgModify", method = RequestMethod.POST)
+	public String updateimg(@RequestParam MultipartFile client_img, String client_id, HttpSession session)
+			throws IllegalStateException, IOException {
+		ClientEntity entity = repository.findById(client_id).get();
+		Client user = service.toDto(entity);
+		Client login = (Client) session.getAttribute("client");
+
+		if (login == null) {
+			return "redirect:/anbd/main";
+		}
+		String randomimg = null;
+		randomimg = UUID.randomUUID().toString() + client_img.getOriginalFilename();
+		String path = "C:\\img";
+		File upfile = null;
+		if (randomimg != null) {
+			String img = path + "\\" + randomimg;
+			upfile = new File(img);
+			client_img.transferTo(upfile);
+		}
+
+		user.setClient_img(randomimg);
+		entity = service.toEntity(user);
+		entity = repository.save(entity);
+
+		session.removeAttribute("client");
+		session.setAttribute("client", service.toDto(entity));
+
+		return "redirect:modify?client_id=" + client_id;
+
 	}
 }

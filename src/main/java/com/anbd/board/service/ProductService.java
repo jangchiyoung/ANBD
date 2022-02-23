@@ -29,6 +29,7 @@ public interface ProductService {
 				.product_status(dto.getProduct_status())
 				.product_date(dto.getProduct_date())
 				.product_done_date(dto.getProduct_done_date())
+				.product_address(dto.getProduct_address())
 				.build();
 	}
 	
@@ -52,6 +53,7 @@ public interface ProductService {
 				.product_status(entity.getProduct_status())
 				.product_date(entity.getProduct_date())
 				.product_done_date(entity.getProduct_done_date())
+				.product_address(entity.getProduct_address())
 				.build();
 	}
 }

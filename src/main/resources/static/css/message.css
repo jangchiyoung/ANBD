@@ -34,7 +34,7 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big,
 }
 
 .left_main {
-	width: 270px;
+	width: 35%;
 	height: 77vh;
 	border: 2px solid #ebebeb;
 	background-color: #fff;
@@ -156,7 +156,7 @@ a {
 }
 
 .right_main {
-	width: 686px;
+	width: 66%;
 	height: 77vh;
 	border: 2px solid #ebebeb;
 	background-color: #fff;
@@ -312,6 +312,7 @@ button {
     right: 0;
     float: right;
     flex-direction: row-reverse;
+    display: inline-flex;
 }
 .left_div {
 	margin-bottom: 1em;
@@ -322,6 +323,7 @@ button {
     bottom: 49px;
     left: 0;
     right: 0;
+    display: inline-flex;
 }
 
 .mail_id_content {
@@ -364,26 +366,39 @@ button {
     float: right;
     width: max-content;
     padding: 9px 12px;
-    border-radius: 50px;
+    border-radius: 16px;
     font-size: 13.5px;
     color: #000;
     display: flex;
     position: relative;
     text-align: left;
+    max-width: 47%;
+}
+.mail_right_time {
+    font-size: 11.5px;
+    color: #000;
+    margin-top: auto;
 }
 .mail_left_content {
 	background-color: #fff;
 	border: 1px solid #ebebeb;
-    margin-left: 21px;
+    margin-left: 7px;
     float: left;
     text-align: center;
     width: max-content;
     padding: 9px 12px;
-    border-radius: 50px;
+    border-radius: 16px;
     font-size: 13.5px;
     color: #000;
     margin-top: 10px;
     display: flex;
+    position: relative;
+    max-width: 47%;
+}
+.mail_left_time {
+	font-size: 11.5px;
+    color: #000;
+	margin-top: auto;
 }
 .profile_div {
 	width: 200px;
@@ -429,6 +444,8 @@ button {
     z-index: 2;
 }
 .AjEzM {
+	display:flex;
+	flex-direction:row;
     -webkit-box-align: center;
     -webkit-align-items: center;
     -ms-flex-align: center;
@@ -453,4 +470,18 @@ button {
     overflow: auto;
     height: calc(77vh - 151px);
     border-bottom: 1px solid #ebebeb;
+}
+.user_nickname {
+	width: 60%;
+	text-align: center;
+}
+.product_name {
+	width:180px;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    height: 24px;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 }

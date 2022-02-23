@@ -230,4 +230,32 @@
 	       });
 		}
 	    }; 
+	    function modalPassword() {
+		const password = document.querySelector('#div_pw'); 
+		const new_password = document.querySelector('#div_new_pw'); 
+		const new_passowrd_ck = document.querySelector('#div_new_pw_ck'); 
+		password.style.display = 'inline';
+		new_password.style.display = 'inline';
+		new_passowrd_ck.style.display = 'inline';
+	}
+	//이미지 변경
+	function readImage(input) {
+	    if(input.files && input.files[0]) {
+	        const reader = new FileReader()
+	        reader.onload = e => {
+	            const previewImage = document.getElementById("preview-image")
+	            previewImage.src = e.target.result
+	        }
+	        reader.readAsDataURL(input.files[0])
+	    }
+	} 
+	const inputImage = document.getElementById("input-image")
+	inputImage.addEventListener("change", e => {
+	    readImage(e.target)
+	})
+	var str = document.getElementById("#instruction").value;
+
+	str = str.replaceAll("<br/>", "\r\n");
+
+	document.getElementById("#instruction").value = str;
 	  /*]]>*/

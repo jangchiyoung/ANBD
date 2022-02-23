@@ -7,12 +7,13 @@
 <title>아나바다</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/css/cookie.css}">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=890db594e0dcf442f16354f3d1d351b7&libraries=services,clusterer,drawing"></script>
 </head>
 <body>
 	<div th:replace="/fragments/header.html :: fragment-header"></div>
-
+	
+		
 	<section class="home-main-section" style="display: flex;">
-
 		<div class="row" style="width: 90%;">
 			<h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">오늘의 상품 추천</h2>
 			<th:block th:each="item : ${items}" name="value">
@@ -28,6 +29,9 @@
 							<span class="card-span"
 								th:text="|${#temporals.format(item.product_date, 'MMM dd일 HH:mm')}|"></span><i
 								class="bi bi-heart-fill"></i>
+							<input class="product_address" type="text" th:id="'ad'+${item.product_no}" th:value="${item.product_address}"></input>
+							<input class="product_no" type="text" th:id="'product_no'+${item.product_no}" th:value="${item.product_no}">
+							<div th:onload="getAddress([[${item.product_no}]])"></div>
 						</div>
 					</div>
 				</div>
@@ -35,6 +39,7 @@
 			<div id="add"></div>
 			<button id="get" class="getList"
 				onclick="getList('${StartNo }','${EndNo }')">더보기</button>
+				<div id="map" style="width:1000px;height:700px;"></div>
 			<div class="scroll_top_btn_warpper">
 				<div class="scroll_top_btn">
 					<a href="#header"></a> <img id="back-to-top"
@@ -57,6 +62,7 @@
 				</div>
 			</div>
 		</div>
+		<input type="hidden" id="user_address" th:value="${address}">
 	</section>
 	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
 	<script type="text/javascript">
@@ -67,6 +73,81 @@
 		document.cookie = cookie_name+ "=" + "" + expires + "; path=/ANBD"; 
 		location.reload();
 	}
+	</script>
+	
+	<script th:inline="javascript">
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+    mapOption = { 
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 3, // 지도의 확대 레벨
+    };
+ 
+	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+	
+	//주소-좌표 변환 객체를 생성합니다
+	var geocoder = new kakao.maps.services.Geocoder();
+	 
+	var noList = new Array();
+	var adrList = new Array();
+	var nameList = new Array();
+	var imgList = new Array();
+	
+	var rdnList =[[${items}]];
+	 
+	for(var k in rdnList){    
+	    var $obj = rdnList[k];
+	    var aa =  $obj.product_address;
+	    var bb  =  $obj.product_name;
+	    var cc  =  $obj.product_img1;
+	    var dd  =  $obj.product_no;
+	    adrList.push(aa);
+	    nameList.push(bb);
+	    imgList.push(cc);
+	    noList.push(dd);
+	}
+	 
+	//주소 리스트 
+	adrList.forEach(function(aa, index){
+	    // 주소로 좌표를 검색합니다
+	    geocoder.addressSearch(aa, function(result, status) {
+	        // 정상적으로 검색이 완료됐으면 
+	         if (status === kakao.maps.services.Status.OK) {
+	    
+	            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	            
+	            // 결과값으로 받은 위치를 마커로 표시합니다
+	            var marker = new kakao.maps.Marker({
+	                map: map,
+	                position: coords,
+	                clickable: true
+	            });
+	            
+	         	// 마커에 클릭이벤트를 등록합니다
+	            kakao.maps.event.addListener(marker, 'click', function() {
+	                  // 마커 위에 인포윈도우를 표시합니다
+	                  infowindow.open(map, marker);  
+	            });
+	            var content = '<div class="overlay_info" onclick="location.href='+"'product_detail?product_no="+noList[index] +"'\">";
+	            content += "	<div><img class='kakaoImg' src='/img/"+ imgList[index] +"'></div>";
+	            content += '   		<div><span>' + nameList[index] +'</span></div>';
+	            content += '        <span class="address">'+ adrList[index]  +'</span>';
+	            content += '</div>',iwRemoveable = true;
+	    
+	            // 인포윈도우로 장소에 대한 설명을 표시합니다
+	            var infowindow = new kakao.maps.InfoWindow({
+	                //  content: nameList[index], 
+	                content: content,
+	                position: coords,
+	                   removable : iwRemoveable
+	            });
+	    
+	            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	            if(index == 0){
+	                map.setCenter(coords);    
+	            }
+	        } 
+	    });    
+	}); 
 	</script>
 </body>
 </html>
