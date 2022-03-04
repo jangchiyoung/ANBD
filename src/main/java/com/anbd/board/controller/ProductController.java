@@ -362,20 +362,39 @@ public class ProductController {
 	}
 	
 	
-	@RequestMapping(value = "/anbd/product_seach", method = RequestMethod.POST)
-	public String prodouct_seach(String search_name, Model model, HttpServletRequest request,
+	@RequestMapping(value = "/anbd/product_search", method = RequestMethod.POST)
+	public String prodouct_search(String search_name, Model model, HttpServletRequest request,
 			 HttpServletResponse response) {
 		String product_status = "ing";
 		List<Product> product_seach_list = new ArrayList<Product>();
-		List<ProductEntity >entity = repository.Seach(search_name);
+		List<ProductEntity >entity = repository.Search(search_name);
 				for (ProductEntity temp : entity) {
 					if(temp.getProduct_status().equals("ing")) {
 						product_seach_list.add(service.toDto(temp));
 					}
 				}
-		int cnt = repository.SeachCnt(search_name, product_status);
+		int cnt = repository.SearchCnt(search_name, product_status);
 		model.addAttribute("seach_list",product_seach_list);
 		model.addAttribute("seach_name",search_name);
+		model.addAttribute("cnt",cnt);
+		return "product_seach";
+	}
+	
+	@RequestMapping(value = "/anbd/category", method = RequestMethod.GET)
+	public String category_search(String category, Model model, HttpServletRequest request,
+			 HttpServletResponse response) {
+		String product_status = "ing";
+		int category_no = c_repository.findCategory_no(category);
+		List<Product> product_seach_list = new ArrayList<Product>();
+		List<ProductEntity >entity = repository.Category_list(category_no);
+				for (ProductEntity temp : entity) {
+					if(temp.getProduct_status().equals("ing")) {
+						product_seach_list.add(service.toDto(temp));
+					}
+				}
+		int cnt = repository.category_SearchCnt(category_no, product_status);
+		model.addAttribute("seach_list",product_seach_list);
+		model.addAttribute("seach_name",category);
 		model.addAttribute("cnt",cnt);
 		return "product_seach";
 	}

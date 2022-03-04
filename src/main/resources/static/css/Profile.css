@@ -1,7 +1,7 @@
 @charset "UTF-8";
 .content, .content_modal {
     width: 100%;
-    margin-top: 100px;
+    margin-top: 150px;
 }
 .item_list_area {
     width: 990px;
@@ -10,7 +10,7 @@
     overflow: hidden;
 }
 .breadcrumbs {
-    margin: 33px 0 24px 10px;
+    margin: 33px 0px 0px 0px;
 }
 ul {
     list-style: none;

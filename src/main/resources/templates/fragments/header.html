@@ -6,7 +6,7 @@
 			<div class="container-fluid">
 				<a href="/anbd/main"><img th:src="@{/img/logo.png}"
 					class="img-logo me-auto" width="100" height="74"></a>
-				<form class="d-flex" action="/anbd/product_seach" method="post"
+				<form class="d-flex" action="/anbd/product_search" method="post"
 					name="formname" accept-charset="UTF-8">
 					<input class="form-control searchbox" type="text"
 						onkeyup="enterkey()" name="search_name" placeholder="물건명을 입력해보세요!">
@@ -48,6 +48,165 @@
 				</div>
 			</div>
 		</nav>
+		<div class="category_body">
+		<div class="category_wrapper">
+			<div class="category_box" th:onclick="c_listOpen()" id="open">
+				<span class="category_span">카테고리</span>
+			</div>
+			<div class="board_box">
+				<span class="category_span">게시판</span>
+			</div>
+			<div class="neighborhood_box">
+				<span class="category_span">우리동네소식</span>
+			</div>
+			<div class="neighborhood_box">
+				<span class="category_span">고객센터</span>
+			</div>
+			<div class="neighborhood_box" th:onclick="|location.href='@{productRegister}'|">
+				<span class="category_span">판매하기</span>
+			</div>
+		</div>
+		</div>
+		<div class="cat_list_box" id=c_list>
+			<nav>
+				<ul class="cat_list mobile_cat_list_none">
+					<li class="cat_space"></li>
+					<li class="cat_space"></li>
+					<li class="cat_space"></li>
+					<li class="cat_space"></li>
+					<li class="cat_space"></li>
+					<li class="cat_space"></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=자동차}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hfa0000.png"
+							alt="자동차" class="category_img"><span class="category_text">자동차</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=핸드메이드}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hba0000.png"
+							alt="핸드메이드" class="category_img"><span
+							class="category_text">핸드메이드</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=휴대폰,태블릿}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hak0000.png"
+							alt="휴대폰, 태블릿" class="category_img"><span
+							class="category_text">휴대폰,태블릿</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=가구}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_haf0000.png"
+							alt="가구" class="category_img"><span class="category_text">가구</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=문구}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_haw0000.png"
+							alt="문구" class="category_img"><span class="category_text">문구</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=자동차용품}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_har0000.png"
+							alt="자동차용품" class="category_img"><span
+							class="category_text">자동차용품</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=유야동,완구}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hae0000.png"
+							alt="유아동,완구" class="category_img"><span
+							class="category_text">유아동,완구</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=컴퓨터,주변기기}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hai0000.png"
+							alt="컴퓨터,주변기기" class="category_img"><span
+							class="category_text">컴퓨터,주변기기</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=생활}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hag0000.png"
+							alt="생활" class="category_img"><span class="category_text">생활</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=스타굿즈}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hax0000.png"
+							alt="스타굿즈" class="category_img"><span class="category_text">스타굿즈</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=반려동품용품}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_pet_goods.png"
+							alt="반려동물용품" class="category_img"><span
+							class="category_text">반려동물용품</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=바이크}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hfb0000.png"
+							alt="바이크" class="category_img"><span class="category_text">바이크</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=뷰티}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_had0000.png"
+							alt="뷰티" class="category_img"><span class="category_text">뷰티</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=카메라}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_haj0000.png"
+							alt="카메라" class="category_img"><span class="category_text">카메라</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=골동품,희귀품}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hat0000.png"
+							alt="골동품,희귀품" class="category_img"><span
+							class="category_text">골동품,희귀품</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=RC카,드론}">
+						<img src="https://ccimage.hellomarket.com/web/2019/common/cate_hfd0000.png"
+							alt="RC카, 드론" class="category_img"><span
+							class="category_text">RC카, 드론</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=포장식품}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hau0000.png"
+							alt="포장식품" class="category_img"><span class="category_text">포장식품</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=바이크용품}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_motorcycle_goods.png"
+							alt="바이크용품" class="category_img"><span
+							class="category_text">바이크용품</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=여성의류}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_haa0000.png"
+							alt="여성의류" class="category_img"><span class="category_text">여성의류</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=디지털,가전}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hah0000.png"
+							alt="디지털,가전" class="category_img"><span
+							class="category_text">디지털,가전</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=여행,숙박}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hga0000.png"
+							alt="여행,숙박" class="category_img"><span
+							class="category_text">여행,숙박</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=피규어,키덜트}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hav0000.png"
+							alt="피규어,키덜트" class="category_img"><span
+							class="category_text">피규어,키덜트</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=부동산}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hca0000.png"
+							alt="부동산" class="category_img"><span class="category_text">부동산</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=스포츠,레저}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hao0000.png"
+							alt="스포츠,레저" class="category_img"><span
+							class="category_text">스포츠,레저</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=남성의류}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hab0000.png"
+							alt="남성의류" class="category_img"><span class="category_text">남성의류</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=CD,DVD}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hal0000.png"
+							alt="CD,DVD" class="category_img"><span
+							class="category_text">CD,DVD</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=티켓}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_haq0000.png"
+							alt="티켓" class="category_img"><span class="category_text">티켓</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=예술,미술}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_has0000.png"
+							alt="예술,미술" class="category_img"><span
+							class="category_text">예술,미술</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=기타}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hzz0000.png"
+							alt="기타" class="category_img"><span class="category_text">기타</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=게임}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_han0000.png"
+							alt="게임" class="category_img"><span class="category_text">게임</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=신발,가방,잡화}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hac0000.png"
+							alt="신발,가방,잡화" class="category_img"><span
+							class="category_text">신발,가방,잡화</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=음향기기,악기}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_ham0000.png"
+							alt="음향기기,악기" class="category_img"><span
+							class="category_text">음향기기,악기</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=도서}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hap0000.png"
+							alt="도서" class="category_img"><span 
+							class="category_text">도서</span></a></li>
+					<li class="category"><a class="cat_link" th:href="@{/anbd/category?category=재능,서비스}">
+						<img src="https://ccimage.hellomarket.com/web/2018/common/category/cate_hda0000.png"
+							alt="재능,서비스" class="category_img"><span
+							class="category_text">재능,서비스</span></a></li>
+					<li class="category_blank"></li>
+					<li class="category_blank"></li>
+					<li class="category_blank"></li>
+					<li class="category_blank"></li>
+					<li class="category_blank"></li>
+					<li class="category_blank"></li>
+					<li class="category_blank"></li>
+				</ul>
+			</nav>
+		</div>
 	</div>
 </div>
 </html>
