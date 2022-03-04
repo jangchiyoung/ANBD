@@ -1,44 +1,53 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <div class="header fixed-top" th:fragment="fragment-header">
-<div class="container fixed-top">
-<nav class="navbar  navbar-expand-lg">
-  <div class="container-fluid">
-   <a href="/anbd/main"><img th:src="@{/img/logo.png}" class="img-logo me-auto" width="100" height="74"></a>
-      <form class="d-flex" action="SearchAction.do" method="post" name="formname"  accept-charset="UTF-8">
-        <input class="form-control searchbox" type="text" onkeyup="enterkey()" name="search_name" placeholder="물건명을 입력해보세요!" >
-        <button id="header-search-button" class="header-search-button">
-          <img class="fixed-search-icon" alt="Search" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/base/header/search-icon-7008edd4f9aaa32188f55e65258f1c1905d7a9d1a3ca2a07ae809b5535380f14.svg">
-        </button>
-      </form>
-    <div class="collapse navbar-collapse ">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-gr">
-        <th:block th:if="${session.client} ==null">
-        <li class="nav-item">
-          <a class="btn btn-outline-success" th:href="@{login}">로그인</a>
-          <a class="btn btn-outline-success" th:href="@{join}">회원가입</a>
-        </li>
-        </th:block>
-      <th:block th:if="${session.client != null and session.client.client_id != 'admin'}">
-        <li class="nav-item">
-         	<img class="img_profile" th:src="@{/img/messge.png}" th:onclick="|location.href='@{messages}'|">
-         	<div class="chat_cnt" id="mail_cnt">0</div>
-         	<img class="img_profile" th:src="@{/img/} + ${session.client.client_img}"  th:onclick="|location.href='@{mypage(client_id=${session.client.client_id})}'|">
-       		<a class="btn btn-outline-success" th:href="@{mypage(client_id=${session.client.client_id})}" th:text="${session.client.client_nickname}"></a>
-          <a class="btn btn-outline-success" th:href="@{logout}">로그아웃</a>
-        </li>
-        </th:block>
-        <th:block th:if="${session.client != null and session.client.client_id == 'admin'}">
-        <li class="nav-item">
-         	<img class="img_profile" th:src="@{/img/} + ${session.client.client_img}" th:onclick="location.href='Admin'">
-       		<a class="btn btn-outline-success" th:href="@{admin}">관리자 님</a>
-          <a class="btn btn-outline-success" th:href="@{logout}">로그아웃</a>
-        </li>
-        </th:block> 
-      </ul>
-    </div>
-  </div>
-</nav>
-</div>
+	<div class="container fixed-top">
+		<nav class="navbar  navbar-expand-lg">
+			<div class="container-fluid">
+				<a href="/anbd/main"><img th:src="@{/img/logo.png}"
+					class="img-logo me-auto" width="100" height="74"></a>
+				<form class="d-flex" action="/anbd/product_seach" method="post"
+					name="formname" accept-charset="UTF-8">
+					<input class="form-control searchbox" type="text"
+						onkeyup="enterkey()" name="search_name" placeholder="물건명을 입력해보세요!">
+					<button id="header-search-button" class="header-search-button">
+						<img class="fixed-search-icon" alt="Search"
+							src="https://d1unjqcospf8gs.cloudfront.net/assets/home/base/header/search-icon-7008edd4f9aaa32188f55e65258f1c1905d7a9d1a3ca2a07ae809b5535380f14.svg">
+					</button>
+				</form>
+				<div class="collapse navbar-collapse ">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-gr">
+						<th:block th:if="${session.client} ==null">
+							<li class="nav-item"><a class="btn btn-outline-success"
+								th:href="@{login}">로그인</a> <a class="btn btn-outline-success"
+								th:href="@{join}">회원가입</a></li>
+						</th:block>
+						<th:block
+							th:if="${session.client != null and session.client.client_id != 'admin'}">
+							<li class="nav-item"><img class="img_profile"
+								th:src="@{/img/messge.png}"
+								th:onclick="|location.href='@{messages}'|">
+								<div class="chat_cnt" id="mail_cnt">0</div> <img
+								class="img_profile"
+								th:src="@{/img/} + ${session.client.client_img}"
+								th:onclick="|location.href='@{mypage(client_id=${session.client.client_id})}'|">
+								<a class="btn btn-outline-success"
+								th:href="@{mypage(client_id=${session.client.client_id})}"
+								th:text="${session.client.client_nickname}"></a> <a
+								class="btn btn-outline-success" th:href="@{logout}">로그아웃</a></li>
+						</th:block>
+						<th:block
+							th:if="${session.client != null and session.client.client_id == 'admin'}">
+							<li class="nav-item"><img class="img_profile"
+								th:src="@{/img/} + ${session.client.client_img}"
+								th:onclick="location.href='Admin'"> <a
+								class="btn btn-outline-success" th:href="@{admin}">관리자 님</a> <a
+								class="btn btn-outline-success" th:href="@{logout}">로그아웃</a></li>
+						</th:block>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
 </div>
 </html>

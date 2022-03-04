@@ -46,15 +46,15 @@
 				<div class="detail-content">
 					<div class="detail-sub-price">
 						<h2 class="detail-subject" th:text="${product.product_name }"></h2>
-						<span class="detail-price" th:text="${product.product_price} + '원'"></span>
+						<span class="detail-price" th:text="${#numbers.formatInteger(product.product_price,3,'COMMA')} + '원'" ></span>
 					</div>
 					<div>
+						<span class="product_info">상세 설명</span>
 						<pre class="product_content" th:text="${product.product_content }"></pre>
 					</div>
 					<div class="detail-message">
 						<div class="icons-left">
-							<div
-								th:if="${product.product_no} == ${favorites?.favorites_product_no } or ${favorites?.favorites_product_no } != null">
+							<div th:if="${product.product_no} == ${favorites?.favorites_product_no } or ${favorites?.favorites_product_no } != null">
 								<button class="btn btn-outline-success"> <i id="heart"
 									class="fa fa-heart heart"
 									th:onclick="|like('${product.product_no}',this)|"></i>

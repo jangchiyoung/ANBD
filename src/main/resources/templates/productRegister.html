@@ -134,14 +134,12 @@
 					// 사용자가 선택한 주소타입(도로명/지번)에 따라 해당 값 가져오기
 					// 만약 사용자가 도로명 주소를 선택했을 때
 					if (data.userSelectedType == 'R') {
-						addr += data.sido+" ";
-						addr += data.sigungu+" ";
-						addr += data.bname;
+						addr += data.address;
 						// 만약 사용자가 구주소를 선택했을 때
 					} else {
 						addr += data.sido+" ";
 						addr += data.sigungu+" ";
-						addr += data.bname;
+						addr += data.roadname;
 					}
 					// 주소정보
 					document.getElementById('address').value = addr;

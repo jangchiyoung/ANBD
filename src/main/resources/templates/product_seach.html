@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head.html :: fragment-head"></head>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>아나바다</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/Profile.css}">
+</head>
+<body>
+	<div th:replace="/fragments/header.html :: fragment-header"></div>
+	<section class="content">
+		<div class="item_list_area">
+			<div class="breadcrumbs">
+				<ul>
+					<li><a th:href="@{main}">HOME</a> &gt;</li>
+					<li th:text="${seach_name}"></li>
+				</ul>
+			</div>
+			<div class="main_area">
+				<div class="main_area_center">
+					<div class="main">
+						<section class="profile_right_main">
+							<div class="tab_content">
+								<div class="cat_box no_cat_box">
+									<div class="my_specialist_name">
+										<span th:text="|전체 ${cnt}|"></span>
+									</div>
+								</div>
+								<div class="tab_content">
+									<div>
+										<div class="infinite-scroll-component "
+											style="height: auto; overflow: auto;">
+											<ul class="mian_row profile_main_row">
+												<th:block th:each="product : ${seach_list}">
+													<li class="main_col_3"><a class="card card_list" style="border: none;">
+															<div class="card_box">
+																<div class="image_wrapper">
+																	<div class="image_outside">
+																		<div class="image_centerbox">
+																			<img th:src="@{/img/} + ${product.product_img1 }" th:onclick="|location.href='@{product_detail(product_no=${product.product_no})}'|"
+																				class="thumbnail_img" alt="${product.product_name }">
+																		</div>
+																	</div>
+																</div>
+																<div class="cont">
+																	<div class="item_title"
+																		th:text="${product.product_name}"></div>
+																	<div class="item_price profile_price">
+																		<span
+																			th:text="|${#numbers.formatInteger(product.product_price, 3, 'COMMA') + '원'}|"></span>
+																	</div>
+																</div>
+															</div>
+													</a></li>
+												</th:block>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+</body>
+</html>

@@ -231,3 +231,8 @@ div.gradient-wrap {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
 }
+.product_info {
+	font-size: 20px;
+    font-weight: 700;
+    color: #000;
+}

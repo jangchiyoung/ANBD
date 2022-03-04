@@ -17,9 +17,8 @@
 		<div class="row" style="width: 90%;">
 			<h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">오늘의 상품 추천</h2>
 			<th:block th:each="item : ${items}" name="value">
-				<div class="card col-md-3 col-sm-6"
-					th:onclick="|location.href='@{product_detail(product_no=${item.product_no})}'|">
-					<img th:src="@{/img/} + ${item.product_img1}" class="card-img-top"
+				<div class="card col-md-3 col-sm-6">
+					<img th:src="@{/img/} + ${item.product_img1}" class="card-img-top" th:onclick="|location.href='@{product_detail(product_no=${item.product_no})}'|"
 						th:alt="${item.product_img1}">
 					<div class="card-body">
 						<h5 class="card-title size_limite" th:text="${item.product_name}"></h5>
@@ -29,9 +28,6 @@
 							<span class="card-span"
 								th:text="|${#temporals.format(item.product_date, 'MMM dd일 HH:mm')}|"></span><i
 								class="bi bi-heart-fill"></i>
-							<input class="product_address" type="text" th:id="'ad'+${item.product_no}" th:value="${item.product_address}"></input>
-							<input class="product_no" type="text" th:id="'product_no'+${item.product_no}" th:value="${item.product_no}">
-							<div th:onload="getAddress([[${item.product_no}]])"></div>
 						</div>
 					</div>
 				</div>
@@ -79,7 +75,7 @@
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
     mapOption = { 
         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-        level: 3, // 지도의 확대 레벨
+        level: 2, // 지도의 확대 레벨
     };
  
 	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
@@ -91,6 +87,7 @@
 	var adrList = new Array();
 	var nameList = new Array();
 	var imgList = new Array();
+	var priceList = new Array();
 	
 	var rdnList =[[${items}]];
 	 
@@ -100,10 +97,12 @@
 	    var bb  =  $obj.product_name;
 	    var cc  =  $obj.product_img1;
 	    var dd  =  $obj.product_no;
+	    var ee  =  $obj.product_price;
 	    adrList.push(aa);
 	    nameList.push(bb);
 	    imgList.push(cc);
 	    noList.push(dd);
+	    priceList.push(ee);
 	}
 	 
 	//주소 리스트 
@@ -127,15 +126,24 @@
 	                  // 마커 위에 인포윈도우를 표시합니다
 	                  infowindow.open(map, marker);  
 	            });
-	            var content = '<div class="overlay_info" onclick="location.href='+"'product_detail?product_no="+noList[index] +"'\">";
-	            content += "	<div><img class='kakaoImg' src='/img/"+ imgList[index] +"'></div>";
-	            content += '   		<div><span>' + nameList[index] +'</span></div>';
-	            content += '        <span class="address">'+ adrList[index]  +'</span>';
-	            content += '</div>',iwRemoveable = true;
-	    
+	            
+	            var content = '<div class="wrap">' + 
+	            '    <div class="info">' + 
+	            '        <div class="title">' + nameList[index] +
+	            '        </div>' + 
+	            '        <div class="body">' + 
+	            '            <div class="img" onclick="location.href='+"'product_detail?product_no="+noList[index] +"'\">" +
+	            "                <img class='kakaoImg' src='/img/"+ imgList[index] +"'>" +
+	            '           </div>' + 
+	            '            <div class="desc">' + 
+	            '                <div class="ellipsis">'+ adrList[index]  +'</div>' + 
+	            '                <div class="ellipsis">'+ priceList[index]  +' 원</div>' + 
+	            '            </div>' + 
+	            '        </div>' + 
+	            '    </div>' +    
+	            '</div>',iwRemoveable = true;
 	            // 인포윈도우로 장소에 대한 설명을 표시합니다
 	            var infowindow = new kakao.maps.InfoWindow({
-	                //  content: nameList[index], 
 	                content: content,
 	                position: coords,
 	                   removable : iwRemoveable

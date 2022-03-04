@@ -23,6 +23,12 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 	@Query("select p from ProductEntity p where p.product_no = :product_no")
 	List<ProductEntity> cookieAdd(@Param("product_no") int product_no);
 	
+	@Query("select p from ProductEntity p where p.product_name like CONCAT('%',:product_name,'%')")
+	List<ProductEntity> Seach(@Param("product_name") String product_name);
+	
+	@Query("select count(*) from ProductEntity p where p.product_name like CONCAT('%',:product_name,'%') and p.product_status = :product_status")
+	Integer SeachCnt(@Param("product_name") String product_name, @Param("product_status") String product_status);
+	
 	@Query("select p from ProductEntity p where p.product_seller.client_id = :product_seller")
 	List<ProductEntity> findSellerID(@Param("product_seller") String product_seller);
 	
