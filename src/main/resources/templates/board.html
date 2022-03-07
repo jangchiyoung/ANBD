@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head.html :: fragment-head"></head>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>게시물</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/board.css}">
+<script src="https://kit.fontawesome.com/76cfe4f16b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+ <div th:replace="/fragments/header.html :: fragment-header"></div>
+
+	<section class="home-main-section">
+			<div class="categoryBox">
+				<div class="categoryList">
+				<span class="category_text">전체</span>
+				<th:block th:each="category : ${category}">
+					<a th:onclick="|location.href='@{board(no=${category.category_board_no})}'|">
+					<span class="category_text" th:text="${category.category_board_name}"></span>
+					</a>
+				</th:block>
+				<a class="boardRegister" 
+				th:onclick="|location.href='@{boardRegister}'|"><i class="far fa-edit writer"></i> 
+				<span class="writer">내 글쓰기</span></a>
+				</div>
+			</div>
+		<div class="board">
+			<th:block th:each="board, i : ${boards}">
+			<div class="board_row">
+				<div class="board_left">
+					<div class="user_info">
+						<img th:src="@{/img/} + ${client.get(i.index).client_img }" class="user_img"
+							th:onclick="|location.href='@{userpage(client_id=${client.get(i.index).client_id})}'|">
+						<div class="flex_row">
+						<span class="user_nickname" th:text="${client.get(i.index).client_nickname }"></span>	
+						<span class="board_time" th:text="|${#temporals.format(board.board_date, 'MMM dd일 HH:mm')}|"></span>
+						</div>
+					</div>
+					<div class="board_info">
+						<h5 class="board_name" th:text="${board.board_name}"></h5>
+						<h5 class="board_content" th:text="${board.board_content}"></h5>
+					</div>
+					<div class="board_comment">
+						<span class="board_like">좋아요 33</span>
+						<span>댓글 21</span>
+					</div>
+				</div>
+					<div class="board_right">
+						<div class="board_img_info">
+						<img th:src="@{/img/} + ${board.board_img1}" class="board_img"
+							th:onclick="|location.href='@{board_detail(board_no=${board.board_no})}'|"
+							th:alt="${board.board_img1}">
+						</div>
+					</div>
+				</div>		
+			</th:block>
+		</div>
+	</section>
+
+	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+</body>
+</html>

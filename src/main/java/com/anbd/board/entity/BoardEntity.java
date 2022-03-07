@@ -32,32 +32,38 @@ public class BoardEntity {
 	private Integer board_no;
 	
 	@ManyToOne(targetEntity = ClientEntity.class)
-	private ClientEntity board_client_id;
+	private ClientEntity board_writer;
 	
 	@ManyToOne(targetEntity = Category_boardEntity.class)
-	private Category_boardEntity board_category;
-	
-	@Column(nullable = false)
+	private Category_boardEntity board;
+	@Column
 	private String board_img1;
 	
-	@Column(nullable = true)
+	@Column
 	private String board_img2;
 	
-	@Column(nullable = true)
+	@Column
 	private String board_img3;
 	
-	@Column(nullable = false)
+	@Column
+	private String board_name;
+	
+	@Column
 	private String board_content;
 	
+	@Column
+	private String board_status;
+	
 	@CreatedDate
-	@Column(nullable = false)
 	private LocalDateTime board_date;
 	
-	@Column(nullable = false)
-	private Integer board_count;
+	@Column
+	private Integer board_readcount;
 	
-	@Column(nullable = false)
+	@Column
 	private Integer board_like;
 	
+	@Column
+	private String board_address;
 	
 }

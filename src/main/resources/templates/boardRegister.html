@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head.html :: fragment-head"></head>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>게시물등록</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/productRegister.css}">
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+<body>
+ <div th:replace="/fragments/header.html :: fragment-header"></div>
+<section class="home-main-section">
+	<div class="main_area">
+		<div class="main_area_center">
+			<div class="main">
+				<div class="breadcrumbs">
+					<ul>
+						<li><a th:href="@{main}">HOME</a></li>
+						<li>&gt; 동네 생활 글쓰기</li>
+					</ul>
+				</div>
+				<div class="regist_top">
+					<div class="regist_box_top">
+						<div>동네 생활 글쓰기</div>
+					</div>
+				</div>
+				<form th:action="board_register" method="post" enctype="multipart/form-data" accept-charset="UTF-8">
+					<div class="regist_box">
+						<div class="description">
+							<dl id="board_category">
+								<dt>
+									<label style="color: rgb(0, 0, 0);">카테고리</label>
+								</dt>
+								<dd>
+									<div class="item_select_box">
+										<select name="board_category_no">
+											<option selected="selected" th:each ="item : ${items}" th:value="${item.category_board_no}" th:text="${item.category_board_name}"></option>
+										</select>
+									</div>
+								</dd>
+							</dl>
+							<dl class="regist_image_dl" id="images_box">
+								<dt>
+									<label style="color: rgb(0, 0, 0);">사진올리기</label>
+								</dt>
+								<dd>
+									<div class="container-fluid">
+										<div class="col-md-6">
+											<div class="form-group" th:if = "${session.client != null}">
+												<a>최대 3개까지만 업로드 가능합니다.</a>
+												<input type="file" name="board_img1" class="form-control user_picked_files" accept="image/*" required/>
+												<input type="file" name="board_img2" class="form-control user_picked_files" accept="image/*" />
+												<input type="file" name="board_img3" class="form-control user_picked_files" accept="image/*" />
+												<input type="text" name="board_client_id" th:value="${session.client.client_id}" >
+											</div>
+											<ul class="cvf_uploaded_files"></ul>
+										</div>
+									</div>
+									<ul class="image_list">
+									</ul>
+								</dd>
+							</dl>
+							<dl id="title">
+								<dt>
+									<label style="color: rgb(0, 0, 0);">제목</label>
+								</dt>
+								<dd>
+									<input type="text" class="title_input" name="board_name"
+										placeholder="글 제목을 입력해주세요." value="">
+									<ul class="item_recommend_box"></ul>
+								</dd>
+							</dl>
+							<dl id="content">
+								<dt>
+									<label style="color: rgb(0, 0, 0);">글 내용</label>
+								</dt>
+								<dd>
+									<textarea rows="5" class="introduce" name="board_content"
+										placeholder="내용을 입력해주세요."
+										style="margin: 0px; width: 658px; height: 173px;"></textarea>
+								</dd>
+							</dl>
+							<dl id="board_address">
+								<dt>
+									<label style="color: rgb(0, 0, 0);">동네위치</label>
+								</dt>
+								<dd>
+									<input class="input" type="text" id="address" name="board_address" placeholder="주소입력"  readonly="readonly" required="required"> 
+									<input class="input address_select" type="button" value="주소검색" onclick="findAddr()"> 
+									<span class="annotation"></span>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="item_submit_box">
+						<div class="item_area_submit_box">
+							<a th:href="my_product">
+								<button class="btn_item_cancel" type="button">취소</button>
+							</a> <input class="btn_item_submit" type="submit" value="게시물 등록하기">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+	<script type="text/javascript" th:src="@{/js/imgUpload.js}"></script>
+	<script type="text/javascript">
+	// 다음 주소 API
+	function findAddr() {
+		daum.postcode.load(function() {
+			new daum.Postcode({
+				oncomplete : function(data) {
+					// 각 주소의 규칙에 따라 주소 조합
+					// 가져올 변수가 없을때는 공백을 가지기 때문에 이를 참고해 분기한다고 한다
+					var addr = ''; //주소 변수
+					// 사용자가 선택한 주소타입(도로명/지번)에 따라 해당 값 가져오기
+					// 만약 사용자가 도로명 주소를 선택했을 때
+					if (data.userSelectedType == 'R') {
+						addr += data.address;
+						// 만약 사용자가 구주소를 선택했을 때
+					} else {
+						addr += data.sido+" ";
+						addr += data.sigungu+" ";
+						addr += data.roadname;
+					}
+					// 주소정보
+					document.getElementById('address').value = addr;
+				}
+			}).open();
+		});
+	}
+	</script>
+	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+</body>
+</html>

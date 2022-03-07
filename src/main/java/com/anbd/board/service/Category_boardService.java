@@ -2,6 +2,7 @@ package com.anbd.board.service;
 
 import com.anbd.board.entity.Category_boardEntity;
 import com.anbd.board.model.Category;
+import com.anbd.board.model.Category_board;
 
 public interface Category_boardService {
 	default Category_boardEntity toEntity(Category dto) {
@@ -11,10 +12,10 @@ public interface Category_boardService {
 				.build();
 	}
 	
-	default Category toDto(Category_boardEntity entity) {
-		return Category.builder()
-				.category_no(entity.getCategory_board_no())
-				.category_name(entity.getCategory_board_name())
+	default Category_board toDto(Category_boardEntity entity) {
+		return Category_board.builder()
+				.category_board_no(entity.getCategory_board_no())
+				.category_board_name(entity.getCategory_board_name())
 				.build();
 	}
 }
