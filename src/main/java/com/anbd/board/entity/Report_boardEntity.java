@@ -27,14 +27,14 @@ public class Report_boardEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer report_no;
 	
-	@ManyToOne(targetEntity = ClientEntity.class)
-	private ClientEntity report_id;
+	@Column(nullable = false)
+	private String report_client_id;
 	
 	@ManyToOne(targetEntity = ClientEntity.class)
-	private ClientEntity report_board_id;
+	private ClientEntity report_board;
 	
 	@ManyToOne(targetEntity = BoardEntity.class)
-	private BoardEntity report_board_no;
+	private BoardEntity report;
 	
 	@Column(nullable = false)
 	private String report_comment;
