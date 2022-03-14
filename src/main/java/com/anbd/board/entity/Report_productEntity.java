@@ -27,14 +27,14 @@ public class Report_productEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer report_no;
 	
-	@ManyToOne(targetEntity = ClientEntity.class)
-	private ClientEntity report_id;
+	@Column(nullable = false)
+	private String report_client_id;
 	
 	@ManyToOne(targetEntity = ClientEntity.class)
-	private ClientEntity report_product_id;
+	private ClientEntity report_product;
 	
 	@ManyToOne(targetEntity = ProductEntity.class)
-	private ProductEntity report_product_no;
+	private ProductEntity report;
 	
 	@Column(nullable = false)
 	private String report_comment;

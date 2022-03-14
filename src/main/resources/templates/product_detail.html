@@ -53,7 +53,7 @@
 						<pre class="product_content" th:text="${product.product_content }"></pre>
 					</div>
 					<div class="detail-message">
-						<div class="icons-left">
+						<div class="icons-left" th:if="${session.client.client_id} != ${product.product_seller.client_id}">
 							<div th:if="${product.product_no} == ${favorites?.favorites_product_no } or ${favorites?.favorites_product_no } != null">
 								<button class="btn btn-outline-success"> <i id="heart"
 									class="fa fa-heart heart"
@@ -81,7 +81,9 @@
 						<span class="likeCount" th:text="${product.product_date}"></span>
 						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAeCAYAAAA2Lt7lAAAAAXNSR0IArs4c6QAAA0VJREFUSA2tVktoE0EYnmwejUlDCYUcJD3YGooJGA1RYgJtKh6KtJ6q+EAvvQn25EnEHjx56qGgCJ5EPCqIBxE1j/YmiFJSYkvQBiExqRRJNNGkid+/uMvsdjZJtQOT+Z/fN/+/M7sxsQ4jkUgcNJlMV9rtdhTrEEK9mD8x85ifYX/qcrmehMNhsgmHSWRNpVKHkHwXMy7y8zYQVyjW6/XO+3y+X7yP5B0EyWRyDvY7SLLrgzvpIFrBvDQ+Pr7Cx2kI0JKbcN7mA3Yjg2ALG4tOTExklTyVADu/DOdDxfGvK0g+2e32E5FI5CthSPSzvLy8H8t9kv93YJMH6vX6ooIjEzQajVtw7FOMe7DOpNPpEOFIODFDKGt2D0BVCGzW1Gq15mUCKJOYFtW7C6Gvr48NDw8zbFCUdSqTydgI+KTI281GoH6/nw0MDMgEuVxOk4JNO0ql0nEJwlGNp0dlZGREBscDZRsbG8IsbOKwhB+ryEs7xHETuZjH42G4uQx9ZmgDazabwjgY21SBWe9Vyg+FQszpdGrcDoeDjY6Oyrb19XVWqVQ0fl4BzjYd0y+8kZdtNhsLBoMqidlsZoFAgNFaLBZZoVDgw3fIIMhRi1J6D6piq6urrFwuM56Edk4VVatVtra2pk/T6MCtDg4OLlGLEhrPX0VPQu2i3lO/qe/U/y7jFar9LcXj8TcI/CgK5kmoLTSy2Syr1WqicI1NkqRHZKAWtaDc0Hg5hSfJ5/Nsc3OT8xqKH3AYnpFXvYJ4mz4G2AWjFGyEEVm3gbgtq9V6LBaLyTdPftlREh7mLJxvjQB6BG+iG2cVcMJSCaLRaA0gZ0CSNyLpwT43Njb2mo9TCciIL1ERBFOYxreHz+Zk5CziwNzjTLKoPgPegU/nJPTnmDtuOR+nyAB/iW/xaazbik1ZNRUoRlTyAsHXFL3Tirhsf3//ORE45QkJyEHlImmB5A7jG07MFP4XfTeKMSSgBJR9HSTyedYDwN6AbYY/MfoY0jsSAKTldrsvYn2nT8aJu4pWJvV2vd6RgILxNv1hsVimQaK+dSEvAPyBHkykC0+RKBAn6wiAl+BLo3VE2PVtRzhdK1DIsOP3aMs0qjnfKzjl/gFgkydRSXu9AAAAAABJRU5ErkJggg==" width="16" height="16" alt="지역 아이콘">
 						<span class="likeCount" th:text="${client.client_address}"></span>
-						<img class="decal_button" src="https://ccimage.hellomarket.com/web/2019/chat/btn_hellotalk_report_x2.png" alt="신고 이미지" onclick="decal('${bean.product_no}');">
+						<th:block th:if="${client.client_id} != ${session.client.client_id}">
+						<img class="decal_button" src="https://ccimage.hellomarket.com/web/2019/chat/btn_hellotalk_report_x2.png" alt="신고 이미지" th:onclick="|report('${product.product_no}')|">
+						</th:block>
 					</div>
 				</div>
 			</div>
@@ -118,7 +120,7 @@
 	
 	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
 	
-	<script type="text/javascript">
+	<script th:inline="javascript">
 		$(document).ready(function() {
 
 			$('.single-item').slick({
@@ -172,6 +174,47 @@
 				}
 			});
 		};
+		
+		function report(product_no) {
+			/*<![CDATA[*/
+			var product_no = [[${product.product_no}]];
+			var client_id = [[${session.client.client_id}]];
+			var product_seller = [[${product.product_seller.client_id}]];
+			/*]]*/
+			var comment = prompt('신고내용을 입력해주세요.');
+			if(comment === ''){
+				alert('내용을 입력해주세요.');
+				return false;
+			}else if(comment ===null){
+				alert('취소 하였습니다.');
+				return false;
+			}else{
+				var data = { 
+						product_no : product_no,
+						client_id : client_id,
+						product_seller : product_seller,
+						report_comment : comment
+									};
+				$.ajax({
+					type : 'POST',
+					url : '/anbd/report_product',
+					data    : JSON.stringify(data),
+					contentType : "application/json",
+					success : function(data) {
+						if(data.reportCheck == null) {
+							var report = data.report;
+							alert(report);
+						}else {
+							var re_error = data.re_error;
+							alert(re_error);
+						}
+						location.href='product_detail?product_no='+product_no;
+					}, error : function(request, status, error ) {
+						 alert("신고접수가 오류가 났습니다.");
+					}
+				});
+			}
+		}
 	</script>
 
 </body>

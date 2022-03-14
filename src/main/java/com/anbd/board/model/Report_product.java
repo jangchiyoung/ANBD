@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class Report_product {
 
 	private Integer report_no;
-	private String report_id;
-	private String report_product_id;
+	private String report_client_id;
+	private String report_product_client_id;
 	private Integer report_product_no;
 	private String report_comment;
 	
