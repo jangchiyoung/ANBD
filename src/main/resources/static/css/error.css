@@ -1,0 +1,32 @@
+#content {
+    width: 677px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 190px;
+}
+#content .error-image {
+    background-image: url('/img/logo.png');
+}
+#content .error-image {
+    background: url('/img/logo.png');
+    background-size: 240px 240px;
+    width: 240px;
+    height: 240px;
+    margin: 0 auto;
+}
+#content #error-text {
+    padding-bottom: 60px;
+}
+#content #error-text #error-text-title {
+    display: block;
+    font-size: 36px;
+    margin: 20px 0;
+}
+#content #error-text #error-text-desc {
+    margin: 20px 0;
+}
+#content #go-to-home #go-to-home-link {
+    font-size: 18px;
+    color: #28a745;
+    text-decoration: none;
+}

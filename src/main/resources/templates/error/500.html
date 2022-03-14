@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+layout:decorate="~{layout/default_layout}">
+<head th:replace="/fragments/head.html :: fragment-head"></head>
+<head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/error.css}">
+<title>아나바다 500 Error PAGE</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<body>
+	<div th:replace="/fragments/header.html :: fragment-header"></div>
+	<div id="content" class="">
+  <div class="error-image"></div>
+  <div id="error-text">
+    <h2 id="error-text-title" th:if="222ad">앗! 죄송해요.</h2>
+    <p id="error-text-desc">"아나바다를 이용해주셔서 감사합니다.<br>현재 서버 점검 중입니다. 불편을 드려서 죄송합니다.
+    <br>신속하게 문제를 해결하겠습니다.<br><br>관리자 번호는 010-2313-0228 입니다."<br></p>
+      <div id="go-to-home">
+        <a id="go-to-home-link" th:href="@{main}">홈으로 이동</a>
+      </div>
+  </div>
+</div>
+	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+</body>
+</html>
+
