@@ -136,7 +136,6 @@ public class ChatController {
 				temp.put("date", date);
 				temp.put("img", c_entites.getClient_img());
 				temp.put("nickname", c_entites.getClient_nickname());
-				System.out.println(c_entites.getClient_nickname());
 				jsonlist.add(temp);
 			}
 			result.put("list", jsonlist);

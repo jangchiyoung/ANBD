@@ -105,3 +105,6 @@ ul, ol, li {
 ul.loc_info li dl {
     overflow: hidden;
 }
+.category_body, .cat_list_box {
+	display: none;
+}

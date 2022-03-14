@@ -3,15 +3,19 @@ package com.anbd.board.controller;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.mail.search.IntegerComparisonTerm;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,10 +28,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anbd.board.entity.CategoryEntity;
+import com.anbd.board.entity.ChatEntity;
 import com.anbd.board.entity.ClientEntity;
 import com.anbd.board.entity.FavoritesEntity;
 import com.anbd.board.entity.ProductEntity;
 import com.anbd.board.model.Category;
+import com.anbd.board.model.Chat;
+import com.anbd.board.model.ChatRoom;
 import com.anbd.board.model.Client;
 import com.anbd.board.model.Favorites;
 import com.anbd.board.model.Product;
@@ -79,7 +86,7 @@ public class ProductController {
 	public String getList(Model model, HttpServletRequest request,String search_name) {
 		Client user = (Client) request.getSession().getAttribute("client");
 		List<Product> product_all_list = new ArrayList<Product>();
-		List<ProductEntity> product_All_list_et = repository.ProductAll(); // 전체 게시글 리스트
+		List<ProductEntity> product_All_list_et = repository.ProductList(); // 전체 게시글 리스트
 		// 전체 게시글 리스트
 				for (ProductEntity temp : product_All_list_et) {
 					if(temp.getProduct_status().equals("ing")) {
@@ -99,7 +106,11 @@ public class ProductController {
 						}
 					}
 				}
-		model.addAttribute("cookie", p); // 전체 회원 리스트
+		int startNo = (int) request.getSession().getAttribute("startNo");		
+		int endNo = (int) request.getSession().getAttribute("endNo");		
+		request.setAttribute("startNo", startNo);
+		request.setAttribute("endNo", endNo);
+		model.addAttribute("cookie", p);
 		model.addAttribute("address", user.getClient_address()); // 로그인한 주소
 		model.addAttribute("items", product_all_list); // 현재 판매중인 리스트
 		return "main";
@@ -397,6 +408,44 @@ public class ProductController {
 		model.addAttribute("seach_name",category);
 		model.addAttribute("cnt",cnt);
 		return "product_seach";
+	}
+	@SuppressWarnings("unchecked")
+	@ResponseBody
+	@RequestMapping(value = "/anbd/pageing", method = RequestMethod.POST)
+	public JSONObject pageing(@RequestBody JSONObject no, HttpServletRequest request) {
+		int StartNo = 0;
+		int EndNo = 0;
+		StartNo = Integer.parseInt(String.valueOf(no.get("startNo")));
+		EndNo = Integer.parseInt(String.valueOf(no.get("endNo")));
+		StartNo =StartNo+8;
+		List<Product> product_all_list = new ArrayList<Product>();
+		List<ProductEntity> product_All_list_et = repository.ProductPageingList(StartNo,EndNo); // 전체 게시글 리스트
+		// 전체 게시글 리스트
+				for (ProductEntity temp : product_All_list_et) {
+					if(temp.getProduct_status().equals("ing")) {
+						product_all_list.add(service.toDto(temp));
+					}
+				}
+		Client user = (Client) request.getSession().getAttribute("client");
+		request.setAttribute("startNo", StartNo);
+		request.setAttribute("endNo", EndNo);
+		JSONArray jsonlist = new JSONArray();
+		JSONObject result = new JSONObject();
+		for (Product index : product_all_list) {
+			JSONObject temp = new JSONObject();
+			temp.put("product_no", index.getProduct_no());
+			temp.put("product_category_no", index.getProduct_category_no());
+			temp.put("product_name", index.getProduct_name());
+			temp.put("product_content", index.getProduct_content());
+			temp.put("product_price", index.getProduct_price());
+			temp.put("product_date", index.getProduct_date());
+			temp.put("product_img1", index.getProduct_img1());
+			jsonlist.add(temp);
+		}
+		result.put("list", jsonlist);
+		result.put("startNo", StartNo);
+		result.put("endNo", EndNo);
+		return result;
 	}
 }
 

@@ -43,7 +43,7 @@ a {
     height: 100%;
 }
 .main_area_center {
-    width: 990px;
+    width: 1050px;
     margin: 0 auto;
 }
 .main_area_center .main {
@@ -89,16 +89,8 @@ a {
 .my_profile_nav {
     margin: 38px 0 100px;
 }
-.profile_right_main {
-    float: right;
-    margin-left: 0;
-}
 .cat_box {
     margin: 40px 0 20px;
-}
-.profile_right_main {
-    float: right;
-    margin-left: 0;
 }
 .my_profile_left {
     float: left;

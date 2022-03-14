@@ -33,14 +33,34 @@
 								<dd>
 									<div class="container-fluid">
 										<div class="col-md-6">
+											<a>최대 5개까지만 업로드 가능합니다.</a>
 											<div class="form-group" th:if = "${session.client != null}">
-												<a>최대 5개까지만 업로드 가능합니다.</a>
-												<input type="file" name="product_img1" class="form-control user_picked_files" accept="image/*" />
-												<input type="file" name="product_img2" class="form-control user_picked_files" accept="image/*" />
-												<input type="file" name="product_img3" class="form-control user_picked_files" accept="image/*" />
-												<input type="file" name="product_img4" class="form-control user_picked_files" accept="image/*" />
-												<input type="file" name="product_img5" class="form-control user_picked_files" accept="image/*" />
-												<input type="text" name="product_seller_id" th:value="${session.client.client_id}" >
+												<label for="input_img1"> 
+												<img style="width: 100px; height: 100px; display: flex;" th:src="@{/img/pictures.png}">
+												</label> 
+												<input type="file" name="product_img1" id="input_img1"
+														class=" user_picked_files" accept="image/*" required /> 
+												<label for="input_img2"> 
+												<img style="width: 100px; height: 100px; display: flex;" th:src="@{/img/pictures.png}">
+												</label> 
+												<input type="file" name="product_img2" id="input_img2"
+														class=" user_picked_files" accept="image/*" />
+												<label for="input_img3"> 
+												<img style="width: 100px; height: 100px; display: flex;" th:src="@{/img/pictures.png}">
+												</label> 
+												<input type="file" name="product_img3" id="input_img3"
+														class=" user_picked_files" accept="image/*" /> 
+												<label for="input_img4"> 
+												<img style="width: 100px; height: 100px; display: flex;" th:src="@{/img/pictures.png}">
+												</label> 
+												<input type="file" name="product_img4" id="input_img4"
+														class=" user_picked_files" accept="image/*" /> 
+												<label for="input_img5"> 
+												<img style="width: 100px; height: 100px; display: flex;" th:src="@{/img/pictures.png}">
+												</label> 
+												<input type="file" name="product_img5" id="input_img5"
+														class=" user_picked_files" accept="image/*" /> 
+												<input type="hidden" name="product_seller_id" th:value="${session.client.client_id}" >
 											</div>
 											<ul class="cvf_uploaded_files"></ul>
 										</div>
@@ -132,7 +152,7 @@
 					</div>
 					<div class="item_submit_box">
 						<div class="item_area_submit_box">
-							<a th:href="my_product">
+							<a th:href="@{mypage(client_id=${session.client.client_id})}">
 								<button class="btn_item_cancel" type="button">취소</button>
 							</a> <input class="btn_item_submit" type="submit" value="상품 수정하기">
 						</div>

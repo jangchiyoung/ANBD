@@ -17,7 +17,10 @@ public class LoginInterceptor implements HandlerInterceptor {
 	
 		HttpSession session = request.getSession();
 		Client client = (Client) session.getAttribute("client");
-		
+		int startNo = 0;
+		int endNo = 8;
+		session.setAttribute("startNo", startNo);
+		session.setAttribute("endNo", endNo);
 		if(client == null) {
   		response.sendRedirect(request.getContextPath() +"/anbd/login?alert=y");
 //		response.sendRedirect("login?alert=y");  //http://localhost:8080/board/community/login?alert=y  -> 오류

@@ -45,17 +45,31 @@
 								</dt>
 								<dd>
 									<div class="container-fluid">
-										<div class="col-md-6">
-											<div class="form-group" th:if = "${session.client != null}">
-												<a>최대 3개까지만 업로드 가능합니다.</a>
-												<input type="file" name="board_img1" class="form-control user_picked_files" accept="image/*" required/>
-												<input type="file" name="board_img2" class="form-control user_picked_files" accept="image/*" />
-												<input type="file" name="board_img3" class="form-control user_picked_files" accept="image/*" />
-												<input type="text" name="board_client_id" th:value="${session.client.client_id}" >
+											<div class="col-md-6">
+												<a>최대 3개까지만 업로드 가능합니다.</a> 
+												<div class="form-group" th:if="${session.client != null}">
+													<label for="input_img1"> <img
+														style="width: 100px; height: 100px; display: flex;"
+														src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png">
+													</label> <input type="file" name="board_img1" id="input_img1"
+														class=" user_picked_files" accept="image/*" required /> <label
+														for="input_img2"> <img
+														style="width: 100px; height: 100px; display: flex;"
+														src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png">
+													</label> <input type="file" name="board_img2" id="input_img2"
+														class=" user_picked_files" accept="image/*" /> <label
+														for="input_img3"> <img
+														style="width: 100px; height: 100px; display: flex;"
+														src="https://ccimage.hellomarket.com/web/2018/auto/img_car_pic_basic.png">
+													</label> <input type="file" name="board_img3" id="input_img3"
+														class=" user_picked_files" accept="image/*" /> 
+														<input type="hidden"
+														name="board_client_id"
+														th:value="${session.client.client_id}">
+												</div>
+												<ul class="cvf_uploaded_files"></ul>
 											</div>
-											<ul class="cvf_uploaded_files"></ul>
 										</div>
-									</div>
 									<ul class="image_list">
 									</ul>
 								</dd>

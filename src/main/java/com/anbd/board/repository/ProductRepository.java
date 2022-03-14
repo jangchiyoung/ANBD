@@ -1,7 +1,6 @@
 package com.anbd.board.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -11,11 +10,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.anbd.board.entity.ProductEntity;
-import com.anbd.board.model.Product;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Integer>{
 	@Query("select p from ProductEntity p ORDER BY product_no DESC")
 	List<ProductEntity> ProductAll();
+	
+	@Query(nativeQuery = true, value ="select * from product p ORDER BY product_no DESC LIMIT 0,8")
+	List<ProductEntity> ProductList();
+	
+	@Query(nativeQuery = true, value ="select * from product p ORDER BY product_no DESC LIMIT :StartNo,:EndNo")
+	List<ProductEntity> ProductPageingList(@Param("StartNo") int StartNo, @Param("EndNo") int EndNo);
 	
 	@Query("select p from ProductEntity p where p.product_no = :product_no")
 	ProductEntity ProductDetail(@Param("product_no") int product_no);

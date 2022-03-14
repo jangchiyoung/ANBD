@@ -12,6 +12,6 @@ public interface HeartRepository extends JpaRepository<HeartEntity, Integer>{
 	@Query("select h from HeartEntity h where h.heart_board_no = :product_no")
 	List<HeartEntity> findByProductNo(@Param("product_no") Integer product_no);
 	
-	@Query("select h from HeartEntity h where h.heart_client_id = :client_id and h.heart_board_no = :product_no")
-	HeartEntity findById(@Param("client_id") String client_id, @Param("product_no") Integer product_no);
+	@Query("select h from HeartEntity h where h.heart_client_id = :client_id and h.heart_board_no = :board_no")
+	HeartEntity findById(@Param("client_id") String client_id, @Param("board_no") Integer board_no);
 }

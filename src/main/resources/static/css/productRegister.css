@@ -268,3 +268,11 @@ input[type=date], input[type=email], input[type=number], input[type=password], i
 }
  ul.cvf_uploaded_files .highlight {border: 1px dashed #000; width: 150px; background-color: #ccc; border-radius: 5px;}
 .delete-btn {width: 24px; border: 0; position: absolute;}
+.user_picked_files {
+    width: 77px;
+    display: none;
+    margin-left: -85px;
+}
+.form-group {
+    display: flex;
+}

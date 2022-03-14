@@ -8,7 +8,7 @@ import com.anbd.board.model.Board;
 public interface BoardService {
 
 	default BoardEntity toEntity(Board dto) {
-		ClientEntity board_client_id = ClientEntity.builder().client_id(dto.getBoard_client_id()).build();
+		ClientEntity board_client_id = ClientEntity.builder().client_id(dto.getBoard_writer_client_id()).build();
 		Category_boardEntity board_category = Category_boardEntity.builder().category_board_no(dto.getBoard_category_no()).build();
 		return BoardEntity.builder()
 				.board_no(dto.getBoard_no())
@@ -30,7 +30,7 @@ public interface BoardService {
 	default Board toDto(BoardEntity entity) {
 		return Board.builder()
 				.board_no(entity.getBoard_no())
-				.board_client_id(entity.getBoard_writer().getClient_id())
+				.board_writer_client_id(entity.getBoard_writer().getClient_id())
 				.board_category_no(entity.getBoard().getCategory_board_no())
 				.board_img1(entity.getBoard_img1())
 				.board_img2(entity.getBoard_img2())

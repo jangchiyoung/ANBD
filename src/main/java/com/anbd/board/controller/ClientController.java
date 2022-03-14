@@ -22,15 +22,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anbd.board.Hash;
+import com.anbd.board.entity.BoardEntity;
 import com.anbd.board.entity.ClientEntity;
 import com.anbd.board.entity.FavoritesEntity;
 import com.anbd.board.entity.ProductEntity;
+import com.anbd.board.model.Board;
 import com.anbd.board.model.Client;
 import com.anbd.board.model.Favorites;
 import com.anbd.board.model.Product;
+import com.anbd.board.repository.BoardRepository;
 import com.anbd.board.repository.ClientRepository;
 import com.anbd.board.repository.FavoritesRepository;
 import com.anbd.board.repository.ProductRepository;
+import com.anbd.board.service.BoardService;
 import com.anbd.board.service.ClientService;
 import com.anbd.board.service.FavoritesService;
 import com.anbd.board.service.ProductService;
@@ -55,12 +59,19 @@ public class ClientController {
 	
 	@Autowired
 	FavoritesService f_service;
+	
+	@Autowired
+	BoardRepository b_repository;
+	
+	@Autowired
+	BoardService b_service;
+	
 	// 마이페이지
 	@RequestMapping(value = "/anbd/mypage", method = RequestMethod.GET )
 	public String mypage(String client_id, HttpServletRequest request, Model model) {
 		ClientEntity user = repository.findId(client_id);
-		String product_status = "end";
-		String product_ing = "ing";
+		String end = "end";
+		String ing = "ing";
 		List<Product> product_ing_list = new ArrayList<Product>();
 		List<ProductEntity> seller = p_repository.findSellerID(client_id);
 		for (ProductEntity temp : seller) {
@@ -68,19 +79,50 @@ public class ClientController {
 				product_ing_list.add(p_service.toDto(temp));
 			}
 		}
-		Integer p_cnt  = p_repository.ProductCnt(client_id,product_ing);
+		Integer p_cnt  = p_repository.ProductCnt(client_id,ing);
 		Integer f_cnt  = f_repository.FavoritesCnt(client_id);
-		Integer s_cnt  = p_repository.SalesCnt(client_id,product_status);
-		Integer b_cnt  = p_repository.PurchaseCnt(client_id,product_status);
+		Integer s_cnt  = p_repository.SalesCnt(client_id,end);
+		Integer b_cnt  = p_repository.PurchaseCnt(client_id,end);
+		Integer board_cnt  = b_repository.BoardCnt(client_id,ing);
 		
 		model.addAttribute("seller_list",product_ing_list);
 		model.addAttribute("p_cnt",p_cnt);
+		model.addAttribute("board_cnt",board_cnt);
 		model.addAttribute("s_cnt",s_cnt);
 		model.addAttribute("b_cnt",b_cnt);
 		model.addAttribute("f_cnt",f_cnt);
 		model.addAttribute("client",user);
 		return "mypage";
 	}
+	
+	// 내 게시물 관리페이지
+	@RequestMapping(value = "/anbd/myboard", method = RequestMethod.GET )
+	public String myboard(String client_id, HttpServletRequest request, Model model) {
+		ClientEntity user = repository.findId(client_id);
+		String end = "end";
+		String ing = "ing";
+		List<Board> board_ing_list = new ArrayList<Board>();
+		List<BoardEntity> writer = b_repository.findWriter(client_id);
+		for (BoardEntity temp : writer) {
+				board_ing_list.add(b_service.toDto(temp));
+		}
+		Integer p_cnt  = p_repository.ProductCnt(client_id,ing);
+		Integer f_cnt  = f_repository.FavoritesCnt(client_id);
+		Integer s_cnt  = p_repository.SalesCnt(client_id,end);
+		Integer b_cnt  = p_repository.PurchaseCnt(client_id,end);
+		Integer board_cnt  = b_repository.BoardCnt(client_id,ing);
+		
+		model.addAttribute("writer_list",board_ing_list);
+		model.addAttribute("p_cnt",p_cnt);
+		model.addAttribute("board_cnt",board_cnt);
+		model.addAttribute("s_cnt",s_cnt);
+		model.addAttribute("b_cnt",b_cnt);
+		model.addAttribute("f_cnt",f_cnt);
+		model.addAttribute("client",user);
+		return "myboard";
+	}
+	
+	// 유저 페이지
 	@RequestMapping(value = "/anbd/userpage")
 	public String userpage(String client_id, HttpServletRequest request, Model model) {
 		ClientEntity user = repository.findId(client_id);

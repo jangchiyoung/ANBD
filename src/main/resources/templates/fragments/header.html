@@ -53,7 +53,7 @@
 			<div class="category_box" th:onclick="c_listOpen()" id="open">
 				<span class="category_span">카테고리</span>
 			</div>
-			<div class="board_box" th:onclick="|location.href='@{board(no=0)}'|">
+			<div class="board_box" th:onclick="|location.href='@{board(no=0,ad=${session.client.client_address.substring(0,6)})}'|">
 				<span class="category_span">게시판</span>
 			</div>
 			<div class="neighborhood_box">

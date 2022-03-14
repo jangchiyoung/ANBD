@@ -13,9 +13,9 @@
 	<section class="home-main-section">
 			<div class="categoryBox">
 				<div class="categoryList">
-				<span class="category_text">전체</span>
+				<a th:onclick="|location.href='@{board(no=0,ad=${session.client.client_address.substring(0,6)})}'|"><span class="category_text">전체</span></a>
 				<th:block th:each="category : ${category}">
-					<a th:onclick="|location.href='@{board(no=${category.category_board_no})}'|">
+					<a th:onclick="|location.href='@{board(no=${category.category_board_no},ad=${session.client.client_address.substring(0,6)})}'|">
 					<span class="category_text" th:text="${category.category_board_name}"></span>
 					</a>
 				</th:block>
@@ -52,7 +52,7 @@
 							th:alt="${board.board_img1}">
 						</div>
 					</div>
-				</div>		
+			</div>	
 			</th:block>
 		</div>
 	</section>
