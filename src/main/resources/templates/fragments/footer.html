@@ -8,7 +8,12 @@
 				<li><a th:href="@{useAgreement}"><span>이용약관</span></a></li>
 				<li><a th:href="@{privacy}"><span>개인정보보호방침</span></a></li>
 				<li><a th:href="@{location}"><span>위치</span></a></li>
-				<li><a th:href="@{login}"><span>로그인</span></a></li>
+				<th:block th:if="${session.client} ==null">
+				<li><a th:href="@{login}">로그인</a></li>
+				</th:block>
+				<th:block th:if="${session.client != null and session.client.client_id != 'admin'}">
+				<li><a th:href="@{logout}">로그아웃</a></li>
+				</th:block>	
 			</ul>
 		</div>
 	<div style="display: flex;">

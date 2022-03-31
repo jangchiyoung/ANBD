@@ -74,6 +74,79 @@
 					</div>
 				</div>
 			</div>
+			<div class="comment">
+			<div class="commentBox">
+			<h5 class="commentCnt" th:text="|댓글 ${comment_cnt}|"><span></span></h5>
+			</div>
+				<th:block th:each="comment, i : ${comment_List}">
+					<div class="comment_row">
+						<div class="comment_left">
+							<div class="user_info">
+								<img th:src="@{/img/} + ${comment_id.get(i.index).client_img }"
+									class="user_img"
+									th:onclick="|location.href='@{userpage(client_id=${comment_id.get(i.index).client_id})}'|">
+								<div class="flex_row">
+									<span class="user_nickname"
+										th:text="${comment_id.get(i.index).client_nickname }"></span>
+									<span class="comment_time"
+										th:text="|${#temporals.format(comment.comment_date, 'MMM dd일 HH:mm')}|"></span>
+								</div>
+									<span class="commentCk" 
+									 	th:if="${comment_id.get(i.index).client_id} == ${board.board_writer.client_id}">작성자</span>
+							</div>
+							<div class="comment_info">
+								<pre class="comment_content"
+									th:text="${comment.comment_content}"></pre>
+								
+								<div th:id="'modiComment_'+${comment.comment_no}" class="modihd">
+									<form th:action="comment_modify" method="post" style="display: flex;">
+										<input type="hidden" name="comment_no" th:value="${comment.comment_no}">
+										<input type="hidden" name="comment_board_no" th:value="${comment.comment_board_no }">
+										<input type="hidden" name="comment_client_id" th:value="${comment.comment_client_id}">
+										<input type="hidden" name="comment_client_id" th:value="${comment.comment_date}">
+										<textarea  class="introduce" name="comment_content" placeholder="댓글을 입력해주세요." style="margin: 0px; width: 90%; height: 60px;" th:text="${comment.comment_content}"></textarea>
+										<button type="submit" class="comment_update">수정하기</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					<div class="comment_right">
+							<div class="comment_img_info">
+								<div class="UD" th:if="${session.client.client_id} == ${comment_id.get(i.index).client_id}">
+									<svg class="comment_modify " th:onclick="|modity('${comment.comment_no }')|"
+										color="#262626" fill="#262626" height="24" role="img"
+										viewBox="0 0 24 24" width="24">
+									<path d="M12.202 3.203H5.25a3 3 0 00-3 3V18.75a3 3 0 003 3h12.547a3 3 0 003-3v-6.952"
+											fill="none" stroke="currentColor" stroke-linecap="round"
+											stroke-linejoin="round" stroke-width="2"></path>
+									<path d="M10.002 17.226H6.774v-3.228L18.607 2.165a1.417 1.417 0 012.004 0l1.224 1.225a1.417 1.417 0 010 2.004z"
+											fill="none" stroke="currentColor" stroke-linecap="round"
+											stroke-linejoin="round" stroke-width="2"></path>
+									<line fill="none" stroke="currentColor"
+											stroke-linecap="round" stroke-linejoin="round"
+											stroke-width="2" x1="16.848" x2="20.076" y1="3.924"
+											y2="7.153"></line></svg>
+									<img th:src="@{/img/x.png}"
+										style="width: 20px; height: 20px;"
+										th:onclick="|location.href='@{comment_delete(comment_no=${comment.comment_no })}'|"
+										>
+								</div>
+							</div>
+						</div>
+					</div>
+				</th:block>
+			<div class="comment_row">
+				<div class="comment_register">
+					<form th:action="comment_register" method="post" style="display: flex;">
+						<input type="hidden" name="comment_no" th:value="0"> 
+						<input type="hidden" name="comment_board_no" th:value="${board.board_no }"> 
+						<input type="hidden" name="comment_client_id" th:value="${client.client_id }">
+						<textarea  class="introduce" name="comment_content" placeholder="댓글을 입력해주세요." style="margin: 0px; width: 90%; height: 60px;"></textarea>
+						<button type="submit" class="submit-comment">댓글쓰기</button>
+					</form>
+				</div>
+			</div>
+			</div>	
 			<div class="client_info">
 				<div class="client-link"
 					th:onclick="|location.href='@{userpage(client_id=${client.client_id})}'|">
@@ -106,7 +179,12 @@
 	</section>
 	
 	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
-	
+	<script type="text/javascript">
+	function modity(comment_no){
+		$('#modiComment_'+comment_no).css('display','block');
+		
+	}
+	</script>
 	<script th:inline="javascript">
 		$(document).ready(function() {
 

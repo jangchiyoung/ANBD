@@ -27,5 +27,14 @@ public class AddressEntity {
 	private Integer address_no;
 	
 	@Column(nullable = false)
-	private String address_name;
+	private String address_main_name;
+	
+	@Column
+	private String address_si_gun_name;
+	
+	@Column
+	private String address_gu_name;
+	
+	@Column
+	private String address_dong_mun_ri_name;
 }

@@ -12,5 +12,8 @@ import lombok.NoArgsConstructor;
 public class Address {
 	
 	private Integer address_no;
-	private String address_name;
+	private String address_main_name;
+	private String address_si_gun_name;
+	private String address_gu_name;
+	private String address_dong_mun_ri_name;
 }

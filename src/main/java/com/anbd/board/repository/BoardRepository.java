@@ -12,11 +12,11 @@ import org.springframework.data.repository.query.Param;
 import com.anbd.board.entity.BoardEntity;
 
 public interface BoardRepository extends JpaRepository<BoardEntity, Integer>{
-	@Query("select b from BoardEntity b where b.board_address like CONCAT('%',:board_address,'%') ORDER BY board_no DESC")
-	List<BoardEntity> BoardAll(@Param("board_address") String board_address);	
+	@Query(nativeQuery = true, value = "select * from Board b where b.board_address like %:board_address% ORDER BY board_no DESC LIMIT :StartNo,:EndNo")
+	List<BoardEntity> BoardAll(@Param("board_address") String board_address,@Param("StartNo") int StartNo, @Param("EndNo") int EndNo);	
 	
-	@Query("select b from BoardEntity b where b.board.category_board_no = :board_category_board_no and  b.board_address like CONCAT('%',:board_address,'%') ORDER BY board_no DESC")
-	List<BoardEntity> Board_category(@Param("board_category_board_no") int board_category_board_no, @Param("board_address") String board_address);	
+	@Query(nativeQuery = true, value = "select * from Board b where b.board_category_board_no = :board_category_board_no and  b.board_address like %:board_address% ORDER BY board_no DESC LIMIT :StartNo,:EndNo")
+	List<BoardEntity> Board_category(@Param("board_category_board_no") int board_category_board_no, @Param("board_address") String board_address,@Param("StartNo") int StartNo, @Param("EndNo") int EndNo);	
 	
 	@Query("select b from BoardEntity b where b.board_no = :board_no")
 	BoardEntity boardDetail(@Param("board_no") int board_no);
@@ -26,6 +26,13 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer>{
 	
 	@Query("select count(*) from BoardEntity b where b.board_writer.client_id = :board_writer_client_id and b.board_status = :board_status")
 	Integer BoardCnt(@Param("board_writer_client_id") String board_writer_client_id, @Param("board_status") String board_status);
+	
+	//페이징
+	@Query("select count(*) from BoardEntity b where b.board_address like CONCAT('%',:board_address,'%') ORDER BY board_no DESC")
+	Integer BoardAllCnt(@Param("board_address") String board_address);
+	
+	@Query("select count(*) from BoardEntity b where b.board.category_board_no = :board_category_board_no and  b.board_address like CONCAT('%',:board_address,'%') ORDER BY board_no DESC")
+	Integer Board_categoryCnt(@Param("board_category_board_no") int board_category_board_no, @Param("board_address") String board_address);	
 	
 	@Transactional
 	@Modifying

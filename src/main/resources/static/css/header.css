@@ -9,6 +9,10 @@
 	font-family: monhwa;
 }
 
+img {
+	cursor: pointer;
+}
+
 .html, body {
 	height: 100%;
 	margin: 0;

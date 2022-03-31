@@ -11,11 +11,41 @@
  <div th:replace="/fragments/header.html :: fragment-header"></div>
 
 	<section class="home-main-section">
+			<div class="addressBox">
+				<h3 class="address_title" th:text="|${session.address}  의 소식|"></h3>
+				<div class="addressList">
+				<select class="select_box" id="mainAddress" name="address_main_name" th:onchange="findsigun(this.value)">
+					<option th:value="지역선택" th:text="지역선택"></option>
+					<option th:value="서울" th:text="서울"></option>
+					<option  th:value="경기" th:text="경기"></option>
+					<option  th:value="인천" th:text="인천"></option>
+					<option  th:value="강원" th:text="강원"></option>
+					<option   th:value="충북" th:text="충북"></option>
+					<option   th:value="충남" th:text="충남"></option>
+					<option th:value="세종특별자치시" th:text="세종"></option>
+					<option  th:value="대전" th:text="대전"></option>
+					<option  th:value="경북" th:text="경북"></option>
+					<option  th:value="경남" th:text="경남"></option>
+					<option  th:value="대구" th:text="대구"></option>
+					<option th:value="울산" th:text="울산"></option>
+					<option  th:value="전북" th:text="전북"></option>
+					<option  th:value="전남" th:text="전남"></option>
+					<option  th:value="제주특별자치도" th:text="제주"></option>
+				</select>
+				<select class="select_box" id="selectbox" name="address_si_gun_name" th:onchange="findgu(this.value)">
+				</select>
+				<select class="select_box" id="selectbox2" name="address_gu_name" th:onchange="finddongmunri(this.value)">
+				</select>
+				<select class="select_box" id="selectbox3" name="address_dong_mun_ri_name" th:onchange="changeAdd(this.value)">
+				</select>
+				<a id="addressChange" href="#">동네변경</a>
+				</div>
+			</div>	
 			<div class="categoryBox">
 				<div class="categoryList">
-				<a th:onclick="|location.href='@{board(no=0,ad=${session.client.client_address.substring(0,6)})}'|"><span class="category_text">전체</span></a>
+				<a th:onclick="|location.href='@{board(no=0,ad=${session.address},page=1)}'|"><span class="category_text">전체</span></a>
 				<th:block th:each="category : ${category}">
-					<a th:onclick="|location.href='@{board(no=${category.category_board_no},ad=${session.client.client_address.substring(0,6)})}'|">
+					<a th:onclick="|location.href='@{board(no=${category.category_board_no},ad=${session.address},page=1)}'|">
 					<span class="category_text" th:text="${category.category_board_name}"></span>
 					</a>
 				</th:block>
@@ -41,8 +71,8 @@
 						<h5 class="board_content" th:text="${board.board_content}"></h5>
 					</div>
 					<div class="board_comment">
-						<span class="board_like">좋아요 33</span>
-						<span>댓글 21</span>
+						<span class="board_like" th:text="|좋아요 ${board.board_like}|"></span>
+						<span th:text="|댓글 ${commentlist.get(i.index)}|"></span>
 					</div>
 				</div>
 					<div class="board_right">
@@ -54,9 +84,236 @@
 					</div>
 			</div>	
 			</th:block>
+		
+		<nav aria-label="Page navigation example ">
+			<ul class="pagination">
+				<li class="page-item"><a class="page-link"
+					th:onclick="|location.href='@{board(no=0,ad=${session.address},page=1)}'|" aria-label="Previous"> <span
+						aria-hidden="true">처음</span>
+				</a></li>
+				<li class="page-item"><a class="page-link"
+					th:onclick="|location.href='@{board(no=0,ad=${session.address},page=${pagination.prevBlock})}'|"
+					aria-label="Previous"> <span aria-hidden="true">이전</span>
+				</a></li>
+				<th:block
+					th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+					<li class="page-item"
+						th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
+						th:each="pageButton : ${#numbers.sequence(start, end)}"><a
+						class="page-link"
+						th:onclick="|location.href='@{board(no=0,ad=${session.address},page=${pageButton})}'|"
+						th:text=${pageButton}></a></li>
+				</th:block>
+				<li class="page-item"><a class="page-link"
+					th:onclick="|location.href='@{board(no=0,ad=${session.address},page=${pagination.nextBlock})}'|"
+					aria-label="Next"> <span aria-hidden="true">다음</span>
+				</a></li>
+				<li class="page-item"><a class="page-link"
+					th:onclick="|location.href='@{board(no=0,ad=${session.address},page=${pagination.totalPageCnt})}'|"
+					aria-label="Previous"> <span aria-hidden="true">끝</span>
+				</a></li>
+			</ul>
+		</nav>
 		</div>
 	</section>
 
 	<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+	
+	<script type="text/javascript">
+	function findsigun(name) {
+		console.log(name);
+			var main_name = name;
+			var name = {
+					address_main_name : main_name
+			};
+			
+			$.ajax({
+				type : "POST",
+                url       : "/anbd/address_findsigun",
+                data      :  JSON.stringify(name), 
+                contentType : "application/json",
+                success    : function(data) {
+                	var SiGun = "<option th:value=''></option>";
+                	var Gu = "<option th:value=''></option>";
+                	var DongMunri = "<option th:value=''></option>";
+                	for(key in data.fsigun){
+                		SiGun += "<option th:value="+data.fsigun[key]+" th:text="+data.fsigun[key]+">"+ data.fsigun[key] +"</option>";
+                	}
+                	for(key in data.fgu){
+                		Gu += "<option th:value="+data.fgu[key]+" th:text="+data.fgu[key]+">"+ data.fgu[key] +"</option>";
+                	}
+                	for(key in data.fdongmunri){
+                		DongMunri += "<option th:value="+data.fdongmunri[key]+" th:text="+data.fdongmunri[key]+">"+ data.fdongmunri[key] +"</option>";
+                	}
+                	$("#selectbox").append(SiGun);
+                	$("#selectbox2").append(Gu);
+                	$("#selectbox3").append(DongMunri);
+                	var main =$('#mainAddress').val();
+                    var sigun = $('#selectbox').val();
+                    var gu = $('#selectbox2').val();
+                    var dongmunri = $('#selectbox3').val();
+                    if (sigun != "" && gu != "" && dongmunri != ""){
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+" "+gu+" "+dongmunri+"&page=1");
+                    } else if(sigun != "" && gu != "" && dongmunri == "") {
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+" "+gu+"&page=1");
+                    } else if(sigun == "" && gu != "" && dongmunri == "") {
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+gu+"&page=1");
+                    } else if(sigun != "" && gu == "" && dongmunri == "") {
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+"&page=1");
+            		} else if(sigun == "" && gu == "" && dongmunri == "") {
+            			$("#addressChange").attr("href", "board?no=0&ad="+main+"&page=1");	
+            		} else if(sigun != "" && gu == "" && dongmunri != "") {
+                   	   	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+" "+dongmunri+"&page=1");
+            		} else if(sigun == "" && gu == "" && dongmunri != "") {
+                   	 	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+dongmunri+"&page=1");
+                    } else if(sigun == "" && gu != "" && dongmunri != "") {
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+gu+" "+dongmunri+"&page=1");
+                    } else if(sigun != "" && gu != "" && dongmunri == "") {
+                        $("#addressChange").attr("href", "board?no=0&ad="+main+" "+gu+"&page=1");
+                    }
+                },
+                error      : function(error) {
+                    console.log(error);
+                }
+			})
+	}
+	function findgu(name) {
+		console.log(name);
+			var si_gun_name = name;
+			var name = {
+					address_si_gun_name : si_gun_name
+			};
+			
+			$.ajax({
+				type : "POST",
+                url       : "/anbd/address_findgu",
+                data      :  JSON.stringify(name), 
+                contentType : "application/json",
+                success    : function(data) {
+                	var Gu = "<option th:value=''></option>";
+                	var DongMunri = "<option th:value=''></option>";
+                	for(key in data.fgu){
+                		Gu += "<option th:value="+data.fgu[key]+" th:text="+data.fgu[key]+">"+ data.fgu[key] +"</option>";
+                	}
+                	for(key in data.fdongmunri){
+                		DongMunri += "<option th:value="+data.fdongmunri[key]+" th:text="+data.fdongmunri[key]+">"+ data.fdongmunri[key] +"</option>";
+                	}
+                	$("#selectbox2").append(Gu);
+                	$("#selectbox3").append(DongMunri);
+                	var main =$('#mainAddress').val();
+                    var sigun = $('#selectbox').val();
+                    var gu = $('#selectbox2').val();
+                    var dongmunri = $('#selectbox3').val();
+                    main.replaceAll("\\s", "");
+                    sigun.replaceAll("\\s", "");
+                    gu.replaceAll("\\s", "");
+                    dongmunri.replaceAll("\\s", "");
+                    if (sigun != "" && gu != "" && dongmunri != ""){
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+" "+gu+" "+dongmunri+"&page=1");
+                    } else if(sigun != "" && gu != "" && dongmunri == "") {
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+" "+gu+"&page=1");
+                    } else if(sigun == "" && gu != "" && dongmunri == "") {
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+gu+"&page=1");
+                    } else if(sigun != "" && gu == "" && dongmunri == "") {
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+"&page=1");
+            		} else if(sigun == "" && gu == "" && dongmunri == "") {
+            			$("#addressChange").attr("href", "board?no=0&ad="+main+"&page=1");	
+            		} else if(sigun != "" && gu == "" && dongmunri != "") {
+                   	   	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+" "+dongmunri+"&page=1");
+            		} else if(sigun == "" && gu == "" && dongmunri != "") {
+                   	 	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+dongmunri+"&page=1");
+                    } else if(sigun == "" && gu != "" && dongmunri != "") {
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+gu+" "+dongmunri+"&page=1");
+                    } else if(sigun != "" && gu != "" && dongmunri == "") {
+                        $("#addressChange").attr("href", "board?no=0&ad="+main+" "+gu+"&page=1");
+                    }
+                },
+                error      : function(error) {
+                    console.log(error);
+                }
+			})
+	}
+	function finddongmunri(name) {
+			var gu_name = name;
+			var name = {
+					address_gu_name : gu_name
+			};
+			
+			$.ajax({
+				type : "POST",
+                url       : "/anbd/address_finddongmunri",
+                data      :  JSON.stringify(name), 
+                contentType : "application/json",
+                success    : function(data) {
+                	var DongMunri = "<option th:value=''></option>";
+                	for(key in data.fdongmunri){
+                		DongMunri += "<option th:value="+data.fdongmunri[key]+" th:text="+data.fdongmunri[key]+">"+ data.fdongmunri[key] +"</option>";
+                	}
+                	$("#selectbox3").append(DongMunri);
+                	
+                	var main =$('#mainAddress').val();
+                    var sigun = $('#selectbox').val();
+                    var gu = $('#selectbox2').val();
+                    var dongmunri = $('#selectbox3').val();
+                    main.replaceAll("\\s", "");
+                    sigun.replaceAll("\\s", "");
+                    gu.replaceAll("\\s", "");
+                    dongmunri.replaceAll("\\s", "");
+                    if (sigun != "" && gu != "" && dongmunri != ""){
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+" "+gu+" "+dongmunri+"&page=1");
+                    } else if(sigun != "" && gu != "" && dongmunri == "") {
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+" "+gu+"&page=1");
+                    } else if(sigun == "" && gu != "" && dongmunri == "") {
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+gu+"&page=1");
+                    } else if(sigun != "" && gu == "" && dongmunri == "") {
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+"&page=1");
+            		} else if(sigun == "" && gu == "" && dongmunri == "") {
+            			$("#addressChange").attr("href", "board?no=0&ad="+main+"&page=1");	
+            		} else if(sigun != "" && gu == "" && dongmunri != "") {
+                   	   	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+" "+dongmunri+"&page=1");
+            		} else if(sigun == "" && gu == "" && dongmunri != "") {
+                   	 	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+dongmunri+"&page=1");
+                    } else if(sigun == "" && gu != "" && dongmunri != "") {
+                    	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+gu+" "+dongmunri+"&page=1");
+                    } else if(sigun != "" && gu != "" && dongmunri == "") {
+                        $("#addressChange").attr("href", "board?no=0&ad="+main+" "+gu+"&page=1");
+                    }
+                },
+                error      : function(error) {
+                    console.log(error);
+                }
+			})
+	}
+	function changeAdd(name) {
+		var main =$('#mainAddress').val();
+        var sigun = $('#selectbox').val();
+        var gu = $('#selectbox2').val();
+        var dongmunri = $('#selectbox3').val();
+        main.replaceAll("\\s", "");
+        sigun.replaceAll("\\s", "");
+        gu.replaceAll("\\s", "");
+        dongmunri.replaceAll("\\s", "");
+        if (sigun != "" && gu != "" && dongmunri != ""){
+        	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+" "+gu+" "+dongmunri+"&page=1");
+        } else if(sigun != "" && gu != "" && dongmunri == "") {
+        	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+" "+gu+"&page=1");
+        } else if(sigun == "" && gu != "" && dongmunri == "") {
+        	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+gu+"&page=1");
+        } else if(sigun != "" && gu == "" && dongmunri == "") {
+        	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+"&page=1");
+		} else if(sigun == "" && gu == "" && dongmunri == "") {
+			$("#addressChange").attr("href", "board?no=0&ad="+main+"&page=1");	
+		} else if(sigun != "" && gu == "" && dongmunri != "") {
+       	   	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+sigun+" "+dongmunri+"&page=1");
+		} else if(sigun == "" && gu == "" && dongmunri != "") {
+       	 	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+dongmunri+"&page=1");
+        } else if(sigun == "" && gu != "" && dongmunri != "") {
+        	$("#addressChange").attr("href", "board?no=0&ad="+main+" "+gu+" "+dongmunri+"&page=1");
+        } else if(sigun != "" && gu != "" && dongmunri == "") {
+            $("#addressChange").attr("href", "board?no=0&ad="+main+" "+gu+"&page=1");
+        }
+         
+	}
+	</script>
 </body>
 </html>
