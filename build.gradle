@@ -45,3 +45,13 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+apply plugin: 'war'
+war {
+    baseName = 'ANBD'    
+}
+ 
+dependencies {
+providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+}
+
