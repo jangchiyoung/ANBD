@@ -72,4 +72,12 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 	
 	@Query("select p.product_seller.client_id from ProductEntity p where p.product_no = :product_no")
 	String findSeller(@Param("product_no") int product_no);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "update ProductEntity p set p.product_buyer_client_id = :product_buyer_client_id, p.product_status = 'end' where p.product_no = :product_no and p.product_seller.client_id = :product_seller_client_id")
+	void soldOut(@Param("product_no") Integer product_no, @Param("product_seller_client_id") String product_seller_client_id, @Param("product_buyer_client_id") String product_buyer_client_id);
+	
+	
+	
 }

@@ -455,6 +455,20 @@ public class ProductController {
 		result.put("endNo", EndNo);
 		return result;
 	}
+	// 판매완료
+	@SuppressWarnings("unchecked")
+	@ResponseBody
+	@RequestMapping(value = "/anbd/soldOut", method = RequestMethod.POST)
+	public JSONObject soldOut(@RequestBody JSONObject soldout, HttpServletRequest request) {
+		Integer product_no = (Integer) soldout.get("product_no");
+		String product_seller_client_id = (String) soldout.get("product_seller_client_id");
+		String product_buyer_client_id = (String) soldout.get("product_buyer_client_id");
+		repository.soldOut(product_no,product_seller_client_id,product_buyer_client_id); // 전체 게시글 리스트
+		ProductEntity p_entites = repository.ProductDetail(product_no);
+		JSONObject result = new JSONObject();
+		result.put("status", p_entites.getProduct_status());
+		return result;
+	}
 	@RequestMapping(value="/anbd/Crawling", method=RequestMethod.GET)
 	public String testCrawling(HttpServletResponse response){
 		String DaangnUrl = "https://www.daangn.com/region/서울특별시/";

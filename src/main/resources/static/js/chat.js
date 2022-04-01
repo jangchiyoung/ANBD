@@ -40,7 +40,7 @@
                               		 $("#msgArea").scrollTop($("#msgArea")[0].scrollHeight);
                              	}else {
                                		msgtext = "<div class='left_div'>";
-                               		msgtext += "<div class='mail_id_content'>"+data.list[key].sender+"</div>";
+                               		msgtext += "<div class='mail_id_content'>"+data.list[key].nickname+"</div>";
                               		msgtext += "<div class='mail_left_content'>"+ data.list[key].message+"</div>";
                               		msgtext += "<div class='mail_left_time'>"+ timeForToday(data.list[key].date)+"</div>";
                               		msgtext += "</div>";
@@ -51,10 +51,15 @@
                        		  $("#user_img").attr("th:src", data.list[key].img);
                        		  
                        		  var user_nickname = '';
+                       		  var sold_out = '';
                               $("#userNickName").empty();
+                              $("#soldOut").empty();
                               
-                              	user_nickname = "<h3 class='userID main-id point-span' style='margin-top: 8px;'>"+ data.list[key].nickname +'님' + "</h3>";
+                              	user_nickname = "<span class='span_point'>"+ data.list[key].nickname +'님' + "</span>";
+                              	sold_out = "<button class='btn-outline-secondary Complete' onclick='sold_out("+data.list[key].product_no+",\""+data.list[key].product_seller+"\")'>판매 완료</button>";
                               $("#userNickName").append(user_nickname);
+                              $("#soldOut").append(sold_out);
+                              
                        		 
                                   
                          		$("#aas").empty();
@@ -64,7 +69,7 @@
                                 	 str2 += "<input type='hidden' id='product_no' value='"+product_no+"'>";
                                		 str2 += "<input type='hidden' id='send_id' value='"+send_id+"'>";
                                		 str2 += "<input type='hidden' id='receive_id' value='"+receive_id+"'>";
-                                	 str2 += "<button class='btn btn-outline-secondary' type='button' onclick='sendMsg()' id='button-send'>전송</button>";
+                                	 str2 += "<button class='btn-outline-secondary' type='button' onclick='sendMsg()' id='button-send'>전송</button>";
                                 	 str2 += "</div>";
                                 
                                 $("#aas").append(str2);
@@ -88,7 +93,7 @@
                                    }
                                    else {
                                        str = "<div class='left_div'>";
-                                       str += "<div class='mail_id_content'>"+ content.chat_send_client_id+"</div>";
+                                       str += "<div class='mail_id_content'>"+ data.list[key].nickname+"</div>";
                                        str += "<div class='mail_left_content'>"+ content.chat_message+"</div>";
                                        str += "<div class='mail_left_time'>"+ timeForToday(new Date())+"</div>";
                                        str += "</div>";
@@ -143,4 +148,27 @@
                 	  const years = days / 365;
                 	  return `${Math.floor(years)}년 전`;
                 }
+                function sold_out(no,seller) {
+                		var product_no = no;
+                		var product_seller = seller;
+                		var product_buyer = $('#send_id').val();
+                		if(product_seller == product_buyer) {
+                			product_buyer = $('#receive_id').val();
+                		}
+						var data = {
+									product_no : product_no,
+									product_seller_client_id : product_seller,
+									product_buyer_client_id : product_buyer
+						};
+							$.ajax({
+									type: 'post',
+									url: '/anbd/soldOut', 
+									data  :  JSON.stringify(data), 
+       								contentType : "application/json",
+									success: function(data) { 
+										alert("거래완료가 되었습니다."+data.status);
+										}
+									});
+				}
+                		
                 /*]]>*/

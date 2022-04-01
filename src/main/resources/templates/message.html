@@ -8,7 +8,6 @@
 <script   src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script   src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" th:href="@{/css/message.css}">
-<link rel="stylesheet" type="text/css" th:href="@{/css/Profile.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
 <style>
    .alert-secondary{
@@ -24,8 +23,8 @@
 					<th:block th:each="list, i : ${roomlist}">
 					<div class="left_main_header">
 						<!-- room 반복 -->
-						<div class="S-mcP">
-							<div class="AjEzM ">
+						<div class="messageBox">
+							<div class="messageContainor ">
 								<div class="user_img">
 									<img th:src="@{/img/} + ${client.get(i.index).client_img }"
 										th:onclick="|location.href='@{userpage(client_id=${client.get(i.index).client_id})}'|"
@@ -63,6 +62,8 @@
 										style="cursor: pointer; border-radius: 30px; width: 50px; height: 50px;">
 					</div>
 					<div class="profile-of-article" id= "userNickName"></div>
+					<div class="CompleteBox" id="soldOut">
+					</div>
 				</div>
 				<div id="msgArea" class="chat_description"></div>
 			</div>

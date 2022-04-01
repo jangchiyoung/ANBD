@@ -123,6 +123,10 @@ public class ChatController {
 				repository.save(service.toEntity(chat));
 			}
 			ClientEntity c_entites = c_repository.findId(receive_client_id);
+			ProductEntity p_entites = p_repository.findSeller(send_client_id,product_no);
+			if(p_entites == null) {
+				 p_entites = p_repository.findSeller(receive_client_id,product_no);
+			}
 			JSONArray jsonlist = new JSONArray();
 			JSONObject result = new JSONObject();
 			for (Chat index : chatlist) {
@@ -136,6 +140,8 @@ public class ChatController {
 				temp.put("date", date);
 				temp.put("img", c_entites.getClient_img());
 				temp.put("nickname", c_entites.getClient_nickname());
+				temp.put("product_seller", p_entites.getProduct_seller().getClient_id());
+				temp.put("status", p_entites.getProduct_status());
 				jsonlist.add(temp);
 			}
 			result.put("list", jsonlist);
